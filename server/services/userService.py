@@ -19,7 +19,7 @@ class UserService:
         # Utworzenie obiektu User (hasło wciąż plain text)
         new_user = User(
             email=data['email'],
-            password=data['password'], # TODO: Hash password in a real application
+            password=data['password'], # TODO: Hash password
             first_name=data['first_name'],
             last_name=data['last_name']
         )

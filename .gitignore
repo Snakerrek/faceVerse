@@ -53,7 +53,7 @@ nbproject/
 # =========================================================================
 # Python / Flask (Server specific - inside 'server/' folder)
 # =========================================================================
-server/__pycache__/
+__pycache__/
 server/*.py[cod]
 server/.env* # Environment variables in server folder
 server/instance/ # Flask instance folder
