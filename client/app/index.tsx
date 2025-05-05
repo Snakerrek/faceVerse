@@ -1,15 +1,17 @@
-import { Text, View } from "react-native";
+import { SafeAreaView, StyleSheet } from 'react-native';
+import RegisterScreen from './RegisterScreen'; // Import the screen
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit sss app/index.tsx to edit this screen.</Text>
-    </View>
+    // SafeAreaView helps avoid notches and status bars
+    <SafeAreaView style={styles.container}>
+      <RegisterScreen />
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, // Make sure it fills the screen
+  },
+});

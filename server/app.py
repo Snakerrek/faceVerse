@@ -1,10 +1,12 @@
 import os
 from flask import Flask
 from extensions import db
+from flask_cors import CORS
 
 def create_app():
     """Fabryka aplikacji Flask."""
     app = Flask(__name__)
+    CORS(app)
 
     # Konfiguracja bazy danych SQLite z nazwą faceVerse.db
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -31,5 +33,5 @@ if __name__ == '__main__':
         print("Database tables created (if they didn't exist). Using faceVerse.db")
 
     # Uruchomienie serwera Flask
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True, port=5000)
 
