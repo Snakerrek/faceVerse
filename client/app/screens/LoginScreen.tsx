@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Pressable } from 'react-native'; // Added Pressable
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_BASE_URL, USER_DATA_KEY } from '../config';
+import { API_BASE_URL } from '../config';
 import { LoginScreenProps } from '../types/navigation';
 import { UserData } from '../types/userData';
+import {saveAuthToken} from '../utils/authUtils';
+import { storeUserData } from '../utils/storageUtils';
+
+interface LoginResponse { // Interface for the expected login response
+  message: string;
+  access_token: string;
+  user: UserData;
+  error?: string;
+}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -13,16 +21,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const handleChange = (name: keyof typeof formData, value: string) => {
     setFormData(prevData => ({ ...prevData, [name]: value }));
-  };
-
-  const storeUserData = async (userData: UserData) => {
-    try {
-      const jsonValue = JSON.stringify(userData);
-      await AsyncStorage.setItem(USER_DATA_KEY, jsonValue);
-      console.log('User data stored successfully after login!');
-    } catch (e) {
-      console.error('Failed to store user data after login.', e);
-    }
   };
 
   const handleLogin = async () => {
@@ -41,9 +39,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      const result = await response.json();
+      const result: LoginResponse = await response.json();
 
-      if (response.ok) {
+      if (response.ok && result.access_token) {
+        await saveAuthToken(result.access_token)
+        console.log('Access token stored securely!');
+
         const userData: UserData = result.user;
         await storeUserData(userData);
         console.log('Login successful, navigating to Home.');

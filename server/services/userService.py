@@ -1,6 +1,7 @@
 from flask import jsonify
 from extensions import db
 from models.user import User
+from flask_jwt_extended import create_access_token
 
 class UserService:
     # Service handling business logic for users.
@@ -19,10 +20,10 @@ class UserService:
         # Create User object (password still plain text)
         new_user = User(
             email=data['email'],
-            password=data['password'], # TODO: Hash password
             first_name=data['first_name'],
             last_name=data['last_name']
         )
+        new_user.set_password(data['password'])
         # Database operations
         db.session.add(new_user)
         db.session.commit()
@@ -50,7 +51,8 @@ class UserService:
 
         # Update fields
         user.email = data.get('email', user.email)
-        user.password = data.get('password', user.password) # TODO: Handle password update securely
+        if 'password' in data and data['password']: # Check if password is provided and not empty
+            user.set_password(data['password']) # Use the hashing method
         user.first_name = data.get('first_name', user.first_name)
         user.last_name = data.get('last_name', user.last_name)
 
@@ -74,15 +76,15 @@ class UserService:
 
         user = User.query.filter_by(email=email).first()
 
-        if not user:
-            return jsonify({"error": "Invalid credentials, user not found"}), 401
+        if not user or not user.check_password(password):
+            return jsonify({"error": "Invalid credentials"}), 401
 
-        # This is a PLAIN TEXT password comparison.
-        if user.password != password: # Direct insecure comparison
-            return jsonify({"error": "Invalid credentials, password incorrect"}), 401
+        # --- MODIFIED: Generate JWT upon successful login ---
+        # The identity can be anything that uniquely identifies the user, e.g., user.id or user.email
+        access_token = create_access_token(identity=user.id) # Use user.id as the identity
 
-        # Login successful
         return jsonify({
             "message": "Login successful",
-            "user": user.to_dict() # to_dict() should not expose password
+            "access_token": access_token,
+            "user": user.to_dict()
         }), 200

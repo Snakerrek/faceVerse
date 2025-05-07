@@ -18,5 +18,5 @@ if (!selectedUrl) {
 }
 
 export const USER_DATA_KEY = 'userData';
-
+export const AUTH_TOKEN_KEY = 'authToken';
 export const API_BASE_URL = selectedUrl || '';

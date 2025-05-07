@@ -1,49 +1,52 @@
+// src/screens/HomeScreen.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreenProps } from '../types/navigation';
 import { UserData } from '../types/userData';
-import { USER_DATA_KEY } from '../config';
+import { deleteAuthToken, getAuthToken } from '../utils/authUtils';
+import { getUserData, removeUserData } from '../utils/storageUtils';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [user, setUser] = useState<UserData | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Start in loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadUserFromStorage = async () => {
+    const verifyAuthAndLoadData = async () => {
       setIsLoading(true);
       try {
-        const jsonValue = await AsyncStorage.getItem(USER_DATA_KEY);
-        if (jsonValue != null) {
-          const storedUser: UserData = JSON.parse(jsonValue);
-          setUser(storedUser);
-          console.log('User data loaded from AsyncStorage on Home screen:', storedUser);
-        } else {
-          // No user data found in storage, means user is not logged in or data was cleared
-          console.log('No user data in AsyncStorage, navigating to Welcome from Home.');
-          navigation.replace('Welcome'); // Redirect to Welcome/Login flow
+        const token = await getAuthToken();
+        if (!token) {
+          console.log('No auth token in SecureStore on Home, navigating to Welcome.');
+          navigation.replace('Welcome');
+          return;
+        }
+
+        // Load user display data from AsyncStorage
+        const storedUserData = await getUserData()
+        if(storedUserData) {
+          setUser(storedUserData);
         }
       } catch (e) {
-        console.error('Failed to load user from storage on Home screen.', e);
-        // Handle error, e.g., by redirecting to an error screen or login
+        console.error('Failed during auth verification or data load on Home.', e);
         navigation.replace('Welcome');
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadUserFromStorage();
+    verifyAuthAndLoadData();
   }, [navigation]);
 
   const handleLogout = async () => {
     try {
-      await AsyncStorage.removeItem(USER_DATA_KEY);
-      console.log('User logged out, navigating to Welcome.');
-      // Replace current screen with Welcome, so user can't go "back" to Home
+      // Remove auth token from SecureStore
+      await deleteAuthToken()
+      // Also remove user display data from AsyncStorage
+      await removeUserData()
+      console.log('Auth token and user data removed, navigating to Welcome.');
       navigation.replace('Welcome');
     } catch (e) {
       console.error('Failed to logout.', e);
-      // Handle error during logout if necessary
     }
   };
 
@@ -56,17 +59,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   }
 
   if (!user) {
-    // This case should ideally be handled by the redirect in useEffect,
-    // but as a fallback or if loading fails without redirecting immediately:
+    // This can happen if token was present but user data wasn't in AsyncStorage
+    // Or if loading failed and didn't redirect.
     return (
       <View style={styles.container}>
-        <Text>No user data found. Please log in.</Text>
+        <Text>Loading user data or session expired...</Text>
         <Button title="Go to Login" onPress={() => navigation.replace('Welcome')} />
       </View>
     );
   }
 
-  // If user data is loaded successfully
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WelcomeScreenProps } from '../types/navigation';
-import { USER_DATA_KEY } from '../config';
+import { getAuthToken } from '../utils/authUtils';
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,16 +9,17 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const jsonValue = await AsyncStorage.getItem(USER_DATA_KEY);
-        if (jsonValue != null) {
-          console.log('User found in storage, navigating to Home');
-          navigation.replace('Home'); // Use replace to prevent going back to Welcome
+        // Check for token in SecureStore
+        const token = await getAuthToken();
+        if (token) {
+          console.log('Auth token found in SecureStore, navigating to Home.');
+          navigation.replace('Home');
         } else {
-          console.log('No user in storage, staying on Welcome.');
+          console.log('No auth token in SecureStore, staying on Welcome.');
           setIsLoading(false);
         }
       } catch (e) {
-        console.error('Failed to load user data from storage.', e);
+        console.error('Failed to load auth token from SecureStore.', e);
         setIsLoading(false);
       }
     };

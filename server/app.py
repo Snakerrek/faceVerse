@@ -1,12 +1,16 @@
 import os
 from flask import Flask
-from extensions import db
+from extensions import db, jwt
 from flask_cors import CORS
+import secrets
 
 def create_app():
     # Flask application factory.
     app = Flask(__name__)
     CORS(app)
+
+    # --- JWT Configuration --- [1]
+    app.config["JWT_SECRET_KEY"] = secrets.token_hex(32)
 
     # Configure SQLite database with the name faceVerse.db
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -15,6 +19,7 @@ def create_app():
 
     # Associate the imported 'db' instance with the Flask application
     db.init_app(app)
+    jwt.init_app(app)
 
     # Import and register Blueprint from userController.py (previously users.py)
     from controllers.userController import users_bp
