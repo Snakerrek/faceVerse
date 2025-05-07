@@ -1,6 +1,6 @@
 import { USER_DATA_KEY } from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserData } from '../types/userData';
+import { UserData } from '../types/types';
 
 export async function getUserData(){
     const jsonValue = await AsyncStorage.getItem(USER_DATA_KEY);

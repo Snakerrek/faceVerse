@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Pressable } from 'react-native'; // Added Pressable
-import { API_BASE_URL } from '../config';
+import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
 import { LoginScreenProps } from '../types/navigation';
-import { UserData } from '../types/userData';
-import {saveAuthToken} from '../utils/authUtils';
-import { storeUserData } from '../utils/storageUtils';
-
-interface LoginResponse { // Interface for the expected login response
-  message: string;
-  access_token: string;
-  user: UserData;
-  error?: string;
-}
+import { ResponseStatus, Res, LoginData } from '../types/types';
+import { login } from '../backendService';
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState<LoginData>({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | undefined>();
   const [isError, setIsError] = useState(false);
 
   const handleChange = (name: keyof typeof formData, value: string) => {
@@ -30,40 +21,20 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       return;
     }
     setIsLoading(true);
-    setMessage(null);
+    setMessage(undefined);
     setIsError(false);
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/users/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const result: LoginResponse = await response.json();
-
-      if (response.ok && result.access_token) {
-        await saveAuthToken(result.access_token)
-        console.log('Access token stored securely!');
-
-        const userData: UserData = result.user;
-        await storeUserData(userData);
-        console.log('Login successful, navigating to Home.');
-        // Navigate to Home screen and reset stack, pass user data
+    const loginRes: Res = await login(formData);
+    if(loginRes.status === ResponseStatus.OK) {
+    //Navigate to Home screen and reset stack, pass user data
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Home', params: { user: userData } }],
+          routes: [{ name: 'Home' }],
         });
-      } else {
-        setMessage(result.error || `Login failed (Status: ${response.status})`);
-        setIsError(true);
-      }
-    } catch (error) {
-      console.error('Login Error:', error);
-      setMessage('An error occurred during login. Please try again.');
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
+    } else {
+      setMessage(loginRes.message);
+      setIsError(true)
     }
+    setIsLoading(false);
   };
 
   return (

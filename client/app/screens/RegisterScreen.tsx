@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
-import { API_BASE_URL } from '../config';
 import { RegisterScreenProps } from '../types/navigation';
+import { RegisterData, Res, ResponseStatus } from '../types/types';
+import { register } from '../backendService';
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RegisterData>({
     email: '',
     password: '',
     first_name: '',
@@ -27,34 +28,21 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     setIsLoading(true);
     setMessage(null);
     setIsError(false);
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/users/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage(result.message || 'Registration successful! Please login.');
-        setIsError(false);
-        setFormData({ email: '', password: '', first_name: '', last_name: '' });
-        // Navigate to Login screen after successful registration
-        console.log('Registration successful, navigating to Login.');
-        navigation.navigate('Login');
-      } else {
-        setMessage(result.error || `Registration failed (Status: ${response.status})`);
-        setIsError(true);
-      }
-    } catch (error) {
-      console.error('Registration Error:', error);
-      setMessage('An error occurred. Please try again.');
+    const registerRes: Res = await register(formData);
+    if(registerRes.status === ResponseStatus.OK){
+      setMessage('Registration successful! Please login.');
+      setIsError(false);
+      setFormData({ email: '', password: '', first_name: '', last_name: '' });
+      // Navigate to Login screen after successful registration
+      console.log('Registration successful, navigating to Login.');
+      navigation.navigate('Login');
+    } else {
+      console.error('Registration Error:', registerRes.message);
+      setMessage(registerRes.message || 'An error occurred. Please try again.');
       setIsError(true);
-    } finally {
-      setIsLoading(false);
     }
-  };
+    setIsLoading(false);
+  }
 
   return (
     <View style={styles.container}>

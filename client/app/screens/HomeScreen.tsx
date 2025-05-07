@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
 import { HomeScreenProps } from '../types/navigation';
-import { UserData } from '../types/userData';
+import { UserData } from '../types/types';
 import { deleteAuthToken, getAuthToken } from '../utils/authUtils';
 import { getUserData, removeUserData } from '../utils/storageUtils';
 
