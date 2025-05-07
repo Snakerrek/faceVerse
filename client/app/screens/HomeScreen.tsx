@@ -72,9 +72,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>
-        Welcome, {user.first_name}!
+        Welcome, {user.first_name} {user.last_name}!
       </Text>
       <Text>Email: {user.email}</Text>
+      {user.date_of_birth && <Text>Date of Birth: {user.date_of_birth}</Text>}
+      {user.gender && <Text>Gender: {user.gender}</Text>}
       <View style={styles.buttonContainer}>
         <Button title="Logout" onPress={handleLogout} />
       </View>
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
   },
   buttonContainer: {
     marginTop: 30,

@@ -2,6 +2,7 @@ from flask import jsonify
 from extensions import db
 from models.user import User
 from flask_jwt_extended import create_access_token
+from datetime import date, datetime # Import for date conversion
 
 class UserService:
     # Service handling business logic for users.
@@ -16,12 +17,23 @@ class UserService:
         # Check for email uniqueness
         if User.query.filter_by(email=data['email']).first():
             return jsonify({"error": "Email already exists"}), 400
+        
+        date_of_birth_str = data.get('date_of_birth') # Expecting YYYY-MM-DD string from frontend
+        user_date_of_birth = None
+        if date_of_birth_str:
+            try:
+                # Convert string to date object
+                user_date_of_birth = datetime.strptime(date_of_birth_str, '%Y-%m-%d').date()
+            except ValueError:
+                return jsonify({"error": "Invalid date_of_birth format. Please use YYYY-MM-DD."}), 400
 
-        # Create User object (password still plain text)
+        # Create User object
         new_user = User(
             email=data['email'],
             first_name=data['first_name'],
-            last_name=data['last_name']
+            last_name=data['last_name'],
+            date_of_birth=user_date_of_birth,
+            gender=data['gender']
         )
         new_user.set_password(data['password'])
         # Database operations
@@ -55,6 +67,15 @@ class UserService:
             user.set_password(data['password']) # Use the hashing method
         user.first_name = data.get('first_name', user.first_name)
         user.last_name = data.get('last_name', user.last_name)
+
+        if 'date_of_birth' in data:
+            try:
+                user.date_of_birth = datetime.strptime(data.get('date_of_birth'), '%Y-%m-%d').date()
+            except ValueError:
+                return jsonify({"error": "Invalid date_of_birth format. Please use YYYY-MM-DD."}), 400
+
+        if 'gender' in data:
+            user.gender = data.get('gender', user.gender)
 
         # Check for email uniqueness after change (if email was changed)
         existing_user = User.query.filter(User.email == user.email, User.id != id).first()

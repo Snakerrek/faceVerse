@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+} from 'react-native';
 import { LoginScreenProps } from '../types/navigation';
 import { ResponseStatus, Res, LoginData } from '../types/types';
 import { login } from '../backendService';
@@ -25,95 +35,156 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     setIsError(false);
     const loginRes: Res = await login(formData);
     if(loginRes.status === ResponseStatus.OK) {
-    //Navigate to Home screen and reset stack, pass user data
         navigation.reset({
           index: 0,
           routes: [{ name: 'Home' }],
         });
     } else {
       setMessage(loginRes.message);
-      setIsError(true)
+      setIsError(true);
     }
     setIsLoading(false);
   };
 
   return (
-    <View style={styles.container}>
-      <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backButtonText}>{"< Back"}</Text>
-      </Pressable>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.topBarContainer}>
+        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>{"< Back"}</Text>
+        </Pressable>
+      </View>
 
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={formData.email}
-        onChangeText={(text) => handleChange('email', text)}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={formData.password}
-        onChangeText={(text) => handleChange('password', text)}
-        secureTextEntry
-      />
-      {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-      {message && (
-        <Text style={isError ? styles.errorMessage : styles.successMessage}>
-          {message}
-        </Text>
-      )}
-      <Button
-        title={isLoading ? 'Logging in...' : 'Login'}
-        onPress={handleLogin}
-        disabled={isLoading}
-      />
-    </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.headerContentContainer}>
+            <Text style={styles.title}>Login</Text>
+        </View>
+
+        <View style={styles.formContainer}>
+          <View style={styles.inputWrapperFull}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Email address"
+                value={formData.email}
+                onChangeText={(text) => handleChange('email', text)}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
+          </View>
+
+          <View style={styles.inputWrapperFullWithMargin}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={formData.password}
+                onChangeText={(text) => handleChange('password', text)}
+                secureTextEntry
+            />
+          </View>
+
+          {isLoading && <ActivityIndicator size="large" color="#1877f2" />}
+          {message && (
+            <Text style={isError ? styles.errorMessage : styles.successMessage}>
+              {message}
+            </Text>
+          )}
+          <View style={styles.buttonWrapper}>
+            <Button
+                title={isLoading ? 'Logging in...' : 'Login'}
+                onPress={handleLogin}
+                disabled={isLoading}
+                color="#1877f2" // Consistent button color
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    backgroundColor: '#fff',
+  },
+  topBarContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    paddingBottom: 5,
+  },
+  backButton: {
+    padding: 10,
+    alignSelf: 'center',
+  },
+  backButtonText: {
+    fontSize: 18,
+    color: '#1877f2',
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: 'center',
-    padding: 20,
+    paddingBottom: 20,
+  },
+  headerContentContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 40,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
     textAlign: 'center',
   },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+  formContainer: {
+    width: '100%',
+    paddingHorizontal: 30,
+  },
+  label: {
+    fontSize: 12,
+    color: '#606770',
+    marginBottom: 4,
+    alignSelf: 'flex-start',
+  },
+  inputWrapperFull: {
+    width: '100%',
     marginBottom: 15,
-    paddingHorizontal: 10,
+  },
+  inputWrapperFullWithMargin: {
+    width: '100%',
+    marginBottom: 25,
+  },
+  input: {
+    height: 50,
+    borderColor: '#ccd0d5',
+    borderWidth: 1,
+    paddingHorizontal: 15,
     borderRadius: 5,
+    backgroundColor: '#f5f6f7',
+    fontSize: 16,
   },
   errorMessage: {
     color: 'red',
-    marginBottom: 10,
+    marginBottom: 15,
     textAlign: 'center',
   },
   successMessage: {
     color: 'green',
-    marginBottom: 10,
+    marginBottom: 15,
     textAlign: 'center',
   },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    padding: 10,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: '#007AFF',
-  },
+  buttonWrapper: {
+    marginTop: 10,
+    width: '100%',
+  }
 });
 
 export default LoginScreen;

@@ -8,6 +8,8 @@ class User(db.Model):
     password_hash = db.Column(db.String(256), nullable=False) # plain text
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
+    date_of_birth = db.Column(db.Date, nullable=True)
+    gender = db.Column(db.String(50), nullable=True)
 
     # Method to set the password hash from a plain text password
     def set_password(self, password):
@@ -26,5 +28,7 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "first_name": self.first_name,
-            "last_name": self.last_name
+            "last_name": self.last_name,
+            "date_of_birth": self.date_of_birth.isoformat() if self.date_of_birth else None, # Format date to string
+            "gender": self.gender
         }
