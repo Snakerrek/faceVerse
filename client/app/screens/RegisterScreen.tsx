@@ -1,84 +1,68 @@
-// src/screens/RegisterScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { API_BASE_URL } from './config';
+import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import { API_BASE_URL } from '../config';
+import { RegisterScreenProps } from '../types/navigation';
 
-// Define an interface for the form data structure [4]
-interface SignUpFormData {
-  email: string;
-  password: string;
-  first_name: string;
-  last_name: string;
-}
-
-const RegisterScreen: React.FC = () => {
-  // State for form inputs [4]
-  const [formData, setFormData] = useState<SignUpFormData>({
+const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
+  const [formData, setFormData] = useState({
     email: '',
     password: '',
     first_name: '',
     last_name: '',
   });
-  // State for loading indicator
   const [isLoading, setIsLoading] = useState(false);
-  // State for feedback messages
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
 
-  // Handle changes in input fields [4]
-  const handleChange = (name: keyof SignUpFormData, value: string) => {
+  const handleChange = (name: keyof typeof formData, value: string) => {
     setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  // Handle form submission
   const handleRegister = async () => {
-    // Basic validation (can be expanded with libraries like Yup [5])
     if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
       setMessage('All fields are required.');
       setIsError(true);
       return;
     }
-
     setIsLoading(true);
     setMessage(null);
     setIsError(false);
 
     try {
-      // Make POST request to the backend [3][4]
-      const response = await fetch(`${API_BASE_URL}/users/`, { // Endpoint path
+      const response = await fetch(`${API_BASE_URL}/users/`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData), // Send form data as JSON
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
+      const result = await response.json();
 
-      const result = await response.json(); // Parse JSON response
-
-      if (response.ok) { // Check if request was successful (status 2xx)
-        setMessage(result.message || 'Registration successful!');
+      if (response.ok) {
+        setMessage(result.message || 'Registration successful! Please login.');
         setIsError(false);
-        // Optionally clear form or navigate away
         setFormData({ email: '', password: '', first_name: '', last_name: '' });
+        // Navigate to Login screen after successful registration
+        console.log('Registration successful, navigating to Login.');
+        navigation.navigate('Login');
       } else {
-        // Handle errors from backend (e.g., email exists, validation error)
         setMessage(result.error || `Registration failed (Status: ${response.status})`);
         setIsError(true);
       }
     } catch (error) {
-      // Handle network errors or other exceptions
       console.error('Registration Error:', error);
       setMessage('An error occurred. Please try again.');
       setIsError(true);
     } finally {
-      setIsLoading(false); // Stop loading indicator
+      setIsLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+      <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Text style={styles.backButtonText}>{"< Back"}</Text>
+      </Pressable>
 
+      <Text style={styles.title}>Register</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -92,7 +76,7 @@ const RegisterScreen: React.FC = () => {
         placeholder="Password"
         value={formData.password}
         onChangeText={(text) => handleChange('password', text)}
-        secureTextEntry // Hide password input
+        secureTextEntry
       />
       <TextInput
         style={styles.input}
@@ -106,27 +90,21 @@ const RegisterScreen: React.FC = () => {
         value={formData.last_name}
         onChangeText={(text) => handleChange('last_name', text)}
       />
-
-      {/* Display Loading Indicator */}
       {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-
-      {/* Display Success/Error Messages */}
       {message && (
         <Text style={isError ? styles.errorMessage : styles.successMessage}>
           {message}
         </Text>
       )}
-
       <Button
         title={isLoading ? 'Registering...' : 'Register'}
         onPress={handleRegister}
-        disabled={isLoading} // Disable button while loading
+        disabled={isLoading}
       />
     </View>
   );
 };
 
-// Basic Styling (mimicking simple form layout)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -145,7 +123,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
-    borderRadius: 5, // Slightly rounded corners
+    borderRadius: 5,
   },
   errorMessage: {
     color: 'red',
@@ -156,6 +134,16 @@ const styles = StyleSheet.create({
     color: 'green',
     marginBottom: 10,
     textAlign: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    padding: 10,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: '#007AFF',
   },
 });
 

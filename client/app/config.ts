@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-// Read URLs from process.env provided by Expo
+// Read URLs from process.env
 const webBaseUrl = process.env.EXPO_PUBLIC_API_URL_WEB;
 const mobileBaseUrl = process.env.EXPO_PUBLIC_API_URL_MOBILE;
 
@@ -16,5 +16,7 @@ const selectedUrl = Platform.select({
 if (!selectedUrl) {
   console.warn("API_BASE_URL could not be determined. Check .env variables (EXPO_PUBLIC_API_URL_WEB, EXPO_PUBLIC_API_URL_MOBILE) and platform.");
 }
+
+export const USER_DATA_KEY = 'userData';
 
 export const API_BASE_URL = selectedUrl || '';

@@ -4,34 +4,33 @@ from extensions import db
 from flask_cors import CORS
 
 def create_app():
-    """Fabryka aplikacji Flask."""
+    # Flask application factory.
     app = Flask(__name__)
     CORS(app)
 
-    # Konfiguracja bazy danych SQLite z nazwą faceVerse.db
+    # Configure SQLite database with the name faceVerse.db
     basedir = os.path.abspath(os.path.dirname(__file__))
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'faceVerse.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Powiązanie zaimportowanej instancji 'db' z aplikacją Flask
+    # Associate the imported 'db' instance with the Flask application
     db.init_app(app)
 
-    # Import i rejestracja Blueprint z users.py
+    # Import and register Blueprint from userController.py (previously users.py)
     from controllers.userController import users_bp
-    # Rejestrujemy Blueprint, dodając prefiks '/users' do wszystkich jego tras
-    app.register_blueprint(users_bp, url_prefix='/users') # Ustawienie prefiksu na /users
+    # Register the Blueprint, adding the '/users' prefix to all its routes
+    app.register_blueprint(users_bp, url_prefix='/users') # Set prefix to /users
 
     return app
 
-# Główny blok wykonania
+# Main execution block
 if __name__ == '__main__':
     app = create_app()
 
-    # Utworzenie tabel (w tym tabeli 'users') w bazie danych w kontekście aplikacji
+    # Create tables (including the 'users' table) in the database within the application context
     with app.app_context():
-        db.create_all() # Stworzy tabelę 'users' zdefiniowaną w users.py
+        db.create_all() # Will create the 'users' table defined in the User model
         print("Database tables created (if they didn't exist). Using faceVerse.db")
 
-    # Uruchomienie serwera Flask
+    # Run the Flask server
     app.run(host='0.0.0.0', debug=True, port=5000)
-

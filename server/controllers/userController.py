@@ -1,10 +1,9 @@
 from flask import Blueprint, request
 from services.userService import UserService
 
-# Utworzenie obiektu Blueprint dla użytkowników
 users_bp = Blueprint('users', __name__)
 
-# --- Definicje tras dla Blueprint ---
+# --- Blueprint routes ---
 
 @users_bp.route('/', methods=['POST'])
 def create_user():
@@ -28,7 +27,8 @@ def update_user(id):
     data = request.get_json()
     return UserService.update_user(id, data)
 
-@users_bp.route('/<int:id>', methods=['DELETE'])
-def delete_user(id):
-    """Trasa do usuwania użytkownika."""
-    return UserService.delete_user(id)
+@users_bp.route('/login', methods=['POST']) # New route for login
+def login_user():
+    """Trasa do logowania użytkownika."""
+    data = request.get_json()
+    return UserService.login_user(data) # Call the new service method
