@@ -1,10 +1,10 @@
-// src/screens/HomeScreen.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
-import { HomeScreenProps } from '../types/navigation';
-import { UserData } from '../types/types';
-import { deleteAuthToken, getAuthToken } from '../utils/authUtils';
-import { getUserData, removeUserData } from '../utils/storageUtils';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
+import { HomeScreenProps } from '../../types/navigation';
+import { UserData } from '../../types/types';
+import { deleteAuthToken, getAuthToken } from '../../utils/authUtils';
+import { getUserData, removeUserData } from '../../utils/storageUtils';
+import styles from './HomeScreen.styles';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [user, setUser] = useState<UserData | null>(null);
@@ -83,29 +83,5 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  welcomeText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    marginTop: 30,
-    width: '60%',
-  },
-});
 
 export default HomeScreen;

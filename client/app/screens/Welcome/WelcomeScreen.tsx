@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
-import { WelcomeScreenProps } from '../types/navigation';
-import { getAuthToken } from '../utils/authUtils';
+import { View, Text, Button, ActivityIndicator } from 'react-native';
+import { WelcomeScreenProps } from '../../types/navigation';
+import { getAuthToken } from '../../utils/authUtils';
+import styles from './WelcomeScreen.styles';
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,28 +48,5 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  header: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 50,
-  },
-  buttonContainer: {
-    width: '80%',
-    marginVertical: 10,
-  },
-});
 
 export default WelcomeScreen;
