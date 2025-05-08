@@ -59,15 +59,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.headerContentContainer}>
-            <Text style={styles.title}>Login</Text>
+            <Text style={styles.title}>Zaloguj się</Text>
         </View>
 
         <View style={styles.formContainer}>
           <View style={styles.inputWrapperFull}>
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>E-mail</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Email address"
+                placeholder="Adres e-mail"
                 value={formData.email}
                 onChangeText={(text) => handleChange('email', text)}
                 keyboardType="email-address"
@@ -76,10 +76,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.inputWrapperFullWithMargin}>
-            <Text style={styles.label}>Password</Text>
+            <Text style={styles.label}>Hasło</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder="Hasło"
                 value={formData.password}
                 onChangeText={(text) => handleChange('password', text)}
                 secureTextEntry
@@ -94,7 +94,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           )}
           <View style={styles.buttonWrapper}>
             <Button
-                title={isLoading ? 'Logging in...' : 'Login'}
+                title={isLoading ? 'Logowanie...' : 'Zaloguj'}
                 onPress={handleLogin}
                 disabled={isLoading}
                 color="#1877f2" // Consistent button color

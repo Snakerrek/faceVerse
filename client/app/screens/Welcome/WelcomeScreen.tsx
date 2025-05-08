@@ -40,10 +40,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>FaceVerse</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={() => navigation.navigate('Login')} />
+        <Button title="Zaloguj się" onPress={() => navigation.navigate('Login')} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Register" onPress={() => navigation.navigate('Register')} />
+        <Button title="Zarejestruj się" onPress={() => navigation.navigate('Register')} />
       </View>
     </View>
   );

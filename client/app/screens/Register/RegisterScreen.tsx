@@ -205,7 +205,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.inputWrapperFullWithMargin}>
-            <Text style={styles.label}>Nowe hasło</Text>
+            <Text style={styles.label}>Hasło</Text>
             <TextInput
               style={styles.input}
               placeholder="Hasło"
