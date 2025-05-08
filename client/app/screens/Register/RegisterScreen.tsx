@@ -27,7 +27,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
   const handleRegister = async () => {
     if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
-      setMessage('All fields are required.');
+      setMessage('Wszystkie pola są wymagane.');
       setIsError(true);
       return;
     }
@@ -41,7 +41,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
       if (isNaN(year) || isNaN(month) || isNaN(day) ||
           month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > new Date().getFullYear()) {
-        setMessage('Invalid date of birth.');
+        setMessage('Błędna data urodzenia');
         setIsError(true);
         return;
       }
@@ -49,7 +49,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       date_of_birth_payload = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     } else if (formData.dob_year || formData.dob_month || formData.dob_day) {
       // If any part is filled, all should be
-      setMessage('Please fill all parts of the date of birth or leave it empty.');
+      setMessage('Wypełnij wszystkie części daty urodzenia.');
       setIsError(true);
       return;
     }
@@ -66,7 +66,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     }
     const registerRes: Res = await register(registerRQ);
     if(registerRes.status === ResponseStatus.OK){
-      setMessage('Registration successful! Please login.');
+      setMessage('Rejestracja przebiegła pomyślnie, zaloguj się.');
       setIsError(false);
       setFormData({
         email: '', password: '', first_name: '', last_name: '',
@@ -77,7 +77,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       navigation.navigate('Login');
     } else {
       console.error('Registration Error:', registerRes.message);
-      setMessage(registerRes.message || 'An error occurred. Please try again.');
+      setMessage(registerRes.message || 'Wystąpił błąd, spróbuj ponownie');
       setIsError(true);
     }
     setIsLoading(false);

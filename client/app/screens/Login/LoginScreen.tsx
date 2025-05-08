@@ -26,7 +26,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!formData.email || !formData.password) {
-      setMessage('Email and password are required.');
+      setMessage('E-mail i hasło są wymagane');
       setIsError(true);
       return;
     }

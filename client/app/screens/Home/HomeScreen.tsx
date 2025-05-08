@@ -75,10 +75,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         Witaj, {user.first_name} {user.last_name}!
       </Text>
       <Text>Email: {user.email}</Text>
-      {user.date_of_birth && <Text>Dzień urodzin: {user.date_of_birth}</Text>}
+      {user.date_of_birth && <Text>Data urodzenia: {user.date_of_birth}</Text>}
       {user.gender && <Text>Płeć: {user.gender}</Text>}
       <View style={styles.buttonContainer}>
-        <Button title="Logout" onPress={handleLogout} />
+        <Button title="Wyloguj" onPress={handleLogout} />
       </View>
     </View>
   );

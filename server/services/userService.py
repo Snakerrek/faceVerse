@@ -12,11 +12,11 @@ class UserService:
         # Logic for creating a new user.
         # Input data validation
         if not data or not all(k in data for k in ('email', 'password', 'first_name', 'last_name')):
-            return jsonify({"error": "Missing required user data (email, password, first_name, last_name)"}), 400
+            return jsonify({"error": "Brak wymaganych danych."}), 400
 
         # Check for email uniqueness
         if User.query.filter_by(email=data['email']).first():
-            return jsonify({"error": "Email already exists"}), 400
+            return jsonify({"error": "Ten e-mail jest zajęty."}), 400
         
         date_of_birth_str = data.get('date_of_birth') # Expecting YYYY-MM-DD string from frontend
         user_date_of_birth = None
@@ -25,7 +25,7 @@ class UserService:
                 # Convert string to date object
                 user_date_of_birth = datetime.strptime(date_of_birth_str, '%Y-%m-%d').date()
             except ValueError:
-                return jsonify({"error": "Invalid date_of_birth format. Please use YYYY-MM-DD."}), 400
+                return jsonify({"error": "Zły format daty. Użyj YYYY-MM-DD."}), 400
 
         # Create User object
         new_user = User(
@@ -40,7 +40,7 @@ class UserService:
         db.session.add(new_user)
         db.session.commit()
         # Return response
-        return jsonify({"message": "User created", "user": new_user.to_dict()}), 201
+        return jsonify({"message": "Użytkownik utworzony", "user": new_user.to_dict()}), 201
 
     @staticmethod
     def get_users():
@@ -59,7 +59,7 @@ class UserService:
         # Logic for updating a user.
         user = db.get_or_404(User, id)
         if not data:
-            return jsonify({"error": "Missing data"}), 400
+            return jsonify({"error": "Brakujące dane"}), 400
 
         # Update fields
         user.email = data.get('email', user.email)
@@ -72,7 +72,7 @@ class UserService:
             try:
                 user.date_of_birth = datetime.strptime(data.get('date_of_birth'), '%Y-%m-%d').date()
             except ValueError:
-                return jsonify({"error": "Invalid date_of_birth format. Please use YYYY-MM-DD."}), 400
+                return jsonify({"error": "Zły format daty. Użyj YYYY-MM-DD."}), 400
 
         if 'gender' in data:
             user.gender = data.get('gender', user.gender)
@@ -81,16 +81,16 @@ class UserService:
         existing_user = User.query.filter(User.email == user.email, User.id != id).first()
         if existing_user:
             db.session.rollback() # Rollback changes before commit
-            return jsonify({"error": f"Email '{user.email}' already exists for another user."}), 409
+            return jsonify({"error": f"Email '{user.email}' istnieje już dla innego użytkownika"}), 409
 
         db.session.commit()
-        return jsonify({"message": "User updated", "user": user.to_dict()})
+        return jsonify({"message": "Użytkownik zaaktualizowany", "user": user.to_dict()})
 
     @staticmethod
     def login_user(data):
         # Logic for user login.
         if not data or not data.get('email') or not data.get('password'):
-            return jsonify({"error": "Email and password are required"}), 400
+            return jsonify({"error": "E-mail i hasło są wymagane"}), 400
 
         email = data.get('email')
         password = data.get('password')
@@ -98,14 +98,14 @@ class UserService:
         user = User.query.filter_by(email=email).first()
 
         if not user or not user.check_password(password):
-            return jsonify({"error": "Invalid credentials"}), 401
+            return jsonify({"error": "Błędne dane"}), 401
 
         # --- MODIFIED: Generate JWT upon successful login ---
         # The identity can be anything that uniquely identifies the user, e.g., user.id or user.email
         access_token = create_access_token(identity=user.id) # Use user.id as the identity
 
         return jsonify({
-            "message": "Login successful",
+            "message": "Logowanie udane.",
             "access_token": access_token,
             "user": user.to_dict()
         }), 200
