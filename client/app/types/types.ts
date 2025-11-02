@@ -3,11 +3,11 @@ export type UserData = {
     email: string;
     first_name: string;
     last_name: string;
-    date_of_birth?: string | null; // Expecting ISO string format (YYYY-MM-DD) from backend
+    date_of_birth?: string | null;
     gender?: string | null;
 }
 
-export type LoginResponse = { // Interface for the expected login response
+export type LoginResponse = {
     message: string;
     access_token: string;
     user: UserData;
@@ -39,21 +39,21 @@ export type RegisterData = {
     gender: Gender
 }
 
+export type Res<T> = {
+    status: ResponseStatus,
+    message?: string
+    data?: T
+}
+
 export enum ResponseStatus {
     OK,
     ERROR
 }
 
 export enum Gender {
-    FEMALE = 'Kobieta',
-    MALE = 'Mężczyzna',
+    FEMALE = 'Woman',
+    MALE = 'Man',
 };
-
-export type Res<T> = {
-    status: ResponseStatus,
-    message?: string
-    data?: T
-}
 
 export interface Post {
   id: number;

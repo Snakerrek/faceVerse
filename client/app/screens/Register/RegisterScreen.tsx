@@ -27,29 +27,28 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
   const handleRegister = async () => {
     if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
-      setMessage('Wszystkie pola są wymagane.');
+      setMessage('All the fields are required.');
       setIsError(true);
       return;
     }
-    // --- VALIDATE AND FORMAT DATE OF BIRTH ---
+
     let date_of_birth_payload: string = '';
     if (formData.dob_year && formData.dob_month && formData.dob_day) {
-      // Basic validation for date parts (more thorough validation recommended)
+
       const year = parseInt(formData.dob_year, 10);
       const month = parseInt(formData.dob_month, 10);
       const day = parseInt(formData.dob_day, 10);
 
       if (isNaN(year) || isNaN(month) || isNaN(day) ||
           month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > new Date().getFullYear()) {
-        setMessage('Błędna data urodzenia');
+        setMessage('Wrong birthdate');
         setIsError(true);
         return;
       }
-      // Format to YYYY-MM-DD
+
       date_of_birth_payload = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     } else if (formData.dob_year || formData.dob_month || formData.dob_day) {
-      // If any part is filled, all should be
-      setMessage('Wypełnij wszystkie części daty urodzenia.');
+      setMessage('Fill is all the date parts.');
       setIsError(true);
       return;
     }
@@ -64,20 +63,20 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       date_of_birth: date_of_birth_payload,
       gender: formData.gender
     }
-    const registerRes: Res = await register(registerRQ);
+    const registerRes: Res<null> = await register(registerRQ);
     if(registerRes.status === ResponseStatus.OK){
-      setMessage('Rejestracja przebiegła pomyślnie, zaloguj się.');
+      setMessage('Registration went correct, you can log in now.');
       setIsError(false);
       setFormData({
         email: '', password: '', first_name: '', last_name: '',
         dob_day: '', dob_month: '', dob_year: '', gender: Gender.MALE
       });
-      // Navigate to Login screen after successful registration
+
       console.log('Registration successful, navigating to Login.');
       navigation.navigate('Login');
     } else {
       console.error('Registration Error:', registerRes.message);
-      setMessage(registerRes.message || 'Wystąpił błąd, spróbuj ponownie');
+      setMessage(registerRes.message || 'Error, try again.');
       setIsError(true);
     }
     setIsLoading(false);
@@ -96,38 +95,41 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.headerContentContainer}>
-          <Text style={styles.title}>Utwórz nowe konto</Text>
-          <Text style={styles.subtitle}>To szybkie i proste.</Text>
+          <Text style={styles.title}>Create new account</Text>
+          <Text style={styles.subtitle}>It's fast and easy</Text>
         </View>
 
         <View style={styles.formContainer}>
           <View style={styles.inputRow}>
             <View style={styles.inputWrapperHalf}>
-              <Text style={styles.label}>Imię</Text>
+              <Text style={styles.label}>First name</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Imię"
+                placeholder="First name"
+                placeholderTextColor={styles.placeholder.color}
                 value={formData.first_name}
                 onChangeText={(text) => handleChange('first_name', text)}
               />
             </View>
             <View style={styles.inputWrapperHalf}>
-              <Text style={styles.label}>Nazwisko</Text>
+              <Text style={styles.label}>Last name</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Nazwisko"
+                placeholder="Last name"
+                placeholderTextColor={styles.placeholder.color}
                 value={formData.last_name}
                 onChangeText={(text) => handleChange('last_name', text)}
               />
             </View>
           </View>
 
-          <Text style={styles.label}>Data urodzenia</Text>
+          <Text style={styles.label}>Birth date</Text>
           <View style={styles.inputRow}>
             <View style={styles.inputWrapperThird}>
               <TextInput
                 style={styles.input}
                 placeholder="DD"
+                placeholderTextColor={styles.placeholder.color}
                 value={formData.dob_day}
                 onChangeText={(text) => handleChange('dob_day', text)}
                 keyboardType="number-pad"
@@ -138,6 +140,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               <TextInput
                 style={styles.input}
                 placeholder="MM"
+                placeholderTextColor={styles.placeholder.color}
                 value={formData.dob_month}
                 onChangeText={(text) => handleChange('dob_month', text)}
                 keyboardType="number-pad"
@@ -148,6 +151,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               <TextInput
                 style={styles.input}
                 placeholder="YYYY"
+                placeholderTextColor={styles.placeholder.color}
                 value={formData.dob_year}
                 onChangeText={(text) => handleChange('dob_year', text)}
                 keyboardType="number-pad"
@@ -156,7 +160,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
             </View>
           </View>
 
-          <Text style={styles.label}>Płeć</Text>
+          <Text style={styles.label}>Gender</Text>
           <View style={styles.inputRow}>
             <Pressable
               style={[
@@ -196,7 +200,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
             <Text style={styles.label}>E-mail</Text>
             <TextInput
               style={styles.input}
-              placeholder="Adres e-mail"
+              placeholder="E-mail"
+              placeholderTextColor={styles.placeholder.color}
               value={formData.email}
               onChangeText={(text) => handleChange('email', text)}
               keyboardType="email-address"
@@ -205,17 +210,18 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.inputWrapperFullWithMargin}>
-            <Text style={styles.label}>Hasło</Text>
+            <Text style={styles.label}>Password</Text>
             <TextInput
               style={styles.input}
-              placeholder="Hasło"
+              placeholder="Password"
+              placeholderTextColor={styles.placeholder.color}
               value={formData.password}
               onChangeText={(text) => handleChange('password', text)}
               secureTextEntry
             />
           </View>
 
-          {isLoading && <ActivityIndicator size="large" color="#1877f2" />}
+          {isLoading && <ActivityIndicator size="large" color={styles.activityIndicator.color} />}
           {message && (
             <Text style={isError ? styles.errorMessage : styles.successMessage}>
               {message}
@@ -223,10 +229,10 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
           )}
           <View style={styles.buttonWrapper}>
             <Button
-              title={isLoading ? 'Rejestrowanie...' : 'Zarejestruj się'}
+              title={isLoading ? 'Registering...' : 'Register'}
               onPress={handleRegister}
               disabled={isLoading}
-              color="#1877f2"
+              color={styles.button.color}
             />
           </View>
         </View>

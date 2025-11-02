@@ -10,7 +10,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        // Check for token in SecureStore
         const token = await getAuthToken();
         if (token) {
           console.log('Auth token found in SecureStore, navigating to Home.');
@@ -40,10 +39,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>FaceVerse</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Zaloguj się" onPress={() => navigation.navigate('Login')} />
+        <Button title="Login" onPress={() => navigation.navigate('Login')} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Zarejestruj się" onPress={() => navigation.navigate('Register')} />
+        <Button title="Register" onPress={() => navigation.navigate('Register')} />
       </View>
     </View>
   );

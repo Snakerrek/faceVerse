@@ -17,15 +17,13 @@ import {
   MaterialCommunityIcons,
   FontAwesome5,
 } from '@expo/vector-icons';
-import PostFeed from './PostFeed'; // <-- Import the new component
-
-// --- mockPost and PostCard component are now REMOVED ---
+import PostFeed from './PostFeed';
+import { colors } from '../../theme';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // --- Auth logic (unchanged) ---
   useEffect(() => {
     const verifyAuthAndLoadData = async () => {
       setIsLoading(true);
@@ -59,7 +57,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     verifyAuthAndLoadData();
   }, [navigation]);
 
-  // --- Logout logic (unchanged) ---
   const handleLogout = async () => {
     try {
       await deleteAuthToken();
@@ -71,16 +68,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
-  // --- Loading screen (unchanged) ---
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color={colors.blue} />
       </View>
     );
   }
 
-  // --- Auth guard (unchanged) ---
   if (!user) {
     return (
       <View style={styles.loadingContainer}>
@@ -93,47 +88,45 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     );
   }
 
-  // --- Facebook-style UI (Updated) ---
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* 1. Header (unchanged) */}
       <View style={styles.header}>
         <Text style={styles.logoText}>faceVerse</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="search" size={22} color="black" />
+            <Ionicons name="search" size={22} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconButton} onPress={handleLogout}>
-            <Ionicons name="menu" size={26} color="black" />
+            <Ionicons name="menu" size={26} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* 2. Tab Bar (unchanged) */}
       <View style={styles.tabBar}>
         <TouchableOpacity style={[styles.tabButton, styles.tabButtonActive]}>
-          <Ionicons name="home" size={26} color="#1877f2" />
+          <Ionicons name="home" size={26} style={styles.iconActive} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabButton}>
-          <FontAwesome5 name="user-friends" size={24} color="#606770" />
+          <FontAwesome5
+            name="user-friends"
+            size={24}
+            style={styles.iconSecondary}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabButton}>
           <MaterialCommunityIcons
             name="television-play"
             size={28}
-            color="#606770"
+            style={styles.iconSecondary}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.tabButton}>
-          <FontAwesome5 name="user-circle" size={24} color="#606770" />
+          <FontAwesome5
+            name="user-circle"
+            size={24}
+            style={styles.iconSecondary}
+          />
         </TouchableOpacity>
       </View>
-
-      {/* 3. Feed (REPLACED) */}
-      {/* The ScrollView, createPostContainer, and mock PostCard
-        have been replaced with the new PostFeed component.
-        We pass the user data to it.
-      */}
       <PostFeed user={user} />
     </SafeAreaView>
   );

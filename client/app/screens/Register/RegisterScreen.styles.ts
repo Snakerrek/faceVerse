@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../theme';
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   topBarContainer: {
     width: '100%',
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 18,
-    color: '#1877f2',
+    color: colors.blue,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: '#606770',
+    color: colors.secondaryText,
     textAlign: 'center',
     marginBottom: 25,
   },
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: '#606770',
+    color: colors.secondaryText,
     marginBottom: 4,
     alignSelf: 'flex-start',
   },
@@ -76,48 +77,58 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 45,
-    borderColor: '#ccd0d5',
+    borderColor: colors.borderMedium,
     borderWidth: 1,
     paddingHorizontal: 12,
     borderRadius: 5,
-    backgroundColor: '#f5f6f7',
+    backgroundColor: colors.inputBackground,
     fontSize: 15,
   },
   genderButton: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ccd0d5',
+    borderColor: colors.borderMedium,
     borderRadius: 5,
     paddingVertical: 12,
     alignItems: 'center',
-    backgroundColor: '#f5f6f7',
+    backgroundColor: colors.inputBackground,
   },
   genderButtonSelected: {
-    borderColor: '#1877f2',
+    borderColor: colors.blue,
     borderWidth: 1.5,
   },
   genderButtonText: {
     fontSize: 15,
-    color: '#1c1e21',
+    color: colors.tertiaryText,
   },
   genderButtonTextSelected: {
-    color: '#1877f2',
+    color: colors.blue,
     fontWeight: '600',
   },
   errorMessage: {
-    color: 'red',
+    color: colors.danger,
     marginBottom: 10,
     textAlign: 'center',
   },
   successMessage: {
-    color: 'green',
+    color: colors.success,
     marginBottom: 10,
     textAlign: 'center',
   },
   buttonWrapper: {
     marginTop: 10,
     width: '100%',
-  }
+  },
+
+  activityIndicator: {
+    color: colors.blue,
+  },
+  button: {
+    color: colors.blue,
+  },
+  placeholder: {
+    color: colors.secondaryText,
+  },
 });
 
 export default styles;

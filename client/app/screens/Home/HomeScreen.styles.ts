@@ -1,38 +1,38 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../theme';
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#f0f2f5', // Jasnoszare tło Facebooka
+    backgroundColor: colors.background,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f2f5',
+    backgroundColor: colors.background,
   },
   
-  // --- Header ---
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 15,
     paddingVertical: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: '#dddfe2',
+    borderBottomColor: colors.borderLight,
   },
   logoText: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#1877f2', // Niebieski Facebooka
+    color: colors.blue,
   },
   headerIcons: {
     flexDirection: 'row',
   },
   iconButton: {
-    backgroundColor: '#e4e6eb',
+    backgroundColor: colors.iconBackground,
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -40,14 +40,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 10,
   },
-
-  // --- Tab Bar ---
+  icon: {
+    color: colors.primaryText,
+  },
+  iconActive: {
+    color: colors.blue,
+  },
+  iconSecondary: {
+    color: colors.secondaryText,
+  },
   tabBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: '#dddfe2',
+    borderBottomColor: colors.borderLight,
     paddingTop: 8,
   },
   tabButton: {
@@ -57,27 +64,25 @@ const styles = StyleSheet.create({
   },
   tabButtonActive: {
     borderBottomWidth: 3,
-    borderBottomColor: '#1877f2',
+    borderBottomColor: colors.blue,
   },
   
-  // --- Feed ---
   feed: {
-    flex: 1, // This is correct and necessary for the FlatList
+    flex: 1,
   },
 
-  // --- Create Post ---
   createPostContainer: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.white,
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    // Removed the borderBottom, as the 'Opublikuj' button sits below it
   },
+
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#e4e6eb',
+    backgroundColor: colors.iconBackground,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -85,26 +90,25 @@ const styles = StyleSheet.create({
   avatarLetter: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1877f2',
+    color: colors.blue,
   },
   postInput: {
     flex: 1,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f0f2f5',
+    backgroundColor: colors.background,
     paddingHorizontal: 15,
     fontSize: 16,
   },
 
-  // --- Post Card ---
   postCard: {
-    backgroundColor: '#ffffff',
-    marginTop: 8, // Added marginTop to separate posts from each other and the header
+    backgroundColor: colors.white,
+    marginTop: 8,
   },
   postHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15, // Added padding here
+    padding: 15,
   },
   postHeaderText: {
     marginLeft: 10,
@@ -112,29 +116,29 @@ const styles = StyleSheet.create({
   postUserName: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#050505',
+    color: colors.primaryText,
   },
   postTimestamp: {
     fontSize: 12,
-    color: '#606770',
+    color: colors.secondaryText,
   },
   postContent: {
     fontSize: 16,
-    color: '#050505',
+    color: colors.primaryText,
     marginTop: 10,
     lineHeight: 22,
-    paddingHorizontal: 15, // Added padding
+    paddingHorizontal: 15,
   },
   postSeparator: {
     height: 1,
-    backgroundColor: '#e4e6eb',
+    backgroundColor: colors.iconBackground,
     marginVertical: 10,
   },
   postActions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingHorizontal: 15, // Added padding
-    paddingBottom: 10, // Added padding
+    paddingHorizontal: 15,
+    paddingBottom: 10,
   },
   actionButton: {
     flexDirection: 'row',
@@ -142,27 +146,24 @@ const styles = StyleSheet.create({
   },
   actionText: {
     marginLeft: 6,
-    color: '#606770',
+    color: colors.secondaryText,
     fontWeight: '600',
     fontSize: 14,
   },
 
-  // --- STYLES ADDED FOR POSTFEED ---
-
   submitPostButton: {
-    backgroundColor: '#1877f2', // Facebook Blue
+    backgroundColor: colors.blue,
     padding: 10,
     borderRadius: 6,
-    marginHorizontal: 15, // Match createPostContainer padding
+    marginHorizontal: 15,
     marginBottom: 10,
-    marginTop: 5, // Add space from the input
+    marginTop: 5,
     alignItems: 'center',
-    // This button is part of the createPostContainer's "group"
     borderBottomWidth: 8,
-    borderBottomColor: '#f0f2f5',
+    borderBottomColor: colors.background,
   },
   submitPostButtonText: {
-    color: 'white',
+    color: colors.white,
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 50,
     fontSize: 16,
-    color: '#606770',
+    color: colors.secondaryText,
   },
 });
 

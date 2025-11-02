@@ -26,14 +26,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!formData.email || !formData.password) {
-      setMessage('E-mail i hasło są wymagane');
+      setMessage('E-mail and password are required.');
       setIsError(true);
       return;
     }
     setIsLoading(true);
     setMessage(undefined);
     setIsError(false);
-    const loginRes: Res = await login(formData);
+    const loginRes: Res<null> = await login(formData);
     if(loginRes.status === ResponseStatus.OK) {
         navigation.reset({
           index: 0,
@@ -59,7 +59,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.headerContentContainer}>
-            <Text style={styles.title}>Zaloguj się</Text>
+            <Text style={styles.title}>Login</Text>
         </View>
 
         <View style={styles.formContainer}>
@@ -67,7 +67,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             <Text style={styles.label}>E-mail</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Adres e-mail"
+                placeholder="E-mail address"
+                placeholderTextColor={styles.placeholder.color} // Added
                 value={formData.email}
                 onChangeText={(text) => handleChange('email', text)}
                 keyboardType="email-address"
@@ -76,17 +77,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           </View>
 
           <View style={styles.inputWrapperFullWithMargin}>
-            <Text style={styles.label}>Hasło</Text>
+            <Text style={styles.label}>Password</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Hasło"
+                placeholder="Password"
+                placeholderTextColor={styles.placeholder.color} // Added
                 value={formData.password}
                 onChangeText={(text) => handleChange('password', text)}
                 secureTextEntry
             />
           </View>
 
-          {isLoading && <ActivityIndicator size="large" color="#1877f2" />}
+          {isLoading && <ActivityIndicator size="large" color={styles.activityIndicator.color} />}
+          
           {message && (
             <Text style={isError ? styles.errorMessage : styles.successMessage}>
               {message}
@@ -94,10 +97,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
           )}
           <View style={styles.buttonWrapper}>
             <Button
-                title={isLoading ? 'Logowanie...' : 'Zaloguj'}
+                title={isLoading ? 'Logging in...' : 'Login'}
                 onPress={handleLogin}
                 disabled={isLoading}
-                color="#1877f2" // Consistent button color
+                color={styles.button.color}
             />
           </View>
         </View>
