@@ -174,6 +174,42 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.secondaryText,
   },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+  },
+  menuContainer: {
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 60,
+    marginRight: 15,
+    width: 200,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuOption: {
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+  },
+  menuOptionText: {
+    fontSize: 16,
+    color: colors.primaryText,
+  },
+  menuSeparator: {
+    height: 1,
+    backgroundColor: colors.borderLight,
+    marginVertical: 5,
+  },
 });
 
 export default styles;

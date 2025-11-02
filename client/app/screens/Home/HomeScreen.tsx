@@ -19,10 +19,12 @@ import {
 } from '@expo/vector-icons';
 import PostFeed from './PostFeed';
 import { colors } from '../../theme';
+import MenuModal from './MenuModal';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
 
   useEffect(() => {
     const verifyAuthAndLoadData = async () => {
@@ -58,6 +60,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   }, [navigation]);
 
   const handleLogout = async () => {
+    setIsMenuVisible(false);
     try {
       await deleteAuthToken();
       await removeUserData();
@@ -66,6 +69,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     } catch (e) {
       console.error('Failed to logout.', e);
     }
+  };
+
+  const handleNavigate = (screen: 'Profile' | 'Settings') => {
+    navigation.navigate(screen);
+    setIsMenuVisible(false);
   };
 
   if (isLoading) {
@@ -79,7 +87,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   if (!user) {
     return (
       <View style={styles.loadingContainer}>
-        <Text>Brak danych użytkownika lub sesja wygasła...</Text>
+        <Text>User data not present, or session expired...</Text>
         <Button
           title="Przejdź do logowania"
           onPress={() => navigation.replace('Welcome')}
@@ -90,17 +98,27 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <MenuModal
+        visible={isMenuVisible}
+        onClose={() => setIsMenuVisible(false)}
+        onNavigate={handleNavigate}
+        onLogout={handleLogout}
+      />
       <View style={styles.header}>
         <Text style={styles.logoText}>faceVerse</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton}>
             <Ionicons name="search" size={22} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton} onPress={handleLogout}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => setIsMenuVisible(true)} 
+          >
             <Ionicons name="menu" size={26} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>
+
       <View style={styles.tabBar}>
         <TouchableOpacity style={[styles.tabButton, styles.tabButtonActive]}>
           <Ionicons name="home" size={26} style={styles.iconActive} />
@@ -127,6 +145,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           />
         </TouchableOpacity>
       </View>
+      
       <PostFeed user={user} />
     </SafeAreaView>
   );
