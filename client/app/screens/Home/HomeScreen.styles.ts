@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   
   // --- Feed ---
   feed: {
-    flex: 1,
+    flex: 1, // This is correct and necessary for the FlatList
   },
 
   // --- Create Post ---
@@ -71,8 +71,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 8,
-    borderBottomColor: '#f0f2f5',
+    // Removed the borderBottom, as the 'Opublikuj' button sits below it
   },
   avatar: {
     width: 40,
@@ -100,12 +99,12 @@ const styles = StyleSheet.create({
   // --- Post Card ---
   postCard: {
     backgroundColor: '#ffffff',
-    marginVertical: 4, // Cieńszy separator niż w createPost
-    padding: 15,
+    marginTop: 8, // Added marginTop to separate posts from each other and the header
   },
   postHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 15, // Added padding here
   },
   postHeaderText: {
     marginLeft: 10,
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
     color: '#050505',
     marginTop: 10,
     lineHeight: 22,
+    paddingHorizontal: 15, // Added padding
   },
   postSeparator: {
     height: 1,
@@ -133,6 +133,8 @@ const styles = StyleSheet.create({
   postActions: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    paddingHorizontal: 15, // Added padding
+    paddingBottom: 10, // Added padding
   },
   actionButton: {
     flexDirection: 'row',
@@ -144,7 +146,33 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
   },
+
+  // --- STYLES ADDED FOR POSTFEED ---
+
+  submitPostButton: {
+    backgroundColor: '#1877f2', // Facebook Blue
+    padding: 10,
+    borderRadius: 6,
+    marginHorizontal: 15, // Match createPostContainer padding
+    marginBottom: 10,
+    marginTop: 5, // Add space from the input
+    alignItems: 'center',
+    // This button is part of the createPostContainer's "group"
+    borderBottomWidth: 8,
+    borderBottomColor: '#f0f2f5',
+  },
+  submitPostButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+
+  emptyFeedText: {
+    textAlign: 'center',
+    marginTop: 50,
+    fontSize: 16,
+    color: '#606770',
+  },
 });
 
 export default styles;
-

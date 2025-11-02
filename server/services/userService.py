@@ -102,7 +102,8 @@ class UserService:
 
         # --- MODIFIED: Generate JWT upon successful login ---
         # The identity can be anything that uniquely identifies the user, e.g., user.id or user.email
-        access_token = create_access_token(identity=user.id) # Use user.id as the identity
+        access_token = create_access_token(identity=str(user.id)) # Use user.id as the identity
+        print(f"--- User given JWT Key: {access_token} ---")
 
         return jsonify({
             "message": "Logowanie udane.",

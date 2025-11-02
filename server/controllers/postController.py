@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 posts_bp = Blueprint('posts', __name__)
 
-@posts_bp.route('/', methods=['POST'])
+@posts_bp.route('/', methods=['POST'], strict_slashes=False)
 @jwt_required() # Zabezpieczamy endpoint
 def create_post():
     """Trasa do tworzenia nowego posta."""
@@ -12,7 +12,7 @@ def create_post():
     data = request.get_json()
     return PostService.create_post(data, user_id)
 
-@posts_bp.route('/', methods=['GET'])
+@posts_bp.route('/', methods=['GET'], strict_slashes=False)
 @jwt_required() # Zabezpieczamy endpoint
 def get_posts():
     """Trasa do pobierania wszystkich postów."""

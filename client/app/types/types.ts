@@ -49,19 +49,20 @@ export enum Gender {
     MALE = 'Mężczyzna',
 };
 
-export type Res = {
+export type Res<T> = {
     status: ResponseStatus,
     message?: string
+    data?: T
 }
 
-export type Post = {
-    id: number;
-    content: string;
-    timestamp: string;
-    user_id: number;
-    author_name: string;
+export interface Post {
+  id: number;
+  content: string;
+  timestamp: string;
+  user_id: number;
+  author_name: string;
 }
 
-export type CreatePostData = {
-    content: string;
+export interface CreatePostData {
+  content: string;
 }
