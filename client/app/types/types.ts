@@ -53,3 +53,15 @@ export type Res = {
     status: ResponseStatus,
     message?: string
 }
+
+export type Post = {
+    id: number;
+    content: string;
+    timestamp: string;
+    user_id: number;
+    author_name: string;
+}
+
+export type CreatePostData = {
+    content: string;
+}

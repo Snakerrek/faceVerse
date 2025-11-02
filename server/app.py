@@ -3,6 +3,8 @@ from flask import Flask
 from extensions import db, jwt
 from flask_cors import CORS
 import secrets
+from models.user import User
+from models.post import Post 
 
 def create_app():
     # Flask application factory.
@@ -23,8 +25,10 @@ def create_app():
 
     # Import and register Blueprint from userController.py (previously users.py)
     from controllers.userController import users_bp
+    from controllers.postController import posts_bp
     # Register the Blueprint, adding the '/users' prefix to all its routes
     app.register_blueprint(users_bp, url_prefix='/users') # Set prefix to /users
+    app.register_blueprint(posts_bp, url_prefix='/posts') # Set prefix to /users
 
     return app
 

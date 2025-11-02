@@ -10,6 +10,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=True)
     gender = db.Column(db.String(50), nullable=True)
+    posts = db.relationship('Post', backref='author', lazy=True)
 
     # Method to set the password hash from a plain text password
     def set_password(self, password):
