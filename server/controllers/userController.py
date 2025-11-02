@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from services.userService import UserService
+from flask_jwt_extended import jwt_required
 
 users_bp = Blueprint('users', __name__)
 
@@ -12,16 +13,19 @@ def create_user():
     return UserService.create_user(data)
 
 @users_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_users():
     """Trasa do pobierania listy wszystkich użytkowników."""
     return UserService.get_users()
 
 @users_bp.route('/<int:id>', methods=['GET'])
+@jwt_required()
 def get_user(id):
     """Trasa do pobierania pojedynczego użytkownika po ID."""
     return UserService.get_user(id)
 
 @users_bp.route('/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_user(id):
     """Trasa do aktualizacji istniejącego użytkownika."""
     data = request.get_json()
