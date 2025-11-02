@@ -9,7 +9,7 @@ class PostService:
     def create_post(data, user_id):
         content = data.get('content')
         if not content:
-            return jsonify({"error": "Treść posta nie może być pusta."}), 400
+            return jsonify({"error": "Post content cannot be empty."}), 400
         
         try:
             new_post = Post(
@@ -20,17 +20,16 @@ class PostService:
             db.session.add(new_post)
             db.session.commit()
             
-            return jsonify({"message": "Post utworzony", "post": new_post.to_dict()}), 201
+            return jsonify({"message": "Post created", "post": new_post.to_dict()}), 201
             
         except Exception as e:
             db.session.rollback()
             print(f"Error creating post: {e}")
-            return jsonify({"error": "Wewnętrzny błąd serwera przy tworzeniu posta."}), 500
+            return jsonify({"error": "Internal server error"}), 500
 
     @staticmethod
     def get_posts():
         try:
-            # Pobieramy posty, sortując od najnowszego do najstarszego
             posts = db.session.scalars(
                 db.select(Post).order_by(Post.timestamp.desc())
             ).all()
@@ -40,4 +39,4 @@ class PostService:
         except Exception as e:
             db.session.rollback()
             print(f"Error fetching posts: {e}")
-            return jsonify({"error": "Wewnętrzny błąd serwera przy pobieraniu postów."}), 500
+            return jsonify({"error": "Internal server error"}), 500
