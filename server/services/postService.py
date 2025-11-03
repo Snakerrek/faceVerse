@@ -2,6 +2,7 @@ from flask import jsonify
 from extensions import db
 from models.post import Post
 from datetime import datetime
+from sqlalchemy import desc
 
 class PostService:
     

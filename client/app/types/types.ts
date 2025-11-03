@@ -6,6 +6,7 @@ export type UserData = {
     date_of_birth?: string | null;
     gender?: string | null;
     avatar_url: string | null;
+    cover_url: string | null;
 }
 
 export type LoginResponse = {

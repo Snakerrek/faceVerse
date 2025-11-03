@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Image, FlatList, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, Image, FlatList, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getUserData } from '../../utils/storageUtils';
 import { UserData, Post, ResponseStatus } from '../../types/types';
@@ -8,7 +8,7 @@ import styles from './ProfileScreen.styles';
 import { colors } from '../../theme';
 import PostCard from '../Home/PostCard'; 
 
-const defaultAvatar = require('../../../assets/default-avatar.png'); 
+const defaultAvatar = require('../../../assets/default_avatar.jpg'); 
 
 interface ProfileParams {
     userId?: string;
@@ -81,22 +81,35 @@ const ProfileScreen: React.FC = () => {
             ? { uri: profileUser.avatar_url }
             : defaultAvatar;
 
+        const coverSource = profileUser.cover_url
+            && { uri: profileUser.cover_url }
+            
         return (
             <View>
-                <View style={styles.headerBackground} />
+                {/* 1. Cover Photo Area */}
+                <View style={styles.headerBackground}>
+                    {coverSource ? (
+                        <Image source={coverSource} style={styles.headerBackground} resizeMode="cover" />
+                    ) : (
+                        <View style={styles.headerBackground} />
+                    )}
+                </View>
+
                 <View style={styles.profileContent}>
+                    {/* 2. Avatar Container */}
                     <View style={styles.avatarContainer}>
-                        <Image source={avatarSource} style={styles.avatar} />
+                        {/* 👇 Displays the Avatar Image 👇 */}
+                        <Image source={avatarSource} style={styles.avatar} /> 
                     </View>
-                    <Text style={styles.name}>{`${profileUser.first_name} ${profileUser.last_name}`}</Text>
                     
+                    <Text style={styles.name}>{`${profileUser.first_name} ${profileUser.last_name}`}</Text>
                     <Text style={styles.bio}>faceVerse user</Text>
 
                     <View style={styles.actionButtonRow}>
                         {isCurrentUser ? (
                              <TouchableOpacity 
                                 style={[styles.actionButton, {backgroundColor: colors.iconBackground}]}
-                                onPress={() => router.push('/settings')}
+                                onPress={() => router.push('/settings')} 
                              >
                                 <Text style={[styles.actionButtonText, {color: colors.primaryText}]}>Edit Profile</Text>
                              </TouchableOpacity>

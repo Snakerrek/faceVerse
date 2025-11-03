@@ -13,7 +13,7 @@ import { Post, ResponseStatus, UserData } from '../../types/types';
 import styles from './HomeScreen.styles';
 import { colors } from '../../theme';
 import PostCard from './PostCard';
-const defaultAvatar = require('../../../assets/default-avatar.png');
+const defaultAvatar = require('../../../assets/default_avatar.jpg');
 
 interface PostFeedProps {
   user: UserData;

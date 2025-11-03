@@ -7,19 +7,41 @@ import {
   Image,
   Alert,
   ActivityIndicator,
-  Platform
+  Platform, // 👈 Import Platform
+  TouchableOpacity // 👈 Import TouchableOpacity
 } from 'react-native';
 import styles from './SettingsScreen.styles';
 import * as ImagePicker from 'expo-image-picker';
 import { getUserData, storeUserData } from '../../utils/storageUtils';
 import { UserData, ResponseStatus } from '../../types/types';
-import { uploadAvatar } from '../../backendService';
-import { colors } from '../../theme';
+import { uploadAvatar, uploadCover } from '../../backendService';
+import { colors } from '../../theme'; 
 import { useRouter } from 'expo-router';
 
+const prepareFormData = async (uri: string, filename: string, key: 'avatar' | 'cover') => {
+    const formData = new FormData();
+
+    if (Platform.OS === 'web') {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        formData.append(key, blob, filename);
+    } else {
+        const uriParts = uri.split('.');
+        const fileType = uriParts[uriParts.length - 1];
+
+        formData.append(key, {
+            uri: uri,
+            name: filename,
+            type: `image/${fileType}`,
+        } as any);
+    }
+    return formData;
+};
+
+const defaultAvatar = require('../../../assets/default_avatar.jpg'); 
 const SettingsScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,79 +54,90 @@ const SettingsScreen: React.FC = () => {
     loadData();
   }, []);
 
-  const handlePickAndUploadImage = async () => {
+  const handleUpload = async (pickerOptions: ImagePicker.ImagePickerOptions, endpoint: 'avatar' | 'cover') => {
+    if (!user) return;
+    
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.status !== 'granted') {
-      Alert.alert("Permission Denied", "We need camera roll access to upload an image.");
-      return;
+        Alert.alert("Permission Denied", `We need camera roll access to upload ${endpoint}.`);
+        return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.8,
-    });
+    const result = await ImagePicker.launchImageLibraryAsync(pickerOptions);
 
     if (result.canceled || !result.assets || result.assets.length === 0) {
       return;
     }
 
     const localUri = result.assets[0].uri;
-    const filename = localUri.split('/').pop();
-    const formData = new FormData();
-
-    if (Platform.OS === 'web') {
-      const response = await fetch(localUri);
-      const blob = await response.blob();
-      formData.append('avatar', blob, filename);
-    } else {
-      const uriParts = localUri.split('.');
-      const fileType = uriParts[uriParts.length - 1];
-
-      formData.append('avatar', {
-        uri: localUri,
-        name: filename,
-        type: `image/${fileType}`,
-      } as any);
-    }
-
-    setIsLoading(true);
-    const response = await uploadAvatar(formData);
-    setIsLoading(false);
+    const filename = localUri.split('/').pop() || `${endpoint}.jpg`;
+    
+    const formData = await prepareFormData(localUri, filename, endpoint);
+    
+    setIsUploading(true);
+    const apiFunction = endpoint === 'avatar' ? uploadAvatar : uploadCover;
+    const response = await apiFunction(formData);
+    setIsUploading(false);
 
     if (response.status === ResponseStatus.OK && response.data) {
-      Alert.alert("Success", "Profile picture updated!");
+      Alert.alert("Success", `${endpoint} updated!`);
       setUser(response.data);
       await storeUserData(response.data);
     } else {
-      Alert.alert("Error", response.message || "Failed to upload image.");
+      Alert.alert("Error", response.message || `Failed to upload ${endpoint}.`);
     }
   };
 
-  const avatarSource = user?.avatar_url
-    ? { uri: user.avatar_url }
-    : require('../../../assets/default-avatar.png');
+  const handlePickAndUploadAvatar = () => {
+    handleUpload({ allowsEditing: true, aspect: [1, 1], quality: 0.8, mediaTypes: ImagePicker.MediaTypeOptions.Images }, 'avatar');
+  };
+
+  const handlePickAndUploadCover = () => {
+    handleUpload({ allowsEditing: true, aspect: [3, 1], quality: 0.8, mediaTypes: ImagePicker.MediaTypeOptions.Images }, 'cover');
+  };
+  
+  if (!user) {
+    return (
+        <SafeAreaView style={styles.container}>
+            <Text style={styles.content}>Error: User data not found.</Text>
+        </SafeAreaView>
+    );
+  }
+
+  const avatarSource = user.avatar_url ? { uri: user.avatar_url } : defaultAvatar;
+  const coverSource = user.cover_url && { uri: user.cover_url };
 
   return (
     <SafeAreaView style={styles.container}>
+      <Button title="Go Back" onPress={() => router.back()} />
+      
       <View style={styles.content}>
         <Text style={styles.title}>Settings</Text>
 
-        <Image
-          style={styles.avatar}
-          source={avatarSource}
-        />
+        <View style={styles.coverSection}>
+            <Text style={styles.label}>Cover Photo</Text>
+            {coverSource && <Image source={coverSource} style={styles.cover} resizeMode="cover" />}
+            <TouchableOpacity 
+                onPress={handlePickAndUploadCover}
+                style={[styles.button, {backgroundColor: colors.blue}]}
+                disabled={isUploading}
+            >
+                <Text style={styles.buttonText}>{isUploading ? 'Uploading Cover...' : 'Change Cover Photo'}</Text>
+            </TouchableOpacity>
+        </View>
 
-        {isLoading ? (
-          <ActivityIndicator size="large" color={colors.blue} />
-        ) : (
-          <Button
-            title="Change Profile Picture"
-            onPress={handlePickAndUploadImage}
-            color={colors.blue}
-          />
-        )}
+        <View style={styles.avatarSection}>
+            <Text style={styles.label}>Profile Picture</Text>
+            <Image style={styles.avatar} source={avatarSource} />
+            <TouchableOpacity
+                onPress={handlePickAndUploadAvatar}
+                style={[styles.button, {backgroundColor: colors.blue}]}
+                disabled={isUploading}
+            >
+                <Text style={styles.buttonText}>{isUploading ? 'Uploading Photo...' : 'Change Profile Picture'}</Text>
+            </TouchableOpacity>
+        </View>
+
       </View>
     </SafeAreaView>
   );

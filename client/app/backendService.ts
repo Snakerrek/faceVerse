@@ -115,3 +115,32 @@ export async function uploadAvatar(formData: FormData): Promise<Res<UserData>> {
         return { status: ResponseStatus.ERROR, message };
     }
 }
+
+export async function uploadCover(formData: FormData): Promise<Res<UserData>> {
+    try {
+        const token = await getAuthToken();
+        if (!token) {
+            return { status: ResponseStatus.ERROR, message: 'No authentication token found.' };
+        }
+
+        const response = await fetch(`${API_BASE_URL}/uploads/cover`, { 
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            return { status: ResponseStatus.OK, data: result as UserData };
+        } else {
+            return { status: ResponseStatus.ERROR, message: result.error || `Cover upload failed (Status: ${response.status})` };
+        }
+    } catch (error) {
+        console.error('Upload Cover Error:', error);
+        const message = error instanceof Error ? error.message : 'An unknown error occurred.';
+        return { status: ResponseStatus.ERROR, message };
+    }
+}

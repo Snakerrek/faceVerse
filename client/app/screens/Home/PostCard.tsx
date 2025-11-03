@@ -11,7 +11,7 @@ import {
 } from '@expo/vector-icons';
 import { Post } from '../../types/types';
 import styles from './HomeScreen.styles';
-const defaultAvatar = require('../../../assets/default-avatar.png');
+const defaultAvatar = require('../../../assets/default_avatar.jpg');
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const postTimestamp = new Date(post.timestamp).toLocaleString();
