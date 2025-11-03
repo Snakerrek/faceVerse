@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, Image, FlatList, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getUserData } from '../../utils/storageUtils';
 import { UserData, Post, ResponseStatus } from '../../types/types';
@@ -8,6 +8,7 @@ import styles from './ProfileScreen.styles';
 import { colors } from '../../theme';
 import PostCard from '../Home/PostCard'; 
 import UserAvatar from '../../components/UserAvatar';
+import ProfileBackground from '../../components/ProfileBackground';
 
 interface ProfileParams {
     userId?: string;
@@ -75,19 +76,14 @@ const ProfileScreen: React.FC = () => {
         if (!profileUser) return null;
 
         const isCurrentUser = targetUserId === null; 
-
-        const coverSource = profileUser.cover_url
-            && { uri: profileUser.cover_url }
+        const backgroundUrl = profileUser.cover_url;
             
         return (
             <View>
-                <View style={styles.headerBackground}>
-                    {coverSource ? (
-                        <Image source={coverSource} style={styles.headerBackground} resizeMode="cover" />
-                    ) : (
-                        <View style={styles.headerBackground} />
-                    )}
-                </View>
+                <ProfileBackground 
+                    backgroundUrl={backgroundUrl} 
+                    context='profile' 
+                />
 
                 <View style={styles.profileContent}>
                     <View style={styles.avatarContainer}>

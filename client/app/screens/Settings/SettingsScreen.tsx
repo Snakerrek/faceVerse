@@ -14,8 +14,8 @@ import { getUserData, storeUserData } from '../../utils/storageUtils';
 import { UserData, ResponseStatus } from '../../types/types';
 import { uploadAvatar, uploadCover } from '../../backendService';
 import { colors } from '../../theme'; 
-import { useRouter } from 'expo-router';
 import UserAvatar from '../../components/UserAvatar';
+import ProfileBackground from '../../components/ProfileBackground';
 
 const prepareFormData = async (uri: string, filename: string, key: 'avatar' | 'cover') => {
     const formData = new FormData();
@@ -101,7 +101,7 @@ const SettingsScreen: React.FC = () => {
     );
   }
 
-  const coverSource = user.cover_url && { uri: user.cover_url };
+  const backgroundUrl = user?.cover_url;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -111,7 +111,7 @@ const SettingsScreen: React.FC = () => {
 
         <View style={styles.coverSection}>
             <Text style={styles.label}>Cover Photo</Text>
-            {coverSource && <Image source={coverSource} style={styles.cover} resizeMode="cover" />}
+            <ProfileBackground backgroundUrl={backgroundUrl} context='settings' />
             <TouchableOpacity 
                 onPress={handlePickAndUploadCover}
                 style={[styles.button, {backgroundColor: colors.blue}]}

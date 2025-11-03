@@ -6,10 +6,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  headerBackground: {
-    height: 150,
-    backgroundColor: colors.borderLight,
-  },
   profileContent: {
     paddingHorizontal: 15,
     paddingBottom: 20,
