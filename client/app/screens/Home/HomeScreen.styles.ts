@@ -211,6 +211,49 @@ const styles = StyleSheet.create({
     backgroundColor: colors.borderLight,
     marginVertical: 5,
   },
+  postInputActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    backgroundColor: colors.white,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderLight,
+    marginBottom: 5, 
+  },
+  imagePreviewContainer: {
+    paddingHorizontal: 15,
+    paddingTop: 10,
+    backgroundColor: colors.white,
+    position: 'relative',
+  },
+  imagePreview: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    resizeMode: 'cover',
+  },
+  imageClearButton: {
+    position: 'absolute',
+    top: 15,
+    right: 20,
+    zIndex: 10,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 12,
+    padding: 2,
+  },
+  postImageContainer: {
+    paddingHorizontal: 15,
+    paddingTop: 10,
+    paddingBottom: 5,
+  },
+  postImage: {
+    width: '100%',
+    height: 300,
+    resizeMode: 'contain',
+    borderRadius: 8,
+  },
 });
 
 export default styles;

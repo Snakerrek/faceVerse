@@ -6,13 +6,16 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
+  Image
 } from 'react-native';
 import UserAvatar from '../../components/UserAvatar';
 import { createPost, getPosts } from '../../backendService';
-import { Post, ResponseStatus, UserData } from '../../types/types';
+import { CreatePostData, Post, ResponseStatus, UserData } from '../../types/types';
 import styles from './HomeScreen.styles';
 import { colors } from '../../theme';
 import PostCard from './PostCard';
+import * as ImagePicker from 'expo-image-picker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface PostFeedProps {
   user: UserData;
@@ -23,6 +26,26 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
   const [newPostContent, setNewPostContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
+  const [selectedImageUri, setSelectedImageUri] = useState<string | null>(null);
+
+  const handlePickImage = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permission.status !== 'granted') {
+      Alert.alert("Permission Denied", "We need camera roll access to upload an image.");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.7,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setSelectedImageUri(result.assets[0].uri);
+    }
+  };
 
   const fetchPosts = async () => {
     setIsLoading(true);
@@ -39,18 +62,25 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
     fetchPosts();
   }, []);
 
-  const handleCreatePost = async () => {
-    if (newPostContent.trim() === '') {
+const handleCreatePost = async () => {
+    if (newPostContent.trim() === '' && !selectedImageUri) {
       return;
     }
     setIsPosting(true);
-    const response = await createPost({ content: newPostContent });
+
+    const postData: CreatePostData = {
+      content: newPostContent,
+      localImageUri: selectedImageUri
+    };
+
+    const response = await createPost(postData);
 
     if (response.status === ResponseStatus.OK && response.data) {
-      setPosts([(response.data as unknown) as Post, ...posts]);
+      setPosts([response.data, ...posts]);
       setNewPostContent('');
+      setSelectedImageUri(null);
     } else {
-      Alert.alert('Błąd', 'Nie udało się dodać posta.');
+      Alert.alert('Błąd', response.message || 'Nie udało się dodać posta.');
     }
     setIsPosting(false);
   };
@@ -79,6 +109,24 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
               multiline
             />
           </View>
+          {selectedImageUri && (
+            <View style={styles.imagePreviewContainer}>
+              <Image source={{ uri: selectedImageUri }} style={styles.imagePreview} />
+              <TouchableOpacity 
+                style={styles.imageClearButton}
+                onPress={() => setSelectedImageUri(null)}
+              >
+                 <MaterialCommunityIcons name="close-circle" size={24} color={colors.white} />
+              </TouchableOpacity>
+            </View>
+          )}
+          <TouchableOpacity 
+                style={styles.actionButton}
+                onPress={handlePickImage}
+            >
+                <MaterialCommunityIcons name="image" size={24} color="green" />
+                <Text style={styles.actionText}>Zdjęcie</Text>
+            </TouchableOpacity>
           <TouchableOpacity
             style={styles.submitPostButton}
             onPress={handleCreatePost}

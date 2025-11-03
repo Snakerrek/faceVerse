@@ -3,6 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Image
 } from 'react-native';
 import {
   Ionicons,
@@ -42,6 +43,16 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
       </View>
 
       <Text style={styles.postContent}>{post.content}</Text>
+
+      {post.image_url && (
+                <View style={styles.postImageContainer}>
+                    <Image 
+                        source={{ uri: post.image_url }} 
+                        style={styles.postImage} 
+                        resizeMode="contain"
+                    />
+                </View>
+            )}
 
       <View style={styles.postSeparator} />
 

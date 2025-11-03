@@ -64,8 +64,10 @@ export interface Post {
   user_id: number;
   author_name: string;
   author_avatar_url: string | null;
+  image_url: string | null;
 }
 
 export interface CreatePostData {
   content: string;
+  localImageUri?: string | null;
 }

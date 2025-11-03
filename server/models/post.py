@@ -8,13 +8,16 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    image_filename = db.Column(db.String(128), nullable=True)
 
     def __repr__(self):
         return f'<Post {self.content[:50]}...>'
 
     def to_dict(self):
         author_name = f"{self.author.first_name} {self.author.last_name}"
-
+        image_url = None
+        if self.image_filename:
+            image_url = url_for('uploads.serve_file', filename=self.image_filename, _external=True)
         author_avatar_url = None
         if self.author.avatar_filename:
             author_avatar_url = url_for('uploads.serve_file', 
@@ -27,5 +30,6 @@ class Post(db.Model):
             "timestamp": self.timestamp.isoformat(),
             "user_id": self.user_id,
             "author_name": author_name,
-            "author_avatar_url": author_avatar_url
+            "author_avatar_url": author_avatar_url,
+            "image_url": image_url
         }

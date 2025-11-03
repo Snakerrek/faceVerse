@@ -41,7 +41,6 @@ export async function authRequest<T>(
         const allOptions: RequestInit = {
             ...options,
             headers: {
-                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
                 ...options.headers,
             },

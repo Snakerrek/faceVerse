@@ -2,6 +2,7 @@ import { API_BASE_URL } from "./config";
 import { LoginResponse, UserData, LoginData, ResponseStatus, Res, RegisterData, CreatePostData, Post } from "./types/types";
 import { saveAuthToken, authRequest, getAuthToken } from "./utils/authUtils";
 import { storeUserData } from "./utils/storageUtils";
+import { Platform } from 'react-native';
 
 export async function login(data: LoginData): Promise<Res<null>> {
     try {
@@ -49,13 +50,55 @@ export async function register(data: RegisterData): Promise<Res<null>> {
     }
 }
 
+const preparePostFormData = async (content: string, localImageUri: string) => {
+    // ... (implementation uses Platform.OS === 'web' and appends 'content' and 'image') ...
+    const formData = new FormData();
+    formData.append('content', content);
+    
+    const filename = localImageUri.split('/').pop() || 'post_image.jpg';
+
+    if (Platform.OS === 'web') {
+        const response = await fetch(localImageUri);
+        const blob = await response.blob();
+        formData.append('image', blob, filename); 
+    } else {
+        const uriParts = localImageUri.split('.');
+        const fileType = uriParts[uriParts.length - 1];
+
+        formData.append('image', {
+            uri: localImageUri,
+            name: filename,
+            type: `image/${fileType}`,
+        } as any);
+    }
+    return formData;
+};
+
 export async function createPost(data: CreatePostData): Promise<Res<Post>> {
+    const { content, localImageUri } = data;
+
+    const endpoint = '/posts/'; 
+    let options: RequestInit = { method: 'POST' };
+
+    if (localImageUri) {
+        // 1. File upload logic (uses preparePostFormData)
+        options.body = await preparePostFormData(content, localImageUri);
+        // Headers are omitted and handled automatically for FormData
+    } else {
+        // 2. Text-only logic: 
+        // This logic MUST execute when submitting text without an image.
+        
+        // CRITICAL: Set body as stringified JSON
+        options.body = JSON.stringify({ content });
+        
+        // CRITICAL: Explicitly set Content-Type for JSON posts
+        options.headers = { 'Content-Type': 'application/json' };
+    }
+
+    // authRequest wrapper handles token and final header merging.
     return authRequest(
-        '/posts',
-        {
-            method: 'POST',
-            body: JSON.stringify(data),
-        },
+        endpoint,
+        options,
         (json) => json.post as Post
     );
 }
