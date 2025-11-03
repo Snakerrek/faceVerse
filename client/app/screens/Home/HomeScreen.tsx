@@ -132,20 +132,6 @@ const handleNavigate = (screen: '/profile' | '/settings') => {
             style={styles.iconSecondary}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabButton}>
-          <MaterialCommunityIcons
-            name="television-play"
-            size={28}
-            style={styles.iconSecondary}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabButton}>
-          <FontAwesome5
-            name="user-circle"
-            size={24}
-            style={styles.iconSecondary}
-          />
-        </TouchableOpacity>
       </View>
       
       <PostFeed user={user} />

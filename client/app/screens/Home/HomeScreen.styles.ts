@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../theme';
+import { colors, borderRadiuses } from '../../theme';
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: borderRadiuses.medium,
+    margin: '12px'
   },
 
   avatar: {
@@ -99,12 +101,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     paddingHorizontal: 15,
     fontSize: 16,
-    paddingTop: 8
+    paddingTop: 8,
+    marginLeft: 8
   },
 
   postCard: {
     backgroundColor: colors.white,
-    marginTop: 8,
+    margin: 12,
+    borderRadius: borderRadiuses.medium
   },
   postHeader: {
     flexDirection: 'row',
@@ -151,17 +155,36 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
   },
-
+  postButtonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  imagePostButton : {
+    backgroundColor: colors.blue,
+    width: '45%',
+    padding: 10,
+    margin: 10,
+    borderRadius: borderRadiuses.small,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  imageButtonText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginLeft: '5px',
+  },
   submitPostButton: {
     backgroundColor: colors.blue,
+    width: '45%',
     padding: 10,
-    borderRadius: 6,
-    marginHorizontal: 15,
-    marginBottom: 10,
-    marginTop: 5,
+    margin: 10,
+    borderRadius: borderRadiuses.small,
     alignItems: 'center',
-    borderBottomWidth: 8,
-    borderBottomColor: colors.background,
+    justifyContent: 'center',
   },
   submitPostButtonText: {
     color: colors.white,
@@ -225,6 +248,8 @@ const styles = StyleSheet.create({
   imagePreviewContainer: {
     paddingHorizontal: 15,
     paddingTop: 10,
+    margin: 12,
+    borderRadius: borderRadiuses.medium,
     backgroundColor: colors.white,
     position: 'relative',
   },

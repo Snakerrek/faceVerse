@@ -18,3 +18,8 @@ export const spacing = {
   medium: 16,
   large: 24,
 };
+
+export const borderRadiuses = {
+  medium: '25px',
+  small: '12px'
+}

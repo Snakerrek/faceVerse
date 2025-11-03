@@ -80,7 +80,7 @@ const handleCreatePost = async () => {
       setNewPostContent('');
       setSelectedImageUri(null);
     } else {
-      Alert.alert('Błąd', response.message || 'Nie udało się dodać posta.');
+      Alert.alert('Error', response.message || 'Post couldn\'t be fdetched');
     }
     setIsPosting(false);
   };
@@ -120,21 +120,22 @@ const handleCreatePost = async () => {
               </TouchableOpacity>
             </View>
           )}
-          <TouchableOpacity 
-                style={styles.actionButton}
-                onPress={handlePickImage}
-            >
-                <MaterialCommunityIcons name="image" size={24} color="green" />
-                <Text style={styles.actionText}>Zdjęcie</Text>
+          <View style={styles.postButtonsContainer}>
+            <TouchableOpacity
+              style={styles.imagePostButton}
+              onPress={handlePickImage}>
+                <MaterialCommunityIcons name="image" size={24} color={colors.white} />
+              <Text style={styles.imageButtonText}>Add Image</Text>
             </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.submitPostButton}
-            onPress={handleCreatePost}
-            disabled={isPosting}>
-            <Text style={styles.submitPostButtonText}>
-              {isPosting ? 'Posting...' : 'Post'}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.submitPostButton}
+              onPress={handleCreatePost}
+              disabled={isPosting}>
+              <Text style={styles.submitPostButtonText}>
+                {isPosting ? 'Posting...' : 'Post'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       }
       ListEmptyComponent={() =>
