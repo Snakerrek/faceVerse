@@ -15,3 +15,9 @@ def create_post():
 @jwt_required()
 def get_posts():
     return PostService.get_posts()
+
+@posts_bp.route('/user/<int:user_id>', methods=['GET'])
+@jwt_required()
+def get_posts_by_user(user_id):
+    """Trasa do pobierania wszystkich postów dla danego użytkownika."""
+    return jsonify(PostService.get_posts_by_user_id(user_id)), 200

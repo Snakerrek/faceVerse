@@ -40,3 +40,13 @@ class PostService:
             db.session.rollback()
             print(f"Error fetching posts: {e}")
             return jsonify({"error": "Internal server error"}), 500
+        
+    @staticmethod
+    def get_posts_by_user_id(user_id):
+        """Fetches posts for a specific user ID."""
+        posts = db.session.execute(
+            db.select(Post)
+            .filter(Post.user_id == user_id)
+            .order_by(desc(Post.timestamp))
+        ).scalars().all()
+        return [post.to_dict() for post in posts]

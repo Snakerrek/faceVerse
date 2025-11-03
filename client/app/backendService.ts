@@ -69,6 +69,24 @@ export async function getPosts(): Promise<Res<Post[]>> {
     );
 }
 
+export async function getPostsByUserId(userId: number): Promise<Res<Post[]>> {
+    return authRequest(
+        `/posts/user/${userId}`,
+        {
+            method: 'GET',
+        }
+    );
+}
+
+export async function getUserById(userId: number): Promise<Res<UserData>> {
+    return authRequest(
+        `/users/${userId}`,
+        {
+            method: 'GET',
+        }
+    );
+}
+
 export async function uploadAvatar(formData: FormData): Promise<Res<UserData>> {
     try {
         const token = await getAuthToken();

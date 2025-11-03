@@ -13,6 +13,7 @@ class User(db.Model):
     gender = db.Column(db.String(50), nullable=True)
     posts = db.relationship('Post', backref='author', lazy=True)
     avatar_filename = db.Column(db.String(128), nullable=True)
+    cover_filename = db.Column(db.String(128), nullable=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
@@ -29,6 +30,9 @@ class User(db.Model):
             avatar_url = url_for('uploads.serve_file', 
                                  filename=self.avatar_filename, 
                                  _external=True)
+        cover_url = None
+        if self.cover_filename:
+            cover_url = url_for('uploads.serve_file', filename=self.cover_filename, _external=True)
 
         return {
             "id": self.id,
@@ -38,4 +42,5 @@ class User(db.Model):
             "date_of_birth": self.date_of_birth.isoformat() if self.date_of_birth else None,
             "gender": self.gender,
             "avatar_url": avatar_url,
+            "cover_url": cover_url,
         }
