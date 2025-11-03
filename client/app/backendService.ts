@@ -51,7 +51,6 @@ export async function register(data: RegisterData): Promise<Res<null>> {
 }
 
 const preparePostFormData = async (content: string, localImageUri: string) => {
-    // ... (implementation uses Platform.OS === 'web' and appends 'content' and 'image') ...
     const formData = new FormData();
     formData.append('content', content);
     
@@ -81,21 +80,12 @@ export async function createPost(data: CreatePostData): Promise<Res<Post>> {
     let options: RequestInit = { method: 'POST' };
 
     if (localImageUri) {
-        // 1. File upload logic (uses preparePostFormData)
         options.body = await preparePostFormData(content, localImageUri);
-        // Headers are omitted and handled automatically for FormData
     } else {
-        // 2. Text-only logic: 
-        // This logic MUST execute when submitting text without an image.
-        
-        // CRITICAL: Set body as stringified JSON
         options.body = JSON.stringify({ content });
-        
-        // CRITICAL: Explicitly set Content-Type for JSON posts
         options.headers = { 'Content-Type': 'application/json' };
     }
 
-    // authRequest wrapper handles token and final header merging.
     return authRequest(
         endpoint,
         options,
