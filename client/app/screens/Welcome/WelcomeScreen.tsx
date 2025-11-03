@@ -3,9 +3,11 @@ import { View, Text, Button, ActivityIndicator } from 'react-native';
 import { WelcomeScreenProps } from '../../types/navigation';
 import { getAuthToken } from '../../utils/authUtils';
 import styles from './WelcomeScreen.styles';
+import { useRouter } from 'expo-router';
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -39,10 +41,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>FaceVerse</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={() => navigation.navigate('Login')} />
+        <Button title="Login" onPress={() => router.push('/login')} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Register" onPress={() => navigation.navigate('Register')} />
+        <Button title="Register" onPress={() => router.push('/register')} />
       </View>
     </View>
   );

@@ -144,3 +144,7 @@ client/GoogleService-Info.plist # Usually downloaded, not committed
 # =========================================================================
 .watchmanconfig # Watchman config file
 
+*.sqlite
+*.sqlite3
+server/faceVerse.db
+server/uploads

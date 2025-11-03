@@ -4,7 +4,7 @@ import {
   Text,
   Button,
   ActivityIndicator,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 import { HomeScreenProps } from '../../types/navigation';
 import { UserData } from '../../types/types';
@@ -20,11 +20,13 @@ import {
 import PostFeed from './PostFeed';
 import { colors } from '../../theme';
 import MenuModal from './MenuModal';
+import { useRouter } from 'expo-router';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const verifyAuthAndLoadData = async () => {
@@ -35,7 +37,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           console.log(
             'No auth token in SecureStore on Home, navigating to Welcome.'
           );
-          navigation.replace('Welcome');
+          router.replace('/');
           return;
         }
 
@@ -50,7 +52,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         }
       } catch (e) {
         console.error('Failed during auth verification or data load on Home.', e);
-        navigation.replace('Welcome');
+        router.replace('/');
       } finally {
         setIsLoading(false);
       }
@@ -65,14 +67,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       await deleteAuthToken();
       await removeUserData();
       console.log('Auth token and user data removed, navigating to Welcome.');
-      navigation.replace('Welcome');
+      router.replace('/');
     } catch (e) {
       console.error('Failed to logout.', e);
     }
   };
 
-  const handleNavigate = (screen: 'Profile' | 'Settings') => {
-    navigation.navigate(screen);
+const handleNavigate = (screen: '/profile' | '/settings') => {
+    router.push(screen);
     setIsMenuVisible(false);
   };
 
@@ -90,7 +92,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <Text>User data not present, or session expired...</Text>
         <Button
           title="Przejdź do logowania"
-          onPress={() => navigation.replace('Welcome')}
+          onPress={() => router.navigate('/')}
         />
       </View>
     );

@@ -1,10 +1,10 @@
 import os
+from dotenv import load_dotenv
 from flask import Flask
-from extensions import db, jwt
+from extensions import db, jwt, migrate
 from flask_cors import CORS
 from models.user import User
 from models.post import Post 
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -21,6 +21,10 @@ def create_app():
 
     if not app.config["JWT_SECRET_KEY"]:
         raise ValueError("No JWT_SECRET_KEY set! Check your .env file.")
+    
+    UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     basedir = os.path.abspath(os.path.dirname(__file__))
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'faceVerse.db')
@@ -28,11 +32,13 @@ def create_app():
 
     db.init_app(app)
     jwt.init_app(app)
-
+    migrate.init_app(app, db)
     from controllers.userController import users_bp
     from controllers.postController import posts_bp
+    from controllers.uploadController import uploads_bp
     app.register_blueprint(users_bp, url_prefix='/users') 
-    app.register_blueprint(posts_bp, url_prefix='/posts') 
+    app.register_blueprint(posts_bp, url_prefix='/posts')
+    app.register_blueprint(uploads_bp, url_prefix='/uploads')
 
     return app
 

@@ -5,6 +5,7 @@ import { Gender, RegisterData, RegisterFormData, Res, ResponseStatus } from '../
 import { register } from '../../backendService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './RegisterScreen.styles';
+import { useRouter } from 'expo-router';
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -20,6 +21,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
+  const router = useRouter();
 
   const handleChange = (name: keyof typeof formData, value: string) => {
     setFormData(prevData => ({ ...prevData, [name]: value }));
@@ -73,7 +75,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       });
 
       console.log('Registration successful, navigating to Login.');
-      navigation.navigate('Login');
+      router.replace('/login');
     } else {
       console.error('Registration Error:', registerRes.message);
       setMessage(registerRes.message || 'Error, try again.');
@@ -85,7 +87,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.topBarContainer}>
-        <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+        <Pressable onPress={() => router.back()} style={styles.backButton}>
           <Text style={styles.backButtonText}>{"< Back"}</Text>
         </Pressable>
       </View>

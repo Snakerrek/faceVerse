@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "./config";
 import { LoginResponse, UserData, LoginData, ResponseStatus, Res, RegisterData, CreatePostData, Post } from "./types/types";
-import { saveAuthToken, authRequest } from "./utils/authUtils";
+import { saveAuthToken, authRequest, getAuthToken } from "./utils/authUtils";
 import { storeUserData } from "./utils/storageUtils";
 
 export async function login(data: LoginData): Promise<Res<null>> {
@@ -67,4 +67,33 @@ export async function getPosts(): Promise<Res<Post[]>> {
             method: 'GET',
         }
     );
+}
+
+export async function uploadAvatar(formData: FormData): Promise<Res<UserData>> {
+    try {
+        const token = await getAuthToken();
+        if (!token) {
+            return { status: ResponseStatus.ERROR, message: 'No authentication token found.' };
+        }
+
+        const response = await fetch(`${API_BASE_URL}/uploads/avatar`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            return { status: ResponseStatus.OK, data: result as UserData };
+        } else {
+            return { status: ResponseStatus.ERROR, message: result.error || `Upload failed (Status: ${response.status})` };
+        }
+    } catch (error) {
+        console.error('Upload Avatar Error:', error);
+        const message = error instanceof Error ? error.message : 'An unknown error occurred.';
+        return { status: ResponseStatus.ERROR, message };
+    }
 }

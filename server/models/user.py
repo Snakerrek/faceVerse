@@ -1,5 +1,6 @@
 from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import url_for
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -11,6 +12,7 @@ class User(db.Model):
     date_of_birth = db.Column(db.Date, nullable=True)
     gender = db.Column(db.String(50), nullable=True)
     posts = db.relationship('Post', backref='author', lazy=True)
+    avatar_filename = db.Column(db.String(128), nullable=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
@@ -22,11 +24,18 @@ class User(db.Model):
         return f'<User {self.email}>'
 
     def to_dict(self):
+        avatar_url = None
+        if self.avatar_filename:
+            avatar_url = url_for('uploads.serve_file', 
+                                 filename=self.avatar_filename, 
+                                 _external=True)
+
         return {
             "id": self.id,
             "email": self.email,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "date_of_birth": self.date_of_birth.isoformat() if self.date_of_birth else None,
-            "gender": self.gender
+            "gender": self.gender,
+            "avatar_url": avatar_url,
         }

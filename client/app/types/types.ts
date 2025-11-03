@@ -5,6 +5,7 @@ export type UserData = {
     last_name: string;
     date_of_birth?: string | null;
     gender?: string | null;
+    avatar_url: string | null;
 }
 
 export type LoginResponse = {

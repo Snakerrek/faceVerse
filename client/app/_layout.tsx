@@ -1,5 +1,15 @@
-import AppNavigator from "./AppNavigator";
+import React from 'react';
+import { Stack } from 'expo-router';
 
 export default function RootLayout() {
-  return <AppNavigator />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="register" options={{ headerShown: false }} />
+      <Stack.Screen name="home" options={{ headerShown: false }} />
+      <Stack.Screen name="profile" options={{ title: 'My Profile' }} />
+      <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+    </Stack>
+  );
 }

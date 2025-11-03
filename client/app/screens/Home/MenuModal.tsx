@@ -11,7 +11,7 @@ import styles from './HomeScreen.styles';
 interface MenuModalProps {
   visible: boolean;
   onClose: () => void;
-  onNavigate: (screen: 'Profile' | 'Settings') => void;
+  onNavigate: (screen: '/profile' | '/settings') => void;
   onLogout: () => void;
 }
 
@@ -35,14 +35,14 @@ const MenuModal: React.FC<MenuModalProps> = ({
         <View style={styles.menuContainer} onStartShouldSetResponder={() => true}>
           <TouchableOpacity
             style={styles.menuOption}
-            onPress={() => onNavigate('Profile')}
+            onPress={() => onNavigate('/profile')}
           >
             <Text style={styles.menuOptionText}>My Profile</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.menuOption}
-            onPress={() => onNavigate('Settings')}
+            onPress={() => onNavigate('/settings')}
           >
             <Text style={styles.menuOptionText}>Settings</Text>
           </TouchableOpacity>
