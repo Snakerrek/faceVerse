@@ -3,7 +3,6 @@ import {
   View, 
   Text, 
   SafeAreaView,
-  Image,
   Alert,
   Platform,
   TouchableOpacity

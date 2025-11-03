@@ -11,22 +11,34 @@ import {
 import { Post } from '../../types/types';
 import styles from './HomeScreen.styles';
 import UserAvatar from '../../components/UserAvatar';
+import { useRouter } from 'expo-router';
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const postTimestamp = new Date(post.timestamp).toLocaleString();
+  const router = useRouter();
 
+  const handleProfilePress = () => {
+    router.push({
+      pathname: "/profile",
+      params: { userId: post.user_id },
+    });
+  };
 
   return (
     <View style={styles.postCard}>
       <View style={styles.postHeader}>
-        <UserAvatar 
-          avatarUrl={post.author_avatar_url} 
-          size='small' 
-        />
-        <View style={styles.postHeaderText}>
-          <Text style={styles.postUserName}>{post.author_name}</Text>
-          <Text style={styles.postTimestamp}>{postTimestamp}</Text>
-        </View>
+        <TouchableOpacity 
+        style={styles.postHeader}
+        onPress={handleProfilePress}>
+          <UserAvatar 
+            avatarUrl={post.author_avatar_url} 
+            size='small' 
+          />
+          <View style={styles.postHeaderText}>
+            <Text style={styles.postUserName}>{post.author_name}</Text>
+            <Text style={styles.postTimestamp}>{postTimestamp}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.postContent}>{post.content}</Text>
