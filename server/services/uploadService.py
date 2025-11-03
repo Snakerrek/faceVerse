@@ -13,7 +13,7 @@ class UploadService:
     @staticmethod
     def allowed_file(filename, mimetype):
         is_allowed_by_extension = '.' in filename and \
-                                  filename.rsplit('.', 1)[1].lower() in UploadService.ALLOWED_EXTENSIONS
+        filename.rsplit('.', 1)[1].lower() in UploadService.ALLOWED_EXTENSIONS
         is_allowed_by_mimetype = mimetype in UploadService.ALLOWED_MIMETYPES
         
         if filename == '' and is_allowed_by_mimetype:

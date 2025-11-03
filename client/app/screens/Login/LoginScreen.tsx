@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react'; // 👈 Import useRef
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
-  TextInput, // 👈 Import TextInput type
+  TextInput,
   Button,
   ActivityIndicator,
   Pressable,
@@ -10,9 +10,9 @@ import {
   ScrollView,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { ResponseStatus, Res, LoginData } from '../../types/types'; // Adjust path if needed
-import { login } from '../../backendService'; // Adjust path if needed
-import styles from './LoginScreen.styles'; // Adjust path if needed
+import { ResponseStatus, Res, LoginData } from '../../types/types';
+import { login } from '../../backendService';
+import styles from './LoginScreen.styles';
 
 const LoginScreen: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({ email: '', password: '' });

@@ -6,14 +6,13 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  Image
 } from 'react-native';
+import UserAvatar from '../../components/UserAvatar';
 import { createPost, getPosts } from '../../backendService';
 import { Post, ResponseStatus, UserData } from '../../types/types';
 import styles from './HomeScreen.styles';
 import { colors } from '../../theme';
 import PostCard from './PostCard';
-const defaultAvatar = require('../../../assets/default_avatar.jpg');
 
 interface PostFeedProps {
   user: UserData;
@@ -56,10 +55,6 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
     setIsPosting(false);
   };
 
-  const userAvatarSource = user.avatar_url
-    ? { uri: user.avatar_url }
-    : defaultAvatar;
-
   return (
     <FlatList
       style={styles.feed}
@@ -71,7 +66,10 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
       ListHeaderComponent={
         <>
           <View style={styles.createPostContainer}>
-            <Image source={userAvatarSource} style={styles.avatar} />
+            <UserAvatar 
+              avatarUrl={user.avatar_url} 
+              size='small'
+            />
             <TextInput
               style={styles.postInput}
               placeholder={`What are you thinking about, ${user.first_name}?`}

@@ -1,5 +1,3 @@
-// client/app/screens/Settings/SettingsScreen.styles.ts
-
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme';
 
@@ -18,8 +16,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  
-  // --- 👇 NEW STYLES FOR UPLOADS 👇 ---
   coverSection: {
     width: '100%',
     alignItems: 'center',
@@ -38,7 +34,7 @@ const styles = StyleSheet.create({
   },
   cover: {
     width: '100%',
-    height: 120, // Rectangular cover size
+    height: 120,
     borderRadius: 8,
     marginBottom: 15,
   },
@@ -63,7 +59,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   }
-  // ------------------------------------
 });
 
 export default styles;

@@ -7,15 +7,14 @@ import { getPostsByUserId, getUserById } from '../../backendService';
 import styles from './ProfileScreen.styles';
 import { colors } from '../../theme';
 import PostCard from '../Home/PostCard'; 
-
-const defaultAvatar = require('../../../assets/default_avatar.jpg'); 
+import UserAvatar from '../../components/UserAvatar';
 
 interface ProfileParams {
     userId?: string;
 }
 
 const ProfileScreen: React.FC = () => {
-    const params = useLocalSearchParams<ProfileParams>();
+    const params = useLocalSearchParams() as ProfileParams;
     const router = useRouter();
     
     const [profileUser, setProfileUser] = useState<UserData | null>(null);
@@ -76,17 +75,12 @@ const ProfileScreen: React.FC = () => {
         if (!profileUser) return null;
 
         const isCurrentUser = targetUserId === null; 
-        
-        const avatarSource = profileUser.avatar_url
-            ? { uri: profileUser.avatar_url }
-            : defaultAvatar;
 
         const coverSource = profileUser.cover_url
             && { uri: profileUser.cover_url }
             
         return (
             <View>
-                {/* 1. Cover Photo Area */}
                 <View style={styles.headerBackground}>
                     {coverSource ? (
                         <Image source={coverSource} style={styles.headerBackground} resizeMode="cover" />
@@ -96,10 +90,11 @@ const ProfileScreen: React.FC = () => {
                 </View>
 
                 <View style={styles.profileContent}>
-                    {/* 2. Avatar Container */}
                     <View style={styles.avatarContainer}>
-                        {/* 👇 Displays the Avatar Image 👇 */}
-                        <Image source={avatarSource} style={styles.avatar} /> 
+                        <UserAvatar 
+                            avatarUrl={profileUser.avatar_url} 
+                            size='large'
+                        />
                     </View>
                     
                     <Text style={styles.name}>{`${profileUser.first_name} ${profileUser.last_name}`}</Text>

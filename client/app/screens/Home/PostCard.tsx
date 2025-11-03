@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import {
   Ionicons,
@@ -11,19 +10,19 @@ import {
 } from '@expo/vector-icons';
 import { Post } from '../../types/types';
 import styles from './HomeScreen.styles';
-const defaultAvatar = require('../../../assets/default_avatar.jpg');
+import UserAvatar from '../../components/UserAvatar';
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const postTimestamp = new Date(post.timestamp).toLocaleString();
-  
-  const authorAvatarSource = post.author_avatar_url
-    ? { uri: post.author_avatar_url }
-    : defaultAvatar;
+
 
   return (
     <View style={styles.postCard}>
       <View style={styles.postHeader}>
-        <Image source={authorAvatarSource} style={styles.avatar} />
+        <UserAvatar 
+          avatarUrl={post.author_avatar_url} 
+          size='small' 
+        />
         <View style={styles.postHeaderText}>
           <Text style={styles.postUserName}>{post.author_name}</Text>
           <Text style={styles.postTimestamp}>{postTimestamp}</Text>

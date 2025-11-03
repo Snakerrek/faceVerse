@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { 
   View, 
   Text, 
-  SafeAreaView, 
-  Button, 
+  SafeAreaView,
   Image,
   Alert,
-  ActivityIndicator,
-  Platform, // 👈 Import Platform
-  TouchableOpacity // 👈 Import TouchableOpacity
+  Platform,
+  TouchableOpacity
 } from 'react-native';
 import styles from './SettingsScreen.styles';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,6 +15,7 @@ import { UserData, ResponseStatus } from '../../types/types';
 import { uploadAvatar, uploadCover } from '../../backendService';
 import { colors } from '../../theme'; 
 import { useRouter } from 'expo-router';
+import UserAvatar from '../../components/UserAvatar';
 
 const prepareFormData = async (uri: string, filename: string, key: 'avatar' | 'cover') => {
     const formData = new FormData();
@@ -38,11 +37,9 @@ const prepareFormData = async (uri: string, filename: string, key: 'avatar' | 'c
     return formData;
 };
 
-const defaultAvatar = require('../../../assets/default_avatar.jpg'); 
 const SettingsScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const loadData = async () => {
@@ -104,12 +101,10 @@ const SettingsScreen: React.FC = () => {
     );
   }
 
-  const avatarSource = user.avatar_url ? { uri: user.avatar_url } : defaultAvatar;
   const coverSource = user.cover_url && { uri: user.cover_url };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button title="Go Back" onPress={() => router.back()} />
       
       <View style={styles.content}>
         <Text style={styles.title}>Settings</Text>
@@ -128,7 +123,10 @@ const SettingsScreen: React.FC = () => {
 
         <View style={styles.avatarSection}>
             <Text style={styles.label}>Profile Picture</Text>
-            <Image style={styles.avatar} source={avatarSource} />
+            <UserAvatar 
+                avatarUrl={user?.avatar_url} 
+                size='medium'
+            />
             <TouchableOpacity
                 onPress={handlePickAndUploadAvatar}
                 style={[styles.button, {backgroundColor: colors.blue}]}
