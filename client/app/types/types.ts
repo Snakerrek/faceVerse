@@ -62,6 +62,7 @@ export interface Post {
   timestamp: string;
   user_id: number;
   author_name: string;
+  author_avatar_url: string | null;
 }
 
 export interface CreatePostData {

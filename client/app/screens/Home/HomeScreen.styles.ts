@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     paddingHorizontal: 15,
     fontSize: 16,
+    paddingTop: 8
   },
 
   postCard: {

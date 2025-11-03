@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
+  Image
 } from 'react-native';
 import { createPost, getPosts } from '../../backendService';
 import { Post, ResponseStatus, UserData } from '../../types/types';
 import styles from './HomeScreen.styles';
 import { colors } from '../../theme';
 import PostCard from './PostCard';
+const defaultAvatar = require('../../../assets/default-avatar.png');
 
 interface PostFeedProps {
   user: UserData;
@@ -22,8 +24,6 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
   const [newPostContent, setNewPostContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
-
-  const userInitial = user.first_name ? user.first_name[0] : '?';
 
   const fetchPosts = async () => {
     setIsLoading(true);
@@ -56,6 +56,10 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
     setIsPosting(false);
   };
 
+  const userAvatarSource = user.avatar_url
+    ? { uri: user.avatar_url }
+    : defaultAvatar;
+
   return (
     <FlatList
       style={styles.feed}
@@ -67,9 +71,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
       ListHeaderComponent={
         <>
           <View style={styles.createPostContainer}>
-            <View style={styles.avatar}>
-              <Text style={styles.avatarLetter}>{userInitial}</Text>
-            </View>
+            <Image source={userAvatarSource} style={styles.avatar} />
             <TextInput
               style={styles.postInput}
               placeholder={`What are you thinking about, ${user.first_name}?`}

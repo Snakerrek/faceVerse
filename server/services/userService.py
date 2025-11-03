@@ -22,8 +22,9 @@ class UserService:
             except ValueError:
                 return jsonify({"error": "Wrong date format. Use YYYY-MM-DD."}), 400
 
+
         new_user = User(
-            email=data['email'],
+            email=data['email'].lower(),
             first_name=data['first_name'],
             last_name=data['last_name'],
             date_of_birth=user_date_of_birth,
@@ -48,9 +49,11 @@ class UserService:
     def update_user(id, data):
         user = db.get_or_404(User, id)
         if not data:
-            return jsonify({"error": "Brakujące dane"}), 400
+            return jsonify({"error": "Required data missing"}), 400
 
-        user.email = data.get('email', user.email)
+        email_to_save = data['email'].lower()
+        user.email = data.get('email', email_to_save)
+
         if 'password' in data and data['password']:
             user.set_password(data['password'])
         user.first_name = data.get('first_name', user.first_name)
@@ -81,7 +84,7 @@ class UserService:
         email = data.get('email')
         password = data.get('password')
 
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter(User.email == email.lower()).first()
 
         if not user or not user.check_password(password):
             return jsonify({"error": "Wrong data"}), 401
