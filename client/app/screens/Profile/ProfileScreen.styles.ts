@@ -1,71 +1,89 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../theme';
+import { colors, spacing, borderRadiuses } from '../../theme';
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
+  loader: {
+    marginTop: spacing.large,
+  },
+  list: {
+    flex: 1,
+  },
+  
   profileContent: {
-    paddingHorizontal: 15,
-    paddingBottom: 20,
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
+    alignItems: 'center',
+    paddingBottom: spacing.medium,
+    marginTop: -60, 
+    paddingHorizontal: spacing.medium,
   },
   avatarContainer: {
-    marginTop: -80,
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  avatar: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    borderWidth: 4,
-    borderColor: colors.white,
+    marginTop: -60, 
   },
   name: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     color: colors.primaryText,
-    textAlign: 'center',
+    marginTop: spacing.medium,
   },
-  bio: {
+
+  infoContainer: {
+    width: '100%',
+    backgroundColor: colors.white,
+    borderRadius: borderRadiuses.small,
+    padding: spacing.medium,
+    marginTop: spacing.medium,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.medium,
+  },
+  infoRowLast: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 0,
+  },
+  infoIcon: {
+    marginRight: spacing.medium,
+  },
+  infoText: {
     fontSize: 16,
-    color: colors.secondaryText,
-    textAlign: 'center',
-    marginBottom: 15,
+    color: colors.primaryText,
   },
+
   actionButtonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
+    marginTop: spacing.medium,
+    width: '100%',
   },
   actionButton: {
     flex: 1,
-    marginHorizontal: 5,
-    padding: 10,
-    borderRadius: 6,
-    alignItems: 'center',
     backgroundColor: colors.blue,
+    paddingVertical: 12,
+    borderRadius: borderRadiuses.small,
+    alignItems: 'center',
+    marginHorizontal: spacing.small / 2,
   },
   actionButtonText: {
     color: colors.white,
+    fontSize: 16,
     fontWeight: 'bold',
   },
-  postsSectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    padding: 15,
-    color: colors.primaryText,
-    backgroundColor: colors.background,
-  },
-  list: {
-  },
-  loader: {
-    paddingVertical: 40,
-  }
-});
 
-export default styles;
+  postsSectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.primaryText,
+    paddingHorizontal: spacing.medium,
+    marginTop: spacing.large,
+    marginBottom: spacing.small,
+  },
+});

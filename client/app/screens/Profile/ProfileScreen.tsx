@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, FlatList, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
+import { 
+  View, 
+  Text, 
+  SafeAreaView, 
+  FlatList, 
+  ActivityIndicator, 
+  Alert, 
+  TouchableOpacity 
+} from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getUserData } from '../../utils/storageUtils';
 import { UserData, Post, ResponseStatus } from '../../types/types';
@@ -9,6 +17,7 @@ import { colors } from '../../theme';
 import PostCard from '../Home/PostCard'; 
 import UserAvatar from '../../components/UserAvatar';
 import ProfileBackground from '../../components/ProfileBackground';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; // Import icons
 
 interface ProfileParams {
     userId?: string;
@@ -72,6 +81,21 @@ const ProfileScreen: React.FC = () => {
         fetchProfileData();
     }, [targetUserId]); 
 
+    const formatDOB = (dateString: string | null | undefined) => {
+        if (!dateString) return 'Not set';
+        try {
+            const parts = dateString.split('T')[0].split('-');
+            const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+        } catch (error) {
+            return dateString;
+        }
+    };
+
     const renderProfileHeader = () => {
         if (!profileUser) return null;
 
@@ -94,7 +118,42 @@ const ProfileScreen: React.FC = () => {
                     </View>
                     
                     <Text style={styles.name}>{`${profileUser.first_name} ${profileUser.last_name}`}</Text>
-                    <Text style={styles.bio}>faceVerse user</Text>
+                    
+                    <View style={styles.infoContainer}>
+                        <View style={styles.infoRow}>
+                            <MaterialCommunityIcons
+                                name="email-outline"
+                                size={24}
+                                color={colors.blue}
+                                style={styles.infoIcon}
+                            />
+                            <Text style={styles.infoText}>{profileUser.email}</Text>
+                        </View>
+                        
+                        <View style={styles.infoRow}>
+                            <MaterialCommunityIcons
+                                name="cake-variant-outline"
+                                size={24}
+                                color={colors.blue}
+                                style={styles.infoIcon}
+                            />
+                            <Text style={styles.infoText}>
+                                Born {formatDOB(profileUser.date_of_birth)}
+                            </Text>
+                        </View>
+
+                        <View style={styles.infoRowLast}>
+                            <MaterialCommunityIcons
+                                name="account-outline"
+                                size={24}
+                                color={colors.blue}
+                                style={styles.infoIcon}
+                            />
+                            <Text style={styles.infoText}>
+                                {profileUser.gender || 'Not specified'}
+                            </Text>
+                        </View>
+                    </View>
 
                     <View style={styles.actionButtonRow}>
                         {isCurrentUser ? (
@@ -102,15 +161,12 @@ const ProfileScreen: React.FC = () => {
                                 style={[styles.actionButton, {backgroundColor: colors.iconBackground}]}
                                 onPress={() => router.push('/settings')} 
                              >
-                                <Text style={[styles.actionButtonText, {color: colors.primaryText}]}>Edit Profile</Text>
+                                 <Text style={[styles.actionButtonText, {color: colors.primaryText}]}>Edit Profile</Text>
                              </TouchableOpacity>
                         ) : (
                             <>
                                 <TouchableOpacity style={styles.actionButton}>
                                     <Text style={styles.actionButtonText}>Add Friend</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.actionButton, {backgroundColor: colors.iconBackground}]}>
-                                    <Text style={[styles.actionButtonText, {color: colors.primaryText}]}>Message</Text>
                                 </TouchableOpacity>
                             </>
                         )}
@@ -132,7 +188,7 @@ const ProfileScreen: React.FC = () => {
     if (!profileUser) {
         return (
             <SafeAreaView style={styles.container}>
-                <Text style={styles.postsSectionTitle}>Error: Profile not found.</Text>
+                <Text style={[styles.postsSectionTitle, {textAlign: 'center'}]}>Error: Profile not found.</Text>
             </SafeAreaView>
         );
     }

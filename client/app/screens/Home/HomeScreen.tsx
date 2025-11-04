@@ -15,7 +15,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Ionicons,
   FontAwesome5,
-  MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import PostFeed from './PostFeed';
 import { colors } from '../../theme';
