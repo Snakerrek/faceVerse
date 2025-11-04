@@ -1,6 +1,8 @@
 from extensions import db
 from datetime import datetime
-from flask import url_for
+from helpers.mixins import AuthorInfoMixin, LikeableMixin
+from helpers.helperFunctions import generate_file_url
+
 
 post_likes = db.Table(
     'post_likes',
@@ -9,7 +11,7 @@ post_likes = db.Table(
 )
 
 
-class Post(db.Model):
+class Post(AuthorInfoMixin, LikeableMixin, db.Model):
     __tablename__ = 'posts'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -46,38 +48,12 @@ class Post(db.Model):
             "author_avatar_url": self._get_author_avatar_url(),
             "image_url": self._get_image_url(),
             "like_count": self._get_like_count(),
-            "is_liked_by_current_user": self._is_liked_by_user(current_user_id),
+            "is_liked_by_current_user": self._is_liked_by_user(current_user_id, post_likes),
             "comment_count": self._get_comment_count()
         }
     
-    def _get_author_name(self):
-        return f"{self.author.first_name} {self.author.last_name}"
-    
-    def _get_author_avatar_url(self):
-        if not self.author.avatar_filename:
-            return None
-        return url_for(
-            'uploads.serve_file',
-            filename=self.author.avatar_filename,
-            _external=True
-        )
-    
     def _get_image_url(self):
-        if not self.image_filename:
-            return None
-        return url_for(
-            'uploads.serve_file',
-            filename=self.image_filename,
-            _external=True
-        )
-    
-    def _get_like_count(self):
-        return self.likes.count()
-    
-    def _is_liked_by_user(self, user_id):
-        if not user_id:
-            return False
-        return self.likes.filter(post_likes.c.user_id == user_id).count() > 0
+        return generate_file_url(self.image_filename)
     
     def _get_comment_count(self):
         return self.comments.count()

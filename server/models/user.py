@@ -1,6 +1,6 @@
 from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import url_for
+from helpers.helperFunctions import generate_file_url
 
 
 class User(db.Model):
@@ -48,27 +48,9 @@ class User(db.Model):
             "last_name": self.last_name,
             "date_of_birth": self._format_date_of_birth(),
             "gender": self.gender,
-            "avatar_url": self._get_avatar_url(),
-            "cover_url": self._get_cover_url(),
+            "avatar_url": generate_file_url(self.avatar_filename),
+            "cover_url": generate_file_url(self.cover_filename),
         }
     
     def _format_date_of_birth(self):
         return self.date_of_birth.isoformat() if self.date_of_birth else None
-    
-    def _get_avatar_url(self):
-        if not self.avatar_filename:
-            return None
-        return url_for(
-            'uploads.serve_file',
-            filename=self.avatar_filename,
-            _external=True
-        )
-    
-    def _get_cover_url(self):
-        if not self.cover_filename:
-            return None
-        return url_for(
-            'uploads.serve_file',
-            filename=self.cover_filename,
-            _external=True
-        )

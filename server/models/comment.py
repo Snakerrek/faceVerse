@@ -1,6 +1,6 @@
 from extensions import db
 from datetime import datetime
-from flask import url_for
+from helpers.mixins import AuthorInfoMixin, LikeableMixin
 
 
 comment_likes = db.Table(
@@ -10,7 +10,7 @@ comment_likes = db.Table(
 )
 
 
-class Comment(db.Model):
+class Comment(AuthorInfoMixin, LikeableMixin, db.Model):
     __tablename__ = 'comments'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -40,25 +40,5 @@ class Comment(db.Model):
             "author_name": self._get_author_name(),
             "author_avatar_url": self._get_author_avatar_url(),
             "like_count": self._get_like_count(),
-            "is_liked_by_current_user": self._is_liked_by_user(current_user_id)
+            "is_liked_by_current_user": self._is_liked_by_user(current_user_id, comment_likes)
         }
-    
-    def _get_author_name(self):
-        return f"{self.author.first_name} {self.author.last_name}"
-    
-    def _get_author_avatar_url(self):
-        if not self.author.avatar_filename:
-            return None
-        return url_for(
-            'uploads.serve_file',
-            filename=self.author.avatar_filename,
-            _external=True
-        )
-    
-    def _get_like_count(self):
-        return self.likes.count()
-    
-    def _is_liked_by_user(self, user_id):
-        if not user_id:
-            return False
-        return self.likes.filter(comment_likes.c.user_id == user_id).count() > 0
