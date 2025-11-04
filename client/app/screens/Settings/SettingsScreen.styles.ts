@@ -1,64 +1,29 @@
-import { StyleSheet } from 'react-native';
-import { colors } from '../../theme';
+import { StyleSheet } from "react-native";
+import { colors, spacing } from "../../theme";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
   content: {
     flex: 1,
-    padding: 20,
-    alignItems: 'center',
+    padding: spacing.medium,
+    alignItems: "center",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontWeight: "bold",
+    marginBottom: spacing.medium,
+    color: colors.tertiaryText,
   },
-  coverSection: {
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 30,
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  avatarSection: {
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  label: {
+  errorText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: colors.primaryText,
-    marginBottom: 10,
+    color: colors.danger,
   },
-  cover: {
-    width: '100%',
-    height: 120,
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: colors.iconBackground,
-    marginBottom: 15,
-    borderWidth: 2,
-    borderColor: colors.borderLight,
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-    minWidth: 200,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: colors.white,
-    fontWeight: 'bold',
-    fontSize: 16,
-  }
 });
-
-export default styles;
