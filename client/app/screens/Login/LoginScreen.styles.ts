@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { colors } from '../../theme';
+import { StyleSheet } from "react-native";
+import { colors } from "../../theme";
 
 export const styles = StyleSheet.create({
   safeArea: {
@@ -7,16 +7,16 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   topBarContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
     paddingHorizontal: 10,
     paddingTop: 10,
     paddingBottom: 5,
   },
   backButton: {
     padding: 10,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   backButtonText: {
     fontSize: 18,
@@ -24,72 +24,36 @@ export const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingBottom: 20,
   },
   headerContentContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     paddingHorizontal: 20,
     marginTop: 40,
     marginBottom: 30,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
   formContainer: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 30,
   },
-  label: {
-    fontSize: 12,
-    color: colors.secondaryText,
-    marginBottom: 4,
-    alignSelf: 'flex-start',
-  },
-  inputWrapperFull: {
-    width: '100%',
-    marginBottom: 15,
-  },
   inputWrapperFullWithMargin: {
-    width: '100%',
+    width: "100%",
     marginBottom: 25,
   },
-  input: {
-    height: 50,
-    borderColor: colors.borderLight,
-    borderWidth: 1,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    backgroundColor: colors.inputBackground,
-    fontSize: 16,
-  },
-  errorMessage: {
-    color: colors.danger,
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  successMessage: {
-    color: colors.success,
-    marginBottom: 15,
-    textAlign: 'center',
+  activityIndicator: {
+    color: colors.blue,
   },
   buttonWrapper: {
     marginTop: 10,
-    width: '100%',
-  },
-
-  activityIndicator: {
-    color: colors.blue,
   },
   button: {
     color: colors.blue,
   },
-  placeholder: {
-    color: colors.secondaryText,
-  },
 });
-
-export default styles;
