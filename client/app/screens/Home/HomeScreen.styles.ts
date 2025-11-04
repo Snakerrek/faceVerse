@@ -392,6 +392,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
   },
+
   commentActions: {
     flexDirection: "row",
     alignItems: "center",
