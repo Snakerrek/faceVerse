@@ -11,7 +11,9 @@ class User(db.Model):
     last_name = db.Column(db.String(80), nullable=False)
     date_of_birth = db.Column(db.Date, nullable=True)
     gender = db.Column(db.String(50), nullable=True)
-    posts = db.relationship('Post', backref='author', lazy=True)
+    
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    
     avatar_filename = db.Column(db.String(128), nullable=True)
     cover_filename = db.Column(db.String(128), nullable=True)
 
@@ -19,6 +21,8 @@ class User(db.Model):
                                   secondary='post_likes',
                                   back_populates='likes',
                                   lazy='dynamic')
+                                  
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
@@ -33,8 +37,8 @@ class User(db.Model):
         avatar_url = None
         if self.avatar_filename:
             avatar_url = url_for('uploads.serve_file', 
-                                 filename=self.avatar_filename, 
-                                 _external=True)
+                               filename=self.avatar_filename, 
+                               _external=True)
         cover_url = None
         if self.cover_filename:
             cover_url = url_for('uploads.serve_file', filename=self.cover_filename, _external=True)
@@ -49,3 +53,4 @@ class User(db.Model):
             "avatar_url": avatar_url,
             "cover_url": cover_url,
         }
+

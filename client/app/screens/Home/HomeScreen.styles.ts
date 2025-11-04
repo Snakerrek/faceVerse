@@ -330,6 +330,64 @@ const styles = StyleSheet.create({
     color: "#65676B",
     fontSize: 16,
   },
+  postStatsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingTop: 10,
+  },
+
+  commentCountContainer: {
+    paddingVertical: 5,
+  },
+
+  commentCountText: {
+    fontSize: 14,
+    color: "#65676B",
+  },
+  emptyListContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 40,
+  },
+  commentItem: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  commentContent: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: "#F0F2F5",
+    borderRadius: 15,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  commentInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: "#FFFFFF",
+  },
+  commentInput: {
+    flex: 1,
+    backgroundColor: "#F0F2F5",
+    borderRadius: 18,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    fontSize: 16,
+    maxHeight: 100,
+  },
+  commentSendButton: {
+    marginLeft: 10,
+    padding: 5,
+  },
 });
 
 export default styles;

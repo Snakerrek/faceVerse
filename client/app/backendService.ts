@@ -9,6 +9,8 @@ import {
   CreatePostData,
   Post,
   LikeResponse,
+  Comment,
+  CreateCommentResponse,
 } from "./types/types";
 import { saveAuthToken, authRequest, getAuthToken } from "./utils/authUtils";
 import { storeUserData } from "./utils/storageUtils";
@@ -234,4 +236,33 @@ export async function uploadCover(formData: FormData): Promise<Res<UserData>> {
       error instanceof Error ? error.message : "An unknown error occurred.";
     return { status: ResponseStatus.ERROR, message };
   }
+}
+
+export async function getCommentsForPost(
+  postId: number
+): Promise<Res<Comment[]>> {
+  return authRequest(
+    `/posts/${postId}/comments`,
+    {
+      method: "GET",
+    },
+    (json) => json as Comment[]
+  );
+}
+
+export async function createComment(
+  postId: number,
+  content: string
+): Promise<Res<CreateCommentResponse>> {
+  return authRequest(
+    `/posts/${postId}/comment`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ content }),
+    },
+    (json) => json as CreateCommentResponse
+  );
 }

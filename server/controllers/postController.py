@@ -60,4 +60,24 @@ def like_post(post_id):
 @posts_bp.route('/<int:post_id>/likes', methods=['GET'])
 @jwt_required()
 def get_post_likers(post_id):
+    """New endpoint to get the list of users who liked a post."""
     return PostService.get_post_likers(post_id)
+
+@posts_bp.route('/<int:post_id>/comment', methods=['POST'])
+@jwt_required()
+def create_comment(post_id):
+    """Creates a new comment on a specific post."""
+    user_id = int(get_jwt_identity())
+    data = request.get_json()
+    
+    if not data or 'content' not in data:
+        return jsonify({"error": "Missing 'content' in JSON body"}), 400
+        
+    return PostService.create_comment(post_id, user_id, data)
+
+@posts_bp.route('/<int:post_id>/comments', methods=['GET'])
+@jwt_required()
+def get_comments(post_id):
+    """Fetches all comments for a specific post."""
+    return PostService.get_comments_for_post(post_id)
+

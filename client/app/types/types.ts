@@ -67,6 +67,7 @@ export interface Post {
   image_url: string | null;
   like_count: number;
   is_liked_by_current_user: boolean;
+  comment_count: number;
 }
 
 export interface CreatePostData {
@@ -78,4 +79,19 @@ export interface LikeResponse {
   message: string;
   liked: boolean;
   like_count: number;
+}
+
+export interface Comment {
+  id: number;
+  content: string;
+  timestamp: string;
+  user_id: number;
+  post_id: number;
+  author_name: string;
+  author_avatar_url: string | null;
+}
+
+export interface CreateCommentResponse {
+  message: string;
+  comment: Comment;
 }

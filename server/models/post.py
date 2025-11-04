@@ -18,6 +18,11 @@ class Post(db.Model):
     likes = db.relationship('User', secondary=post_likes, 
                             back_populates='liked_posts', 
                             lazy='dynamic')
+                            
+    comments = db.relationship('Comment', 
+                               backref='post', 
+                               lazy='dynamic', 
+                               cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'<Post {self.content[:50]}...>'
@@ -41,6 +46,8 @@ class Post(db.Model):
             is_liked_by_current_user = self.likes.filter(
                 post_likes.c.user_id == current_user_id
             ).count() > 0
+            
+        comment_count = self.comments.count()
 
         return {
             "id": self.id,
@@ -51,5 +58,7 @@ class Post(db.Model):
             "author_avatar_url": author_avatar_url,
             "image_url": image_url,
             "like_count": like_count,
-            "is_liked_by_current_user": is_liked_by_current_user
+            "is_liked_by_current_user": is_liked_by_current_user,
+            "comment_count": comment_count
         }
+
