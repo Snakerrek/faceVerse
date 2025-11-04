@@ -3,7 +3,6 @@ import {
   View,
   Text,
   SafeAreaView,
-  Image,
   Alert,
   Platform,
   TouchableOpacity,
@@ -14,8 +13,8 @@ import { getUserData, storeUserData } from "../../utils/storageUtils";
 import { UserData, ResponseStatus } from "../../types/types";
 import { uploadAvatar, uploadCover } from "../../services/uploadService";
 import { colors } from "../../theme";
-import UserAvatar from "../../components/UserAvatar";
-import ProfileBackground from "../../components/ProfileBackground";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import ProfileBackground from "../../components/ProfileBackground/ProfileBackground";
 
 const prepareFormData = async (
   uri: string,

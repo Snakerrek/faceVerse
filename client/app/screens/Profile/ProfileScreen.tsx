@@ -16,9 +16,9 @@ import { getPostsByUserId } from "../../services/postService";
 import styles from "./ProfileScreen.styles";
 import { colors } from "../../theme";
 import PostCard from "../Home/PostCard";
-import UserAvatar from "../../components/UserAvatar";
-import ProfileBackground from "../../components/ProfileBackground";
-import { MaterialCommunityIcons } from "@expo/vector-icons"; // Import icons
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import ProfileBackground from "../../components/ProfileBackground/ProfileBackground";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface ProfileParams {
   userId?: string;

@@ -11,7 +11,7 @@ import {
 import { UserData, ResponseStatus } from "../../types/types";
 import { searchUsers } from "../../services/userService";
 import { colors } from "../../theme";
-import UserSearchCard from "../../components/UserSearchCard";
+import UserSearchCard from "../../components/UserSearchCard/UserSearchCard";
 import styles from "./SearchScreen.styles";
 import { getAuthToken } from "../../utils/authUtils";
 import { useRouter } from "expo-router";

@@ -14,7 +14,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Post, ResponseStatus, UserData, Comment } from "../../types/types";
 import styles from "./HomeScreen.styles";
-import UserAvatar from "../../components/UserAvatar";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { useRouter } from "expo-router";
 import { toggleLikePost, getPostLikers } from "../../services/postService";
 import {

@@ -8,7 +8,7 @@ import {
   Alert,
   Image,
 } from "react-native";
-import UserAvatar from "../../components/UserAvatar";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { createPost, getPosts } from "../../services/postService";
 import {
   CreatePostData,
