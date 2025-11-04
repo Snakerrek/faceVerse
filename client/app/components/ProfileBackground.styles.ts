@@ -22,6 +22,17 @@ export const ProfileBackgroundStyles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
   },
+
+  searchCard: {
+    height: '100%',
+    width: '100%',
+    objectFit: 'cover',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    position: 'absolute',
+    top: 0,
+    left: 0
+  }
 });
 
-export type BackgroundContext = 'profile' | 'settings';
+export type BackgroundContext = 'profile' | 'settings' | 'searchCard';

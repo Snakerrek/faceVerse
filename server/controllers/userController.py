@@ -14,6 +14,12 @@ def create_user():
 def get_users():
     return UserService.get_users()
 
+@users_bp.route('/search', methods=['GET'])
+@jwt_required()
+def search_users():
+    query = request.args.get('q', '') 
+    return UserService.search_users(query)
+
 @users_bp.route('/<int:id>', methods=['GET'], strict_slashes=False)
 @jwt_required()
 def get_user(id):

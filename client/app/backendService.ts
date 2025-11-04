@@ -120,6 +120,17 @@ export async function getUserById(userId: number): Promise<Res<UserData>> {
     );
 }
 
+export async function searchUsers(query: string): Promise<Res<UserData[]>> {
+    const encodedQuery = encodeURIComponent(query);
+    
+    return authRequest(
+        `/users/search?q=${encodedQuery}`,
+        {
+            method: 'GET',
+        }
+    );
+}
+
 export async function uploadAvatar(formData: FormData): Promise<Res<UserData>> {
     try {
         const token = await getAuthToken();

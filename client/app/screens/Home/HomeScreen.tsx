@@ -14,17 +14,21 @@ import styles from './HomeScreen.styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Ionicons,
-  MaterialCommunityIcons,
   FontAwesome5,
+  MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import PostFeed from './PostFeed';
 import { colors } from '../../theme';
 import MenuModal from './MenuModal';
 import { useRouter } from 'expo-router';
+import SearchScreen from '../Search/SearchScreen';
+
+type ActiveTab = 'home' | 'search';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const router = useRouter();
 
@@ -73,9 +77,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
-const handleNavigate = (screen: '/profile' | '/settings') => {
-    router.push(screen);
-    setIsMenuVisible(false);
+  const handleNavigate = (screen: '/profile' | '/settings') => {
+      router.push(screen);
+      setIsMenuVisible(false);
   };
 
   if (isLoading) {
@@ -91,12 +95,23 @@ const handleNavigate = (screen: '/profile' | '/settings') => {
       <View style={styles.loadingContainer}>
         <Text>User data not present, or session expired...</Text>
         <Button
-          title="Przejdź do logowania"
-          onPress={() => router.navigate('/')}
+          title="Go to login page"
+          onPress={() => router.replace('/')} 
         />
       </View>
     );
   }
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 'home':
+        return <PostFeed user={user} />;
+      case 'search':
+        return <SearchScreen />;
+      default:
+        return <PostFeed user={user} />;
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -122,19 +137,29 @@ const handleNavigate = (screen: '/profile' | '/settings') => {
       </View>
 
       <View style={styles.tabBar}>
-        <TouchableOpacity style={[styles.tabButton, styles.tabButtonActive]}>
-          <Ionicons name="home" size={26} style={styles.iconActive} />
+        <TouchableOpacity 
+          style={[styles.tabButton, activeTab === 'home' && styles.tabButtonActive]}
+          onPress={() => setActiveTab('home')}
+        >
+          <Ionicons 
+            name="home" 
+            size={26} 
+            style={activeTab === 'home' ? styles.iconActive : styles.iconSecondary} 
+          />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabButton}>
+        
+        <TouchableOpacity 
+          style={[styles.tabButton, activeTab === 'search' && styles.tabButtonActive]}
+          onPress={() => setActiveTab('search')}
+        >
           <FontAwesome5
             name="user-friends"
             size={24}
-            style={styles.iconSecondary}
+            style={activeTab === 'search' ? styles.iconActive : styles.iconSecondary}
           />
         </TouchableOpacity>
       </View>
-      
-      <PostFeed user={user} />
+      {renderActiveTab()}
     </SafeAreaView>
   );
 };

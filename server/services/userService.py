@@ -3,6 +3,7 @@ from extensions import db
 from models.user import User
 from flask_jwt_extended import create_access_token
 from datetime import datetime
+from sqlalchemy import func, or_
 
 class UserService:
 
@@ -38,6 +39,23 @@ class UserService:
     @staticmethod
     def get_users():
         users = db.session.execute(db.select(User)).scalars().all()
+        return jsonify([user.to_dict() for user in users])
+    @staticmethod
+    def search_users(query: str):
+        if not query:
+            return jsonify([])
+
+        search_pattern = f"%{query.lower()}%"
+
+        users = db.session.scalars(
+            db.select(User).filter(
+                or_(
+                    func.lower(User.first_name).like(search_pattern),
+                    func.lower(User.last_name).like(search_pattern)
+                )
+            ).limit(20)
+        ).all()
+        
         return jsonify([user.to_dict() for user in users])
 
     @staticmethod
@@ -89,7 +107,7 @@ class UserService:
         if not user or not user.check_password(password):
             return jsonify({"error": "Wrong data"}), 401
 
-        access_token = create_access_token(identity=str(user.id))
+        access_token = create_access_token(identity=str(user.id), expires_delta=False)
 
         return jsonify({
             "message": "Login succesfull.",
