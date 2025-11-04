@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,21 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  Image
-} from 'react-native';
-import UserAvatar from '../../components/UserAvatar';
-import { createPost, getPosts } from '../../backendService';
-import { CreatePostData, Post, ResponseStatus, UserData } from '../../types/types';
-import styles from './HomeScreen.styles';
-import { colors } from '../../theme';
-import PostCard from './PostCard';
-import * as ImagePicker from 'expo-image-picker';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+  Image,
+} from "react-native";
+import UserAvatar from "../../components/UserAvatar";
+import { createPost, getPosts } from "../../services/postService";
+import {
+  CreatePostData,
+  Post,
+  ResponseStatus,
+  UserData,
+} from "../../types/types";
+import styles from "./HomeScreen.styles";
+import { colors } from "../../theme";
+import PostCard from "./PostCard";
+import * as ImagePicker from "expo-image-picker";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface PostFeedProps {
   user: UserData;
@@ -23,15 +28,18 @@ interface PostFeedProps {
 
 const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [newPostContent, setNewPostContent] = useState('');
+  const [newPostContent, setNewPostContent] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
   const [selectedImageUri, setSelectedImageUri] = useState<string | null>(null);
 
   const handlePickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permission.status !== 'granted') {
-      Alert.alert("Permission Denied", "We need camera roll access to upload an image.");
+    if (permission.status !== "granted") {
+      Alert.alert(
+        "Permission Denied",
+        "We need camera roll access to upload an image."
+      );
       return;
     }
 
@@ -51,9 +59,9 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
     setIsLoading(true);
     const response = await getPosts();
     if (response.status === ResponseStatus.OK) {
-      setPosts(response.data ?? [])
+      setPosts(response.data ?? []);
     } else {
-      Alert.alert('Error', 'Posts couldn\'t be fetched');
+      Alert.alert("Error", "Posts couldn't be fetched");
     }
     setIsLoading(false);
   };
@@ -62,25 +70,25 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
     fetchPosts();
   }, []);
 
-const handleCreatePost = async () => {
-    if (newPostContent.trim() === '' && !selectedImageUri) {
+  const handleCreatePost = async () => {
+    if (newPostContent.trim() === "" && !selectedImageUri) {
       return;
     }
     setIsPosting(true);
 
     const postData: CreatePostData = {
       content: newPostContent,
-      localImageUri: selectedImageUri
+      localImageUri: selectedImageUri,
     };
 
     const response = await createPost(postData);
 
     if (response.status === ResponseStatus.OK && response.data) {
       setPosts([response.data, ...posts]);
-      setNewPostContent('');
+      setNewPostContent("");
       setSelectedImageUri(null);
     } else {
-      Alert.alert('Error', response.message || 'Post couldn\'t be fdetched');
+      Alert.alert("Error", response.message || "Post couldn't be fdetched");
     }
     setIsPosting(false);
   };
@@ -96,10 +104,7 @@ const handleCreatePost = async () => {
       ListHeaderComponent={
         <>
           <View style={styles.createPostContainer}>
-            <UserAvatar 
-              avatarUrl={user.avatar_url} 
-              size='small'
-            />
+            <UserAvatar avatarUrl={user.avatar_url} size="small" />
             <TextInput
               style={styles.postInput}
               placeholder={`What are you thinking about, ${user.first_name}?`}
@@ -111,28 +116,41 @@ const handleCreatePost = async () => {
           </View>
           {selectedImageUri && (
             <View style={styles.imagePreviewContainer}>
-              <Image source={{ uri: selectedImageUri }} style={styles.imagePreview} />
-              <TouchableOpacity 
+              <Image
+                source={{ uri: selectedImageUri }}
+                style={styles.imagePreview}
+              />
+              <TouchableOpacity
                 style={styles.imageClearButton}
                 onPress={() => setSelectedImageUri(null)}
               >
-                 <MaterialCommunityIcons name="close-circle" size={24} color={colors.white} />
+                <MaterialCommunityIcons
+                  name="close-circle"
+                  size={24}
+                  color={colors.white}
+                />
               </TouchableOpacity>
             </View>
           )}
           <View style={styles.postButtonsContainer}>
             <TouchableOpacity
               style={styles.imagePostButton}
-              onPress={handlePickImage}>
-                <MaterialCommunityIcons name="image" size={24} color={colors.white} />
+              onPress={handlePickImage}
+            >
+              <MaterialCommunityIcons
+                name="image"
+                size={24}
+                color={colors.white}
+              />
               <Text style={styles.imageButtonText}>Add Image</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.submitPostButton}
               onPress={handleCreatePost}
-              disabled={isPosting}>
+              disabled={isPosting}
+            >
               <Text style={styles.submitPostButtonText}>
-                {isPosting ? 'Posting...' : 'Post'}
+                {isPosting ? "Posting..." : "Post"}
               </Text>
             </TouchableOpacity>
           </View>

@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, ActivityIndicator, Pressable, ScrollView } from 'react-native';
-import { RegisterScreenProps } from '../../types/navigation';
-import { Gender, RegisterData, RegisterFormData, Res, ResponseStatus } from '../../types/types';
-import { register } from '../../backendService';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import styles from './RegisterScreen.styles';
-import { useRouter } from 'expo-router';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+} from "react-native";
+import { RegisterScreenProps } from "../../types/navigation";
+import {
+  Gender,
+  RegisterData,
+  RegisterFormData,
+  Res,
+  ResponseStatus,
+} from "../../types/types";
+import { register } from "../../services/authService";
+import { SafeAreaView } from "react-native-safe-area-context";
+import styles from "./RegisterScreen.styles";
+import { useRouter } from "expo-router";
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const [formData, setFormData] = useState<RegisterFormData>({
-    email: '',
-    password: '',
-    first_name: '',
-    last_name: '',
-    dob_day: '',
-    dob_month: '',
-    dob_year: '',
-    gender: Gender.MALE
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    dob_day: "",
+    dob_month: "",
+    dob_year: "",
+    gender: Gender.MALE,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -24,33 +38,46 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const router = useRouter();
 
   const handleChange = (name: keyof typeof formData, value: string) => {
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleRegister = async () => {
-    if (!formData.email || !formData.password || !formData.first_name || !formData.last_name) {
-      setMessage('All the fields are required.');
+    if (
+      !formData.email ||
+      !formData.password ||
+      !formData.first_name ||
+      !formData.last_name
+    ) {
+      setMessage("All the fields are required.");
       setIsError(true);
       return;
     }
 
-    let date_of_birth_payload: string = '';
+    let date_of_birth_payload: string = "";
     if (formData.dob_year && formData.dob_month && formData.dob_day) {
-
       const year = parseInt(formData.dob_year, 10);
       const month = parseInt(formData.dob_month, 10);
       const day = parseInt(formData.dob_day, 10);
 
-      if (isNaN(year) || isNaN(month) || isNaN(day) ||
-          month < 1 || month > 12 || day < 1 || day > 31 || year < 1900 || year > new Date().getFullYear()) {
-        setMessage('Wrong birthdate');
+      if (
+        isNaN(year) ||
+        isNaN(month) ||
+        isNaN(day) ||
+        month < 1 ||
+        month > 12 ||
+        day < 1 ||
+        day > 31 ||
+        year < 1900 ||
+        year > new Date().getFullYear()
+      ) {
+        setMessage("Wrong birthdate");
         setIsError(true);
         return;
       }
 
-      date_of_birth_payload = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      date_of_birth_payload = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     } else if (formData.dob_year || formData.dob_month || formData.dob_day) {
-      setMessage('Fill is all the date parts.');
+      setMessage("Fill is all the date parts.");
       setIsError(true);
       return;
     }
@@ -63,26 +90,32 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
       first_name: formData.first_name,
       last_name: formData.last_name,
       date_of_birth: date_of_birth_payload,
-      gender: formData.gender
-    }
+      gender: formData.gender,
+    };
     const registerRes: Res<null> = await register(registerRQ);
-    if(registerRes.status === ResponseStatus.OK){
-      setMessage('Registration went correct, you can log in now.');
+    if (registerRes.status === ResponseStatus.OK) {
+      setMessage("Registration went correct, you can log in now.");
       setIsError(false);
       setFormData({
-        email: '', password: '', first_name: '', last_name: '',
-        dob_day: '', dob_month: '', dob_year: '', gender: Gender.MALE
+        email: "",
+        password: "",
+        first_name: "",
+        last_name: "",
+        dob_day: "",
+        dob_month: "",
+        dob_year: "",
+        gender: Gender.MALE,
       });
 
-      console.log('Registration successful, navigating to Login.');
-      router.replace('/login');
+      console.log("Registration successful, navigating to Login.");
+      router.replace("/login");
     } else {
-      console.error('Registration Error:', registerRes.message);
-      setMessage(registerRes.message || 'Error, try again.');
+      console.error("Registration Error:", registerRes.message);
+      setMessage(registerRes.message || "Error, try again.");
       setIsError(true);
     }
     setIsLoading(false);
-  }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -110,7 +143,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 placeholder="First name"
                 placeholderTextColor={styles.placeholder.color}
                 value={formData.first_name}
-                onChangeText={(text) => handleChange('first_name', text)}
+                onChangeText={(text) => handleChange("first_name", text)}
               />
             </View>
             <View style={styles.inputWrapperHalf}>
@@ -120,7 +153,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 placeholder="Last name"
                 placeholderTextColor={styles.placeholder.color}
                 value={formData.last_name}
-                onChangeText={(text) => handleChange('last_name', text)}
+                onChangeText={(text) => handleChange("last_name", text)}
               />
             </View>
           </View>
@@ -133,7 +166,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 placeholder="DD"
                 placeholderTextColor={styles.placeholder.color}
                 value={formData.dob_day}
-                onChangeText={(text) => handleChange('dob_day', text)}
+                onChangeText={(text) => handleChange("dob_day", text)}
                 keyboardType="number-pad"
                 maxLength={2}
               />
@@ -144,7 +177,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 placeholder="MM"
                 placeholderTextColor={styles.placeholder.color}
                 value={formData.dob_month}
-                onChangeText={(text) => handleChange('dob_month', text)}
+                onChangeText={(text) => handleChange("dob_month", text)}
                 keyboardType="number-pad"
                 maxLength={2}
               />
@@ -155,7 +188,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 placeholder="YYYY"
                 placeholderTextColor={styles.placeholder.color}
                 value={formData.dob_year}
-                onChangeText={(text) => handleChange('dob_year', text)}
+                onChangeText={(text) => handleChange("dob_year", text)}
                 keyboardType="number-pad"
                 maxLength={4}
               />
@@ -167,14 +200,16 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
             <Pressable
               style={[
                 styles.genderButton,
-                formData.gender === Gender.FEMALE && styles.genderButtonSelected,
+                formData.gender === Gender.FEMALE &&
+                  styles.genderButtonSelected,
               ]}
-              onPress={() => handleChange('gender', Gender.FEMALE)}
+              onPress={() => handleChange("gender", Gender.FEMALE)}
             >
               <Text
                 style={[
                   styles.genderButtonText,
-                  formData.gender === Gender.FEMALE && styles.genderButtonTextSelected,
+                  formData.gender === Gender.FEMALE &&
+                    styles.genderButtonTextSelected,
                 ]}
               >
                 {Gender.FEMALE}
@@ -185,12 +220,13 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 styles.genderButton,
                 formData.gender === Gender.MALE && styles.genderButtonSelected,
               ]}
-              onPress={() => handleChange('gender', Gender.MALE)}
+              onPress={() => handleChange("gender", Gender.MALE)}
             >
               <Text
                 style={[
                   styles.genderButtonText,
-                  formData.gender === Gender.MALE && styles.genderButtonTextSelected,
+                  formData.gender === Gender.MALE &&
+                    styles.genderButtonTextSelected,
                 ]}
               >
                 {Gender.MALE}
@@ -205,7 +241,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               placeholder="E-mail"
               placeholderTextColor={styles.placeholder.color}
               value={formData.email}
-              onChangeText={(text) => handleChange('email', text)}
+              onChangeText={(text) => handleChange("email", text)}
               keyboardType="email-address"
               autoCapitalize="none"
             />
@@ -218,12 +254,17 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               placeholder="Password"
               placeholderTextColor={styles.placeholder.color}
               value={formData.password}
-              onChangeText={(text) => handleChange('password', text)}
+              onChangeText={(text) => handleChange("password", text)}
               secureTextEntry
             />
           </View>
 
-          {isLoading && <ActivityIndicator size="large" color={styles.activityIndicator.color} />}
+          {isLoading && (
+            <ActivityIndicator
+              size="large"
+              color={styles.activityIndicator.color}
+            />
+          )}
           {message && (
             <Text style={isError ? styles.errorMessage : styles.successMessage}>
               {message}
@@ -231,7 +272,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
           )}
           <View style={styles.buttonWrapper}>
             <Button
-              title={isLoading ? 'Registering...' : 'Register'}
+              title={isLoading ? "Registering..." : "Register"}
               onPress={handleRegister}
               disabled={isLoading}
               color={styles.button.color}

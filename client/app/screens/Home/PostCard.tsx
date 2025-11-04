@@ -16,15 +16,13 @@ import { Post, ResponseStatus, UserData, Comment } from "../../types/types";
 import styles from "./HomeScreen.styles";
 import UserAvatar from "../../components/UserAvatar";
 import { useRouter } from "expo-router";
-
+import { toggleLikePost, getPostLikers } from "../../services/postService";
 import {
-  toggleLikePost,
-  getPostLikers,
   getCommentsForPost,
   createComment,
-  toggleLikeComment,
   getCommentLikers,
-} from "./../../backendService";
+  toggleLikeComment,
+} from "../../services/commentService";
 
 const formatTimeAgo = (timestamp: string): string => {
   const now = new Date();

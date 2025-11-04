@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -8,14 +8,17 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { ResponseStatus, Res, LoginData } from '../../types/types';
-import { login } from '../../backendService';
-import styles from './LoginScreen.styles';
+} from "react-native";
+import { useRouter } from "expo-router";
+import { ResponseStatus, Res, LoginData } from "../../types/types";
+import { login } from "../../services/authService";
+import styles from "./LoginScreen.styles";
 
 const LoginScreen: React.FC = () => {
-  const [formData, setFormData] = useState<LoginData>({ email: '', password: '' });
+  const [formData, setFormData] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string | undefined>();
   const [isError, setIsError] = useState(false);
@@ -24,12 +27,12 @@ const LoginScreen: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
 
   const handleChange = (name: keyof typeof formData, value: string) => {
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleLogin = async () => {
     if (!formData.email || !formData.password) {
-      setMessage('E-mail and password are required.');
+      setMessage("E-mail and password are required.");
       setIsError(true);
       return;
     }
@@ -37,8 +40,8 @@ const LoginScreen: React.FC = () => {
     setMessage(undefined);
     setIsError(false);
     const loginRes: Res<null> = await login(formData);
-    if(loginRes.status === ResponseStatus.OK) {
-        router.replace('/home');
+    if (loginRes.status === ResponseStatus.OK) {
+      router.replace("/home");
     } else {
       setMessage(loginRes.message);
       setIsError(true);
@@ -59,43 +62,48 @@ const LoginScreen: React.FC = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.headerContentContainer}>
-            <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Login</Text>
         </View>
 
         <View style={styles.formContainer}>
           <View style={styles.inputWrapperFull}>
             <Text style={styles.label}>E-mail</Text>
             <TextInput
-                style={styles.input}
-                placeholder="E-mail address"
-                placeholderTextColor={styles.placeholder.color}
-                value={formData.email}
-                onChangeText={(text) => handleChange('email', text)}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                returnKeyType="next"
-                blurOnSubmit={false}
-                onSubmitEditing={() => passwordInputRef.current?.focus()}
+              style={styles.input}
+              placeholder="E-mail address"
+              placeholderTextColor={styles.placeholder.color}
+              value={formData.email}
+              onChangeText={(text) => handleChange("email", text)}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={() => passwordInputRef.current?.focus()}
             />
           </View>
 
           <View style={styles.inputWrapperFullWithMargin}>
             <Text style={styles.label}>Password</Text>
             <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor={styles.placeholder.color}
-                value={formData.password}
-                onChangeText={(text) => handleChange('password', text)}
-                secureTextEntry
-                ref={passwordInputRef}
-                returnKeyType="go"
-                onSubmitEditing={handleLogin}
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor={styles.placeholder.color}
+              value={formData.password}
+              onChangeText={(text) => handleChange("password", text)}
+              secureTextEntry
+              ref={passwordInputRef}
+              returnKeyType="go"
+              onSubmitEditing={handleLogin}
             />
           </View>
 
-          {isLoading && <ActivityIndicator size="large" color={styles.activityIndicator.color} />}
-          
+          {isLoading && (
+            <ActivityIndicator
+              size="large"
+              color={styles.activityIndicator.color}
+            />
+          )}
+
           {message && (
             <Text style={isError ? styles.errorMessage : styles.successMessage}>
               {message}
@@ -103,10 +111,10 @@ const LoginScreen: React.FC = () => {
           )}
           <View style={styles.buttonWrapper}>
             <Button
-                title={isLoading ? 'Logging in...' : 'Login'}
-                onPress={handleLogin}
-                disabled={isLoading}
-                color={styles.button.color}
+              title={isLoading ? "Logging in..." : "Login"}
+              onPress={handleLogin}
+              disabled={isLoading}
+              color={styles.button.color}
             />
           </View>
         </View>
