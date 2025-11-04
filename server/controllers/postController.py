@@ -11,11 +11,8 @@ posts_bp = Blueprint('posts', __name__)
 @posts_bp.route('/', methods=['POST'], strict_slashes=False)
 @jwt_required()
 def create_post():
-    print("\n--- [DEBUG] create_post route hit ---") # DEBUG
-    """Trasa do tworzenia nowego posta z opcjonalnym zdjęciem."""
     user_id_string = get_jwt_identity()
     user_id = int(user_id_string)
-    print(f"[DEBUG] User ID: {user_id}") # DEBUG
     
     uploaded_file: FileStorage | None = request.files.get('image')
     data_source = None
@@ -32,26 +29,35 @@ def create_post():
     elif data_source is None:
         return jsonify({"error": "Missing JSON body or content in request."}), 400
     elif 'content' not in data_source:
-         print("[DEBUG] ERROR: No file uploaded, JSON is valid, but 'content' key is missing.")
          return jsonify({"error": "Missing JSON body or content in request."}), 400
 
 
     content = data_source.get('content')
-    print(f"[DEBUG] Extracted content: '{content}'")
     
     if not content or content.strip() == "":
-        print("[DEBUG] ERROR: Content is None or empty string.")
         return jsonify({"error": "Content is required"}), 400
         
-    print(f"[DEBUG] Calling PostService.create_post with file: {uploaded_file.filename if uploaded_file else 'None'}")
     return PostService.create_post({'content': content}, user_id, uploaded_file)
 
 @posts_bp.route('/', methods=['GET'], strict_slashes=False)
 @jwt_required()
 def get_posts():
-    return PostService.get_posts()
+    current_user_id = int(get_jwt_identity())
+    return PostService.get_posts(current_user_id=current_user_id)
 
 @posts_bp.route('/user/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_posts_by_user(user_id):
-    return jsonify(PostService.get_posts_by_user_id(user_id)), 200
+    current_user_id = int(get_jwt_identity())
+    return jsonify(PostService.get_posts_by_user_id(user_id, current_user_id=current_user_id)), 200
+
+@posts_bp.route('/<int:post_id>/like', methods=['POST'])
+@jwt_required()
+def like_post(post_id):
+    user_id = int(get_jwt_identity())
+    return PostService.like_post(post_id, user_id)
+
+@posts_bp.route('/<int:post_id>/likes', methods=['GET'])
+@jwt_required()
+def get_post_likers(post_id):
+    return PostService.get_post_likers(post_id)

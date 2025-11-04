@@ -15,6 +15,11 @@ class User(db.Model):
     avatar_filename = db.Column(db.String(128), nullable=True)
     cover_filename = db.Column(db.String(128), nullable=True)
 
+    liked_posts = db.relationship('Post',
+                                  secondary='post_likes',
+                                  back_populates='likes',
+                                  lazy='dynamic')
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
 

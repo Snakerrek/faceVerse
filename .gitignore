@@ -148,3 +148,4 @@ client/GoogleService-Info.plist # Usually downloaded, not committed
 *.sqlite3
 server/faceVerse.db
 server/uploads
+node_modules
