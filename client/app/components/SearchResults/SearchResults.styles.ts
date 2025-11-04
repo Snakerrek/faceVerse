@@ -2,19 +2,24 @@ import { StyleSheet } from "react-native";
 import { colors, spacing } from "../../theme";
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  errorContainer: {
+  centerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  errorText: {
+  loader: {
+    color: colors.blue,
+  },
+  noResultsText: {
     textAlign: "center",
     marginTop: spacing.medium,
-    color: colors.danger,
+    color: colors.secondaryText,
     fontSize: 16,
+  },
+  listContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    padding: spacing.small,
   },
 });
