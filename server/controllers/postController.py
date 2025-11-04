@@ -1,9 +1,6 @@
-import os
-import uuid
 from flask import Blueprint, request, jsonify
 from services.postService import PostService
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage
 
 posts_bp = Blueprint('posts', __name__)
@@ -79,5 +76,19 @@ def create_comment(post_id):
 @jwt_required()
 def get_comments(post_id):
     """Fetches all comments for a specific post."""
-    return PostService.get_comments_for_post(post_id)
+    current_user_id = int(get_jwt_identity())
+    return PostService.get_comments_for_post(post_id, current_user_id)
+
+@posts_bp.route('/comments/<int:comment_id>/like', methods=['POST'])
+@jwt_required()
+def like_comment(comment_id):
+    """Toggles a like on a specific comment."""
+    user_id = int(get_jwt_identity())
+    return PostService.like_comment(comment_id, user_id)
+
+@posts_bp.route('/comments/<int:comment_id>/likes', methods=['GET'])
+@jwt_required()
+def get_comment_likers(comment_id):
+    """Fetches a list of users who liked a specific comment."""
+    return PostService.get_comment_likers(comment_id)
 

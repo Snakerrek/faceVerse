@@ -266,3 +266,30 @@ export async function createComment(
     (json) => json as CreateCommentResponse
   );
 }
+
+export async function toggleLikeComment(
+  commentId: number
+): Promise<Res<LikeResponse>> {
+  return authRequest(
+    `/posts/comments/${commentId}/like`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+    (json) => json as LikeResponse
+  );
+}
+
+export async function getCommentLikers(
+  commentId: number
+): Promise<Res<UserData[]>> {
+  return authRequest(
+    `/posts/comments/${commentId}/likes`,
+    {
+      method: "GET",
+    },
+    (json) => json as UserData[]
+  );
+}

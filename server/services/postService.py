@@ -106,7 +106,6 @@ class PostService:
             if not post:
                 return jsonify({"error": "Post not found"}), 404
             
-            # Use the 'likes' relationship (not 'likers')
             likers_list = [user.to_dict() for user in post.likes]
             
             return jsonify(likers_list), 200
@@ -138,7 +137,7 @@ class PostService:
             db.session.add(new_comment)
             db.session.commit()
             
-            return jsonify({"message": "Comment created", "comment": new_comment.to_dict()}), 201
+            return jsonify({"message": "Comment created", "comment": new_comment.to_dict(current_user_id=user_id)}), 201
             
         except Exception as e:
             db.session.rollback()
@@ -146,8 +145,8 @@ class PostService:
             return jsonify({"error": "Internal server error"}), 500
 
     @staticmethod
-    def get_comments_for_post(post_id):
-        """Fetches all comments for a specific post."""
+    def get_comments_for_post(post_id, current_user_id):
+        """Fetches all comments for a specific post, including like status."""
         try:
             post = db.session.get(Post, post_id)
             if not post:
@@ -159,12 +158,61 @@ class PostService:
                 .order_by(Comment.timestamp.asc())
             ).all()
             
-            comments_list = [comment.to_dict() for comment in comments]
+            comments_list = [comment.to_dict(current_user_id=current_user_id) for comment in comments]
             
             return jsonify(comments_list), 200
 
         except Exception as e:
             db.session.rollback()
             print(f"Error fetching comments: {e}")
+            return jsonify({"error": "Internal server error"}), 500
+
+    @staticmethod
+    def like_comment(comment_id, user_id):
+        """Toggles a like on a comment for a given user."""
+        try:
+            comment = db.session.get(Comment, comment_id)
+            if not comment:
+                return jsonify({"error": "Comment not found"}), 404
+            
+            user = db.session.get(User, user_id)
+            if not user:
+                return jsonify({"error": "User not found"}), 404
+
+            if user in comment.likes:
+                comment.likes.remove(user)
+                liked = False
+            else:
+                comment.likes.append(user)
+                liked = True
+            
+            db.session.commit()
+            
+            return jsonify({
+                "message": "Comment like status updated", 
+                "liked": liked,
+                "like_count": comment.likes.count()
+            }), 200
+            
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error liking comment: {e}")
+            return jsonify({"error": "Internal server error"}), 500
+
+    @staticmethod
+    def get_comment_likers(comment_id):
+        """Fetches a list of users who liked a specific comment."""
+        try:
+            comment = db.session.get(Comment, comment_id)
+            if not comment:
+                return jsonify({"error": "Comment not found"}), 404
+            
+            likers_list = [user.to_dict() for user in comment.likes]
+            
+            return jsonify(likers_list), 200
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error fetching comment likers: {e}")
             return jsonify({"error": "Internal server error"}), 500
 

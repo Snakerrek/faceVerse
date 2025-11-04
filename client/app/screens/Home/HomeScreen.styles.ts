@@ -388,6 +388,39 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     padding: 5,
   },
+  commentContainer: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  commentActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 4,
+  },
+  commentActionButton: {
+    paddingRight: 8,
+  },
+  commentActionText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#65676B",
+  },
+  commentActionTextLiked: {
+    color: "#1877F2",
+  },
+  commentTimestamp: {
+    fontSize: 12,
+    color: "#65676B",
+  },
+  commentLikeCountContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  commentLikeCountText: {
+    fontSize: 12,
+    color: "#65676B",
+    marginLeft: 2,
+  },
 });
 
 export default styles;

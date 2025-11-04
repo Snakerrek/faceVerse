@@ -89,6 +89,8 @@ export interface Comment {
   post_id: number;
   author_name: string;
   author_avatar_url: string | null;
+  like_count: number;
+  is_liked_by_current_user: boolean;
 }
 
 export interface CreateCommentResponse {

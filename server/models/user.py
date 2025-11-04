@@ -24,6 +24,11 @@ class User(db.Model):
                                   
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
+    liked_comments = db.relationship('Comment',
+                                     secondary='comment_likes',
+                                     back_populates='likes',
+                                     lazy='dynamic')
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
 
@@ -37,8 +42,8 @@ class User(db.Model):
         avatar_url = None
         if self.avatar_filename:
             avatar_url = url_for('uploads.serve_file', 
-                               filename=self.avatar_filename, 
-                               _external=True)
+                                 filename=self.avatar_filename, 
+                                 _external=True)
         cover_url = None
         if self.cover_filename:
             cover_url = url_for('uploads.serve_file', filename=self.cover_filename, _external=True)

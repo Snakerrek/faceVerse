@@ -22,7 +22,111 @@ import {
   getPostLikers,
   getCommentsForPost,
   createComment,
+  toggleLikeComment,
+  getCommentLikers,
 } from "./../../backendService";
+
+const formatTimeAgo = (timestamp: string): string => {
+  const now = new Date();
+  const commentDate = new Date(timestamp);
+  const seconds = Math.floor((now.getTime() - commentDate.getTime()) / 1000);
+
+  let interval = seconds / 31536000;
+  if (interval > 1) return Math.floor(interval) + "y";
+  interval = seconds / 2592000;
+  if (interval > 1) return Math.floor(interval) + "mo";
+  interval = seconds / 86400;
+  if (interval > 1) return Math.floor(interval) + "d";
+  interval = seconds / 3600;
+  if (interval > 1) return Math.floor(interval) + "h";
+  interval = seconds / 60;
+  if (interval > 1) return Math.floor(interval) + "m";
+  return Math.floor(seconds) + "s";
+};
+
+const CommentItem: React.FC<{
+  item: Comment;
+  onProfilePress: (id: number) => void;
+  onOpenLikersModal: (commentId: number) => void;
+}> = ({ item, onProfilePress, onOpenLikersModal }) => {
+  const [isLiked, setIsLiked] = useState(item.is_liked_by_current_user);
+  const [likeCount, setLikeCount] = useState(item.like_count);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const timeAgo = formatTimeAgo(item.timestamp);
+
+  const handleLikeComment = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
+    const originalLiked = isLiked;
+    const originalCount = likeCount;
+    setIsLiked((prev) => !prev);
+    setLikeCount((prev) => (originalLiked ? prev - 1 : prev + 1));
+
+    const response = await toggleLikeComment(item.id);
+
+    if (response.status === ResponseStatus.OK && response.data) {
+      setIsLiked(response.data.liked);
+      setLikeCount(response.data.like_count);
+    } else {
+      console.error("Failed to like comment:", response.message);
+      setIsLiked(originalLiked);
+      setLikeCount(originalCount);
+    }
+    setIsLoading(false);
+  };
+
+  return (
+    <View style={styles.commentItem}>
+      <TouchableOpacity onPress={() => onProfilePress(item.user_id)}>
+        <UserAvatar avatarUrl={item.author_avatar_url} size="small" />
+      </TouchableOpacity>
+
+      <View style={styles.commentContainer}>
+        <View style={styles.commentContent}>
+          <Text style={styles.likerName}>{item.author_name}</Text>
+          <Text>{item.content}</Text>
+        </View>
+
+        <View style={styles.commentActions}>
+          <TouchableOpacity
+            onPress={handleLikeComment}
+            disabled={isLoading}
+            style={styles.commentActionButton}
+          >
+            <Text
+              style={[
+                styles.commentActionText,
+                isLiked && styles.commentActionTextLiked,
+              ]}
+            >
+              {isLiked ? "Polubione" : "Lubię to!"}
+            </Text>
+          </TouchableOpacity>
+
+          <Text style={styles.commentTimestamp}> · {timeAgo}</Text>
+
+          {likeCount > 0 && (
+            <TouchableOpacity
+              style={styles.commentLikeCountContainer}
+              onPress={() => onOpenLikersModal(item.id)}
+            >
+              <Text style={styles.commentTimestamp}>·</Text>
+              <Ionicons
+                name="thumbs-up"
+                size={12}
+                color="#1877F2"
+                style={{ marginLeft: 4 }}
+              />
+              <Text style={styles.commentLikeCountText}>{likeCount}</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    </View>
+  );
+};
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
   const postTimestamp = new Date(post.timestamp).toLocaleString();
@@ -38,14 +142,19 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 
   const [commentCount, setCommentCount] = useState(post.comment_count);
   const [isCommentSectionVisible, setIsCommentSectionVisible] = useState(false);
-  const [haveCommentsBeenFetched, setHaveCommentsBeenFetched] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [isPostingComment, setIsPostingComment] = useState(false);
 
+  const [isCommentLikerModalVisible, setIsCommentLikerModalVisible] =
+    useState(false);
+  const [commentLikers, setCommentLikers] = useState<UserData[]>([]);
+  const [isLoadingCommentLikers, setIsLoadingCommentLikers] = useState(false);
+
   const handleProfilePress = (userId: number) => {
     if (isLikeModalVisible) setIsLikeModalVisible(false);
+    if (isCommentLikerModalVisible) setIsCommentLikerModalVisible(false);
 
     router.push({
       pathname: "/profile",
@@ -127,13 +236,11 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
         setComments([]);
       }
       setIsLoadingComments(false);
-      setHaveCommentsBeenFetched(true);
     };
-
-    if (isCommentSectionVisible && !haveCommentsBeenFetched) {
+    if (isCommentSectionVisible) {
       fetchComments();
     }
-  }, [isCommentSectionVisible, haveCommentsBeenFetched, post.id]);
+  }, [isCommentSectionVisible, post.id]);
 
   const onToggleComments = () => {
     setIsCommentSectionVisible((prev) => !prev);
@@ -141,10 +248,8 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 
   const handleCreateComment = async () => {
     if (!newComment.trim() || isPostingComment) return;
-
     setIsPostingComment(true);
     const response = await createComment(post.id, newComment);
-
     if (response.status === ResponseStatus.OK && response.data) {
       setComments((prevComments) => [...prevComments, response.data.comment]);
       setCommentCount((prevCount) => prevCount + 1);
@@ -155,16 +260,35 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
     setIsPostingComment(false);
   };
 
+  const onOpenCommentLikersModal = async (commentId: number) => {
+    setIsCommentLikerModalVisible(true);
+    setIsLoadingCommentLikers(true);
+    try {
+      const response = await getCommentLikers(commentId);
+      if (response.status === ResponseStatus.OK && response.data) {
+        setCommentLikers(response.data);
+      } else {
+        console.error("Failed to fetch comment likers:", response.message);
+        setCommentLikers([]);
+      }
+    } catch (error) {
+      console.error("Error fetching comment likers:", error);
+      setCommentLikers([]);
+    }
+    setIsLoadingCommentLikers(false);
+  };
+
+  const onCloseCommentLikersModal = () => {
+    setIsCommentLikerModalVisible(false);
+    setCommentLikers([]);
+  };
+
   const renderCommentItem = ({ item }: { item: Comment }) => (
-    <View style={styles.commentItem}>
-      <TouchableOpacity onPress={() => handleProfilePress(item.user_id)}>
-        <UserAvatar avatarUrl={item.author_avatar_url} size="small" />
-      </TouchableOpacity>
-      <View style={styles.commentContent}>
-        <Text style={styles.likerName}>{item.author_name}</Text>
-        <Text>{item.content}</Text>
-      </View>
-    </View>
+    <CommentItem
+      item={item}
+      onProfilePress={handleProfilePress}
+      onOpenLikersModal={onOpenCommentLikersModal}
+    />
   );
 
   return (
@@ -259,7 +383,6 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
           <Text style={styles.actionText}>Udostępnij</Text>
         </TouchableOpacity>
       </View>
-
       {isCommentSectionVisible && (
         <View>
           <View style={styles.commentInputContainer}>
@@ -325,7 +448,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
             onStartShouldSetResponder={() => true}
           >
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Polubienia</Text>
+              <Text style={styles.modalTitle}>Polubienia (Post)</Text>
               <TouchableOpacity
                 onPress={onCloseLikesModal}
                 style={styles.modalCloseButton}
@@ -342,6 +465,53 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
             ) : (
               <FlatList
                 data={likers}
+                renderItem={renderLikerItem}
+                keyExtractor={(item) => item.id.toString()}
+                ListEmptyComponent={
+                  <View style={styles.emptyListContainer}>
+                    <Text style={styles.emptyListText}>
+                      Brak polubień do wyświetlenia.
+                    </Text>
+                  </View>
+                }
+              />
+            )}
+          </SafeAreaView>
+        </TouchableOpacity>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isCommentLikerModalVisible}
+        onRequestClose={onCloseCommentLikersModal}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPressOut={onCloseCommentLikersModal}
+        >
+          <SafeAreaView
+            style={styles.modalContent}
+            onStartShouldSetResponder={() => true}
+          >
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Polubienia (Komentarz)</Text>
+              <TouchableOpacity
+                onPress={onCloseCommentLikersModal}
+                style={styles.modalCloseButton}
+              >
+                <Ionicons name="close-circle" size={28} color="#65676B" />
+              </TouchableOpacity>
+            </View>
+            {isLoadingCommentLikers ? (
+              <ActivityIndicator
+                size="large"
+                color="#1877F2"
+                style={{ padding: 20, flex: 1 }}
+              />
+            ) : (
+              <FlatList
+                data={commentLikers}
                 renderItem={renderLikerItem}
                 keyExtractor={(item) => item.id.toString()}
                 ListEmptyComponent={
