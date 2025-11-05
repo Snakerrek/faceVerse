@@ -6,6 +6,7 @@ import { ProfileHeader } from "../../components/ProfileHeader/ProfileHeader";
 import PostCard from "../../components/PostCard/PostCard";
 import { styles } from "./ProfileScreen.styles";
 import { colors } from "../../theme";
+import { useAuthCheck } from "../../hooks/useAuthCheck";
 
 interface ProfileParams {
   userId?: string;
@@ -14,7 +15,7 @@ interface ProfileParams {
 const ProfileScreen: React.FC = () => {
   const params = useLocalSearchParams() as ProfileParams;
   const targetUserId = params.userId ? parseInt(params.userId, 10) : null;
-
+  useAuthCheck(true);
   const { profileUser, posts, isLoading } = useProfile(targetUserId);
 
   if (isLoading) {

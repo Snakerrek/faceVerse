@@ -15,8 +15,7 @@ export const useAuthCheck = (kickOut?: boolean) => {
       const token = await getAuthToken();
 
       if (token) {
-        console.log("Auth token found, navigating to Home.");
-        router.replace("/home");
+        console.log("Auth token found.");
       } else {
         console.log("No auth token found, staying on Welcome.");
         setIsLoading(false);

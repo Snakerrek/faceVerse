@@ -6,7 +6,7 @@ import { useImagePicker } from "../../hooks/useImagePicker";
 import { useImageUpload } from "../../hooks/useImageUpload";
 import { PhotoEditSection } from "../../components/PhotoEditSection/PhotoEditSection";
 import { styles } from "./SettingsScreen.styles";
-import { useAuthCheck } from "@/app/hooks/useAuthCheck";
+import { useAuthCheck } from "../../hooks/useAuthCheck";
 
 const SettingsScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);
