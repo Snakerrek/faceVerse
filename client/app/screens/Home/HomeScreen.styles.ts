@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: borderRadiuses.medium,
-    margin: "12px",
+    margin: 12,
   },
 
   avatar: {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
     fontSize: 16,
-    marginLeft: "5px",
+    marginLeft: 5,
   },
   submitPostButton: {
     backgroundColor: colors.blue,
