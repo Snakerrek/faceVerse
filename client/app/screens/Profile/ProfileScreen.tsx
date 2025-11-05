@@ -9,7 +9,7 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import { useProfile } from "../../hooks/useProfile";
 import { ProfileHeader } from "../../components/ProfileHeader/ProfileHeader";
-import PostCard from "../Home/PostCard";
+import PostCard from "../../components/PostCard/PostCard";
 import { styles } from "./ProfileScreen.styles";
 import { colors } from "../../theme";
 

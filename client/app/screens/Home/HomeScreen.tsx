@@ -1,171 +1,108 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Button,
   ActivityIndicator,
-  TouchableOpacity,
+  SafeAreaView,
+  Alert,
 } from "react-native";
-import { HomeScreenProps } from "../../types/navigation";
-import { UserData } from "../../types/types";
-import { deleteAuthToken, getAuthToken } from "../../utils/authUtils";
-import { getUserData, removeUserData } from "../../utils/storageUtils";
-import styles from "./HomeScreen.styles";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import PostFeed from "./PostFeed";
-import { colors } from "../../theme";
-import MenuModal from "./MenuModal";
 import { useRouter } from "expo-router";
+import { UserData } from "../../types/types";
+import { getAuthToken, deleteAuthToken } from "../../utils/authUtils";
+import { getUserData, removeUserData } from "../../utils/storageUtils";
+import PostFeed from "../../components/PostFeed/PostFeed";
 import SearchScreen from "../Search/SearchScreen";
+import HomeHeader from "../../components/HomeHeader/HomeHeader";
+import TabBar from "../../components/TabBar/TabBar";
+import MenuModal from "../../components/MenuModal/MenuModal";
+import { colors } from "../../theme";
+import { styles } from "./HomeScreen.styles";
 
 type ActiveTab = "home" | "search";
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+const HomeScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ActiveTab>("home");
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const verifyAuthAndLoadData = async () => {
-      setIsLoading(true);
-      try {
-        const token = await getAuthToken();
-        if (!token) {
-          console.log(
-            "No auth token in SecureStore on Home, navigating to Welcome."
-          );
-          router.replace("/");
-          return;
-        }
+    verifyAuthAndLoadUser();
+  }, []);
 
-        const storedUserData = await getUserData();
-        if (storedUserData) {
-          setUser(storedUserData);
-        } else {
-          console.warn(
-            "Token found but no user data in AsyncStorage. Logging out."
-          );
-          handleLogout();
-        }
-      } catch (e) {
-        console.error(
-          "Failed during auth verification or data load on Home.",
-          e
-        );
-        router.replace("/");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    verifyAuthAndLoadData();
-  }, [navigation]);
-
-  const handleLogout = async () => {
-    setIsMenuVisible(false);
+  const verifyAuthAndLoadUser = async () => {
+    setIsLoading(true);
     try {
-      await deleteAuthToken();
-      await removeUserData();
-      console.log("Auth token and user data removed, navigating to Welcome.");
+      const token = await getAuthToken();
+      if (!token) {
+        router.replace("/");
+        return;
+      }
+
+      const userData = await getUserData();
+      if (userData) {
+        setUser(userData);
+      } else {
+        await handleLogout();
+      }
+    } catch (error) {
+      console.error("Auth check error:", error);
       router.replace("/");
-    } catch (e) {
-      console.error("Failed to logout.", e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleNavigate = (screen: "/profile" | "/settings") => {
-    router.push(screen);
-    setIsMenuVisible(false);
+  const handleLogout = async () => {
+    try {
+      await deleteAuthToken();
+      await removeUserData();
+      router.replace("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      Alert.alert("Error", "Failed to logout");
+    }
   };
 
   if (isLoading) {
     return (
-      <View style={styles.loadingContainer}>
+      <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.blue} />
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (!user) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text>User data not present, or session expired...</Text>
-        <Button title="Go to login page" onPress={() => router.replace("/")} />
-      </View>
+      <SafeAreaView style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error: User not found</Text>
+      </SafeAreaView>
     );
   }
 
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case "home":
-        return <PostFeed user={user} />;
-      case "search":
-        return <SearchScreen />;
-      default:
-        return <PostFeed user={user} />;
-    }
-  };
-
   return (
     <SafeAreaView style={styles.safeArea}>
+      <HomeHeader
+        onNotificationsPress={() => {}}
+        onMenuPress={() => setShowMenu(true)}
+      />
+
+      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+
+      <View style={styles.contentContainer}>
+        {activeTab === "home" ? (
+          <PostFeed userId={user.id} user={user} />
+        ) : (
+          <SearchScreen />
+        )}
+      </View>
+
       <MenuModal
-        visible={isMenuVisible}
-        onClose={() => setIsMenuVisible(false)}
-        onNavigate={handleNavigate}
+        visible={showMenu}
+        onClose={() => setShowMenu(false)}
         onLogout={handleLogout}
       />
-      <View style={styles.header}>
-        <Text style={styles.logoText}>faceVerse</Text>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="search" size={22} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => setIsMenuVisible(true)}
-          >
-            <Ionicons name="menu" size={26} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.tabBar}>
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "home" && styles.tabButtonActive,
-          ]}
-          onPress={() => setActiveTab("home")}
-        >
-          <Ionicons
-            name="home"
-            size={26}
-            style={
-              activeTab === "home" ? styles.iconActive : styles.iconSecondary
-            }
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.tabButton,
-            activeTab === "search" && styles.tabButtonActive,
-          ]}
-          onPress={() => setActiveTab("search")}
-        >
-          <FontAwesome5
-            name="user-friends"
-            size={24}
-            style={
-              activeTab === "search" ? styles.iconActive : styles.iconSecondary
-            }
-          />
-        </TouchableOpacity>
-      </View>
-      {renderActiveTab()}
     </SafeAreaView>
   );
 };
