@@ -67,17 +67,9 @@ export const useProfile = (targetUserId: number | null) => {
     }
   };
 
-  const navigateToSettings = () => {
-    router.push("/settings");
-  };
-
-  const isCurrentUser = targetUserId === null;
-
   return {
     profileUser,
     posts,
     isLoading,
-    isCurrentUser,
-    navigateToSettings,
   };
 };

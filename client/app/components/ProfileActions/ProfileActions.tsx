@@ -1,24 +1,30 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { styles } from "./ProfileActions.styles";
+import { useRouter } from "expo-router";
 
 interface ProfileActionsProps {
   isCurrentUser: boolean;
-  onEditProfile: () => void;
-  onAddFriend?: () => void;
-  onMessage?: () => void;
 }
 
 export const ProfileActions: React.FC<ProfileActionsProps> = ({
   isCurrentUser,
-  onEditProfile,
-  onAddFriend,
-  onMessage,
 }) => {
+  const router = useRouter();
+
+  const navigateToSettings = () => {
+    router.push("/settings");
+  };
+
+  const onAddFiend = () => {};
+
   if (isCurrentUser) {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.actionButton} onPress={onEditProfile}>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={navigateToSettings}
+        >
           <Text style={styles.actionButtonText}>Edit Profile</Text>
         </TouchableOpacity>
       </View>
@@ -27,11 +33,8 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.actionButton} onPress={onAddFriend}>
+      <TouchableOpacity style={styles.actionButton} onPress={onAddFiend}>
         <Text style={styles.actionButtonText}>Add Friend</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.actionButton} onPress={onMessage}>
-        <Text style={styles.actionButtonText}>Message</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
+import { Text, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useProfile } from "../../hooks/useProfile";
 import { ProfileHeader } from "../../components/ProfileHeader/ProfileHeader";
@@ -21,8 +15,7 @@ const ProfileScreen: React.FC = () => {
   const params = useLocalSearchParams() as ProfileParams;
   const targetUserId = params.userId ? parseInt(params.userId, 10) : null;
 
-  const { profileUser, posts, isLoading, isCurrentUser, navigateToSettings } =
-    useProfile(targetUserId);
+  const { profileUser, posts, isLoading } = useProfile(targetUserId);
 
   if (isLoading) {
     return (
@@ -51,13 +44,7 @@ const ProfileScreen: React.FC = () => {
         data={posts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <PostCard post={item} />}
-        ListHeaderComponent={
-          <ProfileHeader
-            user={profileUser}
-            isCurrentUser={isCurrentUser}
-            onEditProfile={navigateToSettings}
-          />
-        }
+        ListHeaderComponent={<ProfileHeader user={profileUser} />}
         ListEmptyComponent={<Text style={styles.emptyText}>No posts yet.</Text>}
       />
     </SafeAreaView>
