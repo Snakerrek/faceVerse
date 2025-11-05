@@ -29,17 +29,9 @@ import { colors, spacing, borderRadiuses } from "../../theme";
 
 interface PostCardProps {
   post: Post;
-  userId: number;
-  onDelete: (postId: number) => void;
-  onRefresh: () => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({
-  post,
-  userId,
-  onDelete,
-  onRefresh,
-}) => {
+const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const router = useRouter();
 
   // Post likes state
@@ -59,9 +51,6 @@ const PostCard: React.FC<PostCardProps> = ({
   // Comment likes state
   const [commentLikers, setCommentLikers] = useState<any[]>([]);
   const [isLoadingCommentLikers, setIsLoadingCommentLikers] = useState(false);
-
-  // Menu state
-  const [showMenu, setShowMenu] = useState(false);
 
   // POST LIKE HANDLERS
   const handleToggleLike = async () => {
@@ -197,51 +186,22 @@ const PostCard: React.FC<PostCardProps> = ({
     }
   };
 
-  // MENU HANDLERS
-  const handleDelete = () => {
-    Alert.alert("Delete Post", "Are you sure?", [
-      { text: "Cancel" },
-      {
-        text: "Delete",
-        onPress: () => {
-          onDelete(post.id);
-          setShowMenu(false);
-        },
-      },
-    ]);
-  };
-
-  const handleEdit = () => {
-    setShowMenu(false);
-    // TODO: Navigate to edit post screen
-  };
-
   return (
     <>
-      {/* MAIN POST CARD */}
       <View style={styles.card}>
-        <PostHeader
-          post={post}
-          onAuthorPress={() => router.push(`/profile?userId=${post.user_id}`)}
-          onMenuPress={() => post.user_id === userId && setShowMenu(true)}
-        />
-
+        <PostHeader post={post} />
         <PostContent post={post} />
-
         <PostActions
           likeCount={likeCount}
           commentCount={post.comment_count}
           onShowLikers={handleShowLikers}
           onCommentPress={handleCommentButtonPress}
         />
-
         <PostInteractionButtons
           isLiked={isLiked}
           onLikePress={handleToggleLike}
           onCommentPress={handleCommentButtonPress}
         />
-
-        {/* COMMENTS SECTION */}
         {showComments && (
           <>
             {isLoadingComments ? (
@@ -280,40 +240,6 @@ const PostCard: React.FC<PostCardProps> = ({
           </>
         )}
       </View>
-
-      {/* POST MENU MODAL */}
-      <Modal transparent animationType="fade" visible={showMenu}>
-        <TouchableOpacity
-          style={{ flex: 1 }}
-          onPress={() => setShowMenu(false)}
-        >
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <View
-              style={{
-                backgroundColor: colors.white,
-                borderRadius: borderRadiuses.small,
-              }}
-            >
-              <TouchableOpacity
-                onPress={handleEdit}
-                style={{ padding: spacing.medium }}
-              >
-                <Text>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleDelete}
-                style={{ padding: spacing.medium }}
-              >
-                <Text style={{ color: colors.danger }}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
-      {/* POST LIKERS MODAL */}
       <Modal
         transparent
         animationType="fade"

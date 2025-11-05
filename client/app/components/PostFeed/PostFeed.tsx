@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  View,
   FlatList,
   ActivityIndicator,
   Text,
@@ -17,15 +16,14 @@ import {
 import { getPosts, createPost } from "../../services/postService";
 import CreatePostSection from "../CreatePostSection/CreatePostSection";
 import PostCard from "../PostCard/PostCard";
-import { colors, spacing } from "../../theme";
+import { colors } from "../../theme";
 import { styles } from "./PostFeed.styles";
 
 interface PostFeedProps {
-  userId: number;
   user: UserData;
 }
 
-const PostFeed: React.FC<PostFeedProps> = ({ userId, user }) => {
+const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
@@ -104,23 +102,12 @@ const PostFeed: React.FC<PostFeedProps> = ({ userId, user }) => {
     }
   };
 
-  const handleDeletePost = (postId: number) => {
-    setPosts(posts.filter((p) => p.id !== postId));
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <PostCard
-            post={item}
-            userId={userId}
-            onDelete={handleDeletePost}
-            onRefresh={fetchPosts}
-          />
-        )}
+        renderItem={({ item }) => <PostCard post={item} />}
         ListHeaderComponent={
           <CreatePostSection
             user={user}

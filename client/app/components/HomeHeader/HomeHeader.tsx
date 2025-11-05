@@ -1,17 +1,30 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./HomeHeader.styles";
+import MenuModal from "../../components/MenuModal/MenuModal";
+import { deleteAuthToken } from "../../utils/authUtils";
+import { removeUserData } from "../../utils/storageUtils";
+import { useRouter } from "expo-router";
 
-interface HomeHeaderProps {
-  onNotificationsPress: () => void;
-  onMenuPress: () => void;
-}
+const HomeHeader: React.FC = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  const router = useRouter();
 
-const HomeHeader: React.FC<HomeHeaderProps> = ({
-  onNotificationsPress,
-  onMenuPress,
-}) => {
+  const handleLogout = async () => {
+    try {
+      await deleteAuthToken();
+      await removeUserData();
+      router.replace("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      Alert.alert("Error", "Failed to logout");
+    }
+  };
+
+  const onMenuPress = () => setShowMenu(true);
+  const onNotificationsPress = () => {};
+
   return (
     <View style={styles.header}>
       <Text style={styles.logoText}>FaceVerse</Text>
@@ -30,6 +43,11 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           <Ionicons name="menu" size={20} color={styles.icon.color} />
         </TouchableOpacity>
       </View>
+      <MenuModal
+        visible={showMenu}
+        onClose={() => setShowMenu(false)}
+        onLogout={handleLogout}
+      />
     </View>
   );
 };
