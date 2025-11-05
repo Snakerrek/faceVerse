@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
+import { useRouter } from "expo-router";
 import { useLoginForm } from "./useLoginForm";
 import { FormInput } from "../../components/FormInput/FormInput";
 import { Message } from "../../components/Message/Message";
@@ -22,9 +23,14 @@ const LoginScreen: React.FC = () => {
     passwordInputRef,
     handleInputChange,
     handleLogin,
-    handleBack,
     focusPasswordInput,
   } = useLoginForm();
+
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>

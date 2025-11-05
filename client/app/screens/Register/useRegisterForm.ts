@@ -137,10 +137,6 @@ export const useRegisterForm = () => {
     setIsLoading(false);
   };
 
-  const handleBack = () => {
-    router.back();
-  };
-
   return {
     formData,
     isLoading,
@@ -148,6 +144,5 @@ export const useRegisterForm = () => {
     isError,
     handleInputChange,
     handleRegister,
-    handleBack,
   };
 };

@@ -59,10 +59,6 @@ export const useLoginForm = () => {
     setIsLoading(false);
   };
 
-  const handleBack = () => {
-    router.back();
-  };
-
   const focusPasswordInput = () => {
     passwordInputRef.current?.focus();
   };
@@ -75,7 +71,6 @@ export const useLoginForm = () => {
     passwordInputRef,
     handleInputChange,
     handleLogin,
-    handleBack,
     focusPasswordInput,
   };
 };

@@ -6,11 +6,13 @@ import { useImagePicker } from "../../hooks/useImagePicker";
 import { useImageUpload } from "../../hooks/useImageUpload";
 import { PhotoEditSection } from "../../components/PhotoEditSection/PhotoEditSection";
 import { styles } from "./SettingsScreen.styles";
+import { useAuthCheck } from "@/app/hooks/useAuthCheck";
 
 const SettingsScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);
   const { pickImage } = useImagePicker();
   const { isUploading, uploadImage } = useImageUpload();
+  useAuthCheck(true);
 
   useEffect(() => {
     loadUserData();

@@ -14,6 +14,7 @@ import { Message } from "../../components/Message/Message";
 import { GenderSelector } from "../../components/GenderSelector/GenderSelector";
 import { DateInput } from "../../components/DateInput/DateInput";
 import { styles } from "./RegisterScreen.styles";
+import { useRouter } from "expo-router";
 
 const RegisterScreen: React.FC = () => {
   const {
@@ -23,8 +24,13 @@ const RegisterScreen: React.FC = () => {
     isError,
     handleInputChange,
     handleRegister,
-    handleBack,
   } = useRegisterForm();
+
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
