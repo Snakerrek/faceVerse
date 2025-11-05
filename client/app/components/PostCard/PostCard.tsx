@@ -21,7 +21,6 @@ import {
 import PostHeader from "../PostHeader/PostHeader";
 import PostContent from "../PostContent/PostContent";
 import PostActions from "../PostActions/PostActions";
-import PostInteractionButtons from "../PostInteractionButtons/PostInteractionButtons";
 import CommentInputField from "../CommentInputField/CommentInputField";
 import CommentItem from "../CommentItem/CommentItem";
 import { styles } from "./PostCard.styles";
@@ -192,14 +191,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <PostHeader post={post} />
         <PostContent post={post} />
         <PostActions
+          isLiked={isLiked}
+          onLikePress={handleToggleLike}
           likeCount={likeCount}
           commentCount={post.comment_count}
           onShowLikers={handleShowLikers}
-          onCommentPress={handleCommentButtonPress}
-        />
-        <PostInteractionButtons
-          isLiked={isLiked}
-          onLikePress={handleToggleLike}
           onCommentPress={handleCommentButtonPress}
         />
         {showComments && (

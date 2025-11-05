@@ -1,5 +1,6 @@
 from flask import url_for, jsonify
 from flask_jwt_extended import get_jwt_identity
+from datetime import datetime, timezone, timedelta
 
 
 def generate_file_url(filename):
@@ -29,3 +30,9 @@ def parse_date(date_string, format='%Y-%m-%d'):
         return datetime.strptime(date_string, format).date(), None
     except ValueError:
         return None, (jsonify({"error": f"Wrong date format. Use {format}."}), 400)
+    
+def get_cet_now():
+    """Get current time in CET (UTC+01:00)."""
+    utc_now = datetime.now(timezone.utc)
+    cet = timezone(timedelta(hours=1))
+    return utc_now.astimezone(cet)

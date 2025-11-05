@@ -1,12 +1,14 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { borderRadiuses, colors, spacing } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     padding: spacing.medium,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
+    borderWidth: 1,
+    borderColor: colors.borderLight,
+    margin: spacing.small,
+    borderRadius: borderRadiuses.small,
   },
   content: {
     flex: 1,
@@ -21,6 +23,9 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.primaryText,
     marginTop: spacing.small / 2,
+    backgroundColor: colors.background,
+    padding: spacing.small,
+    borderRadius: borderRadiuses.small,
   },
   time: {
     fontSize: 11,

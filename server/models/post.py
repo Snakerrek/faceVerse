@@ -1,8 +1,7 @@
 from extensions import db
-from datetime import datetime
 from helpers.mixins import AuthorInfoMixin, LikeableMixin
 from helpers.helperFunctions import generate_file_url
-
+from helpers.helperFunctions import get_cet_now
 
 post_likes = db.Table(
     'post_likes',
@@ -16,7 +15,12 @@ class Post(AuthorInfoMixin, LikeableMixin, db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(
+        db.DateTime,
+        index=True,
+        default=get_cet_now,
+        nullable=False
+    )
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     image_filename = db.Column(db.String(128), nullable=True)
     

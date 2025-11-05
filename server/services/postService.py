@@ -3,7 +3,7 @@ from extensions import db
 from models.post import Post
 from models.user import User
 from models.comment import Comment
-from datetime import datetime
+from sqlalchemy import func
 from services.uploadService import UploadService
 from helpers.helperFunctions import validate_content, handle_db_error
 
@@ -38,7 +38,6 @@ class PostService:
             new_post = Post(
                 content=content,
                 user_id=user_id,
-                timestamp=datetime.utcnow(),
                 image_filename=image_filename
             )
             

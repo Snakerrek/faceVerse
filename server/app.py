@@ -53,7 +53,8 @@ def register_blueprints(app):
 
 
 def create_app():
-    """Application factory function."""
+    os.environ['TZ'] = 'Europe/Berlin'
+
     app = Flask(__name__)
     
     configure_app(app)
@@ -62,7 +63,6 @@ def create_app():
     register_blueprints(app)
     
     return app
-
 
 def init_database(app):
     """Initialize database tables."""

@@ -1,7 +1,6 @@
 from extensions import db
-from datetime import datetime
 from helpers.mixins import AuthorInfoMixin, LikeableMixin
-
+from helpers.helperFunctions import get_cet_now
 
 comment_likes = db.Table(
     'comment_likes',
@@ -9,13 +8,17 @@ comment_likes = db.Table(
     db.Column('comment_id', db.Integer, db.ForeignKey('comments.id'), primary_key=True)
 )
 
-
 class Comment(AuthorInfoMixin, LikeableMixin, db.Model):
     __tablename__ = 'comments'
     
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(
+        db.DateTime,
+        index=True,
+        default=get_cet_now,
+        nullable=False
+    )
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 

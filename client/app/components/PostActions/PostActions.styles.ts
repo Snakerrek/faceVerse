@@ -11,10 +11,21 @@ export const styles = StyleSheet.create({
   button: {
     flex: 1,
     paddingVertical: spacing.small,
-    alignItems: "center",
+    marginTop: 2,
+    alignItems: "flex-end",
+    marginRight: 8,
+  },
+  likesButton: {
+    flex: 1,
+    paddingVertical: spacing.small,
+    marginTop: 2,
   },
   text: {
     fontSize: 12,
     color: colors.secondaryText,
+  },
+  heartButton: {
+    paddingVertical: spacing.small,
+    marginHorizontal: 8,
   },
 });

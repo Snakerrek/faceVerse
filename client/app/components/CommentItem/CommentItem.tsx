@@ -70,15 +70,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
           <Text style={styles.author}>{comment.author_name}</Text>
           <Text style={styles.text}>{comment.content}</Text>
           <Text style={styles.time}>{formatTimeAgo(comment.timestamp)}</Text>
-
-          {comment.like_count > 0 && (
-            <TouchableOpacity onPress={handleShowLikers}>
-              <Text style={styles.likeCount}>
-                {comment.like_count}{" "}
-                {comment.like_count === 1 ? "Like" : "Likes"}
-              </Text>
-            </TouchableOpacity>
-          )}
         </View>
 
         <TouchableOpacity style={styles.likeButton} onPress={onLikePress}>
@@ -92,9 +83,14 @@ const CommentItem: React.FC<CommentItemProps> = ({
             }
           />
         </TouchableOpacity>
+        {comment.like_count > 0 && (
+          <TouchableOpacity onPress={handleShowLikers}>
+            <Text style={styles.likeCount}>
+              {comment.like_count} {comment.like_count === 1 ? "Like" : "Likes"}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
-
-      {/* Comment Likers Modal */}
       <Modal
         transparent
         animationType="fade"
