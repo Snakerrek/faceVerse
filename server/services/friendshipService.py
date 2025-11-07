@@ -34,7 +34,7 @@ class FriendshipService:
             
             # Create notification
             notification = Notification(
-                user_id=addressee_id,
+                recipient_id=addressee_id,
                 actor_id=requester_id,
                 type='friend_request'
             )

@@ -50,7 +50,7 @@ class PostService:
             friend_ids = FriendshipService.get_friend_ids(user_id)
             for friend_id in friend_ids:
                 NotificationService.create_notification(
-                    user_id=friend_id,
+                    recipient_id=friend_id,      # ← CORRECT
                     actor_id=user_id,
                     notification_type='new_post',
                     post_id=new_post.id
@@ -106,6 +106,14 @@ class PostService:
             
             liked = PostService._toggle_like(post, user, "Post")
             db.session.commit()
+
+            if liked and post.user_id != user_id:
+                NotificationService.create_notification(
+                    recipient_id=post.user_id,
+                    actor_id=user_id,
+                    notification_type='post_liked',
+                    post_id=post_id
+                )
             
             return jsonify({
                 "message": "Like status updated",
@@ -150,12 +158,15 @@ class PostService:
             
             # Create notification for post owner (if not commenting on own post)
             if post.user_id != user_id:
+                # ✅ CORRECT
                 NotificationService.create_notification(
-                    user_id=post.user_id,
+                    recipient_id=post.user_id,   # ← CORRECT
                     actor_id=user_id,
                     notification_type='new_comment',
-                    post_id=post_id
+                    post_id=post_id,
+                    comment_id=new_comment.id    # ← ADD THIS
                 )
+
             
             return jsonify({"message": "Comment created", "comment": new_comment.to_dict(current_user_id=user_id)}), 201
         except Exception as e:
@@ -193,6 +204,15 @@ class PostService:
             
             liked = PostService._toggle_like(comment, user, "Comment")
             db.session.commit()
+
+            if liked and comment.user_id != user_id:
+                NotificationService.create_notification(
+                    recipient_id=comment.user_id,
+                    actor_id=user_id,
+                    notification_type='comment_liked',
+                    post_id=comment.post_id,
+                    comment_id=comment_id
+                )
             
             return jsonify({
                 "message": "Comment like status updated",
@@ -214,3 +234,15 @@ class PostService:
         except Exception as e:
             db.session.rollback()
             return handle_db_error("Error fetching comment likers", e)
+        
+    @staticmethod
+    def get_post_by_id(post_id):
+        """Get a specific post by ID."""
+        try:
+            post = db.session.get(Post, post_id)
+            if not post:
+                return {"error": "Post not found"}, 404
+            return post.to_dict(), 200
+        except Exception as e:
+            return handle_db_error("Error fetching post", e)
+

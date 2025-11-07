@@ -100,7 +100,13 @@ export interface CreateCommentResponse {
 
 export interface Notification {
   id: number;
-  type: "friend_request" | "new_post" | "new_comment";
+  type:
+    | "friend_request"
+    | "friend_request_accepted"
+    | "new_post"
+    | "new_comment"
+    | "post_liked"
+    | "comment_liked";
   actor: {
     id: number;
     first_name: string;
@@ -108,6 +114,7 @@ export interface Notification {
     avatar_url: string | null;
   };
   post_id: number | null;
+  comment_id: number | null;
   is_read: boolean;
   created_at: string;
 }

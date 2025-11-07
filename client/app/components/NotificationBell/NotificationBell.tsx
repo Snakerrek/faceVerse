@@ -62,7 +62,6 @@ const NotificationBell: React.FC = () => {
   };
 
   const handleNotificationPress = async (notification: Notification) => {
-    // Mark as read
     if (!notification.is_read) {
       await markNotificationAsRead(notification.id);
       setUnreadCount((prev) => Math.max(0, prev - 1));
@@ -70,14 +69,31 @@ const NotificationBell: React.FC = () => {
 
     setShowModal(false);
 
-    // Navigate based on notification type
-    if (notification.type === "friend_request") {
-      router.push(`/profile?userId=${notification.actor.id}`);
-    } else if (
-      notification.type === "new_post" ||
-      notification.type === "new_comment"
-    ) {
-      router.push(`/profile?userId=${notification.actor.id}`);
+    switch (notification.type) {
+      case "friend_request":
+        router.push(`/profile?userId=${notification.actor.id}`);
+        break;
+
+      case "new_post":
+      case "post_liked":
+        if (notification.post_id) {
+          router.push(`/post?postId=${notification.post_id}`);
+        }
+        break;
+
+      case "new_comment":
+      case "comment_liked":
+        if (notification.post_id) {
+          router.push(`/post?postId=${notification.post_id}`);
+        }
+        break;
+
+      case "friend_request_accepted":
+        router.push(`/profile?userId=${notification.actor.id}`);
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -85,10 +101,16 @@ const NotificationBell: React.FC = () => {
     switch (notification.type) {
       case "friend_request":
         return "sent you a friend request";
+      case "friend_request_accepted":
+        return "accepted your friend request";
       case "new_post":
         return "created a new post";
       case "new_comment":
         return "commented on your post";
+      case "post_liked":
+        return "liked your post";
+      case "comment_liked":
+        return "liked your comment";
       default:
         return "";
     }

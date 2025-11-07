@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Modal,
@@ -28,9 +28,10 @@ import { colors, spacing, borderRadiuses } from "../../theme";
 
 interface PostCardProps {
   post: Post;
+  expandedByDefault?: boolean;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
   const router = useRouter();
 
   // Post likes state
@@ -41,7 +42,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [showLikers, setShowLikers] = useState(false);
 
   // Comments state
-  const [showComments, setShowComments] = useState(false);
+  const [showComments, setShowComments] = useState(expandedByDefault);
   const [comments, setComments] = useState<any[]>([]);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [newCommentContent, setNewCommentContent] = useState("");
@@ -50,6 +51,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   // Comment likes state
   const [commentLikers, setCommentLikers] = useState<any[]>([]);
   const [isLoadingCommentLikers, setIsLoadingCommentLikers] = useState(false);
+
+  useEffect(() => {
+    if (expandedByDefault) {
+      handleFetchComments();
+    }
+  }, []);
 
   // POST LIKE HANDLERS
   const handleToggleLike = async () => {

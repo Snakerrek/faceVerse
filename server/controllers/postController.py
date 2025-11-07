@@ -76,3 +76,9 @@ def like_comment(comment_id):
 @jwt_required()
 def get_comment_likers(comment_id):
     return PostService.get_comment_likers(comment_id)
+
+@posts_bp.route('/<int:post_id>', methods=['GET'])
+@jwt_required()
+def get_post(post_id):
+    """Get a specific post by ID."""
+    return PostService.get_post_by_id(post_id)

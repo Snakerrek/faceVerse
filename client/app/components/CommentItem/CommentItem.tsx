@@ -6,6 +6,7 @@ import {
   Modal,
   FlatList,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -51,6 +52,13 @@ const CommentItem: React.FC<CommentItemProps> = ({
   const router = useRouter();
   const [showLikersModal, setShowLikersModal] = useState(false);
 
+  const handleAuthorPress = () => {
+    router.push({
+      pathname: "/profile",
+      params: { userId: comment.user_id },
+    });
+  };
+
   const handleShowLikers = async () => {
     await onShowLikers();
     setShowLikersModal(true);
@@ -64,33 +72,43 @@ const CommentItem: React.FC<CommentItemProps> = ({
   return (
     <>
       <View style={styles.container}>
-        <UserAvatar avatarUrl={comment.author_avatar_url} size="small" />
-
-        <View style={styles.content}>
-          <Text style={styles.author}>{comment.author_name}</Text>
-          <Text style={styles.text}>{comment.content}</Text>
-          <Text style={styles.time}>{formatTimeAgo(comment.timestamp)}</Text>
-        </View>
-
-        <TouchableOpacity style={styles.likeButton} onPress={onLikePress}>
-          <MaterialCommunityIcons
-            name={comment.is_liked_by_current_user ? "heart" : "heart-outline"}
-            size={16}
-            color={
-              comment.is_liked_by_current_user
-                ? colors.danger
-                : colors.secondaryText
-            }
-          />
+        <TouchableOpacity
+          onPress={handleAuthorPress}
+          style={styles.pressableArea}
+        >
+          <UserAvatar avatarUrl={comment.author_avatar_url} size="small" />
+          <View style={styles.content}>
+            <Text style={styles.author}>{comment.author_name}</Text>
+            <Text style={styles.text}>{comment.content}</Text>
+            <Text style={styles.time}>{formatTimeAgo(comment.timestamp)}</Text>
+          </View>
         </TouchableOpacity>
-        {comment.like_count > 0 && (
-          <TouchableOpacity onPress={handleShowLikers}>
-            <Text style={styles.likeCount}>
-              {comment.like_count} {comment.like_count === 1 ? "Like" : "Likes"}
-            </Text>
+
+        <View style={styles.actions}>
+          <TouchableOpacity style={styles.likeButton} onPress={onLikePress}>
+            <MaterialCommunityIcons
+              name={
+                comment.is_liked_by_current_user ? "heart" : "heart-outline"
+              }
+              size={16}
+              color={
+                comment.is_liked_by_current_user
+                  ? colors.danger
+                  : colors.secondaryText
+              }
+            />
           </TouchableOpacity>
-        )}
+          {comment.like_count > 0 && (
+            <TouchableOpacity onPress={handleShowLikers}>
+              <Text style={styles.likeCount}>
+                {comment.like_count}{" "}
+                {comment.like_count === 1 ? "Like" : "Likes"}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
+
       <Modal
         transparent
         animationType="fade"

@@ -76,3 +76,11 @@ export async function getPostLikers(postId: number): Promise<Res<UserData[]>> {
     (json) => json as UserData[]
   );
 }
+
+export async function getPostById(postId: number): Promise<Res<Post>> {
+  return authRequest(
+    `/posts/${postId}`,
+    { method: "GET" },
+    (json) => json as Post
+  );
+}
