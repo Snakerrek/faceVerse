@@ -99,6 +99,14 @@ class NotificationService:
             actor_id=accepter_id,
             notification_type=NotificationType.FRIEND_REQUEST_ACCEPTED.value
         )
+    @staticmethod
+    def notify_friend_request_sent(recipient_id, actor_id):
+        """Notify user about incoming friend request."""
+        return NotificationService.create_notification(
+            recipient_id=recipient_id,
+            actor_id=actor_id,
+            notification_type=NotificationType.FRIEND_REQUEST.value
+        )
     
     @staticmethod
     def get_notifications(user_id):

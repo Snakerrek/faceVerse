@@ -2,8 +2,9 @@ from flask import jsonify
 from extensions import db
 from models.friendship import Friendship
 from models.user import User
-from models.notification import Notification
 from helpers.helperFunctions import handle_db_error
+from services.notificationService import NotificationService
+
 
 class FriendshipService:
     
@@ -11,7 +12,9 @@ class FriendshipService:
     def send_friend_request(requester_id, addressee_id):
         """Send friend request and create notification."""
         try:
-            # Check if already friends or request exists
+            if not addressee_id:
+                return jsonify({"error": "addressee_id is required"}), 400
+            
             existing = db.session.execute(
                 db.select(Friendship).filter(
                     ((Friendship.requester_id == requester_id) & (Friendship.addressee_id == addressee_id)) |
@@ -24,7 +27,6 @@ class FriendshipService:
                     return jsonify({"error": "Already friends"}), 400
                 return jsonify({"error": "Friend request already sent"}), 400
             
-            # Create friendship request
             friendship = Friendship(
                 requester_id=requester_id,
                 addressee_id=addressee_id,
@@ -32,13 +34,7 @@ class FriendshipService:
             )
             db.session.add(friendship)
             
-            # Create notification
-            notification = Notification(
-                recipient_id=addressee_id,
-                actor_id=requester_id,
-                type='friend_request'
-            )
-            db.session.add(notification)
+            NotificationService.notify_friend_request_sent(addressee_id, requester_id)
             
             db.session.commit()
             
@@ -51,6 +47,9 @@ class FriendshipService:
     def accept_friend_request(user_id, requester_id):
         """Accept friend request."""
         try:
+            if not requester_id:
+                return jsonify({"error": "requester_id is required"}), 400
+            
             friendship = db.session.execute(
                 db.select(Friendship).filter(
                     (Friendship.requester_id == requester_id) &
@@ -64,6 +63,8 @@ class FriendshipService:
             
             friendship.status = 'accepted'
             db.session.commit()
+            
+            NotificationService.notify_friend_request_accepted(requester_id, user_id)
             
             return jsonify({"message": "Friend request accepted"}), 200
         except Exception as e:
@@ -84,13 +85,12 @@ class FriendshipService:
             if not friendship:
                 return jsonify({"status": "none"}), 200
             
-            # Determine button state
             if friendship.status == 'accepted':
                 return jsonify({"status": "friends"}), 200
             elif friendship.requester_id == user_id:
-                return jsonify({"status": "pending_sent"}), 200  # Current user sent request
+                return jsonify({"status": "pending_sent"}), 200 
             else:
-                return jsonify({"status": "pending_received"}), 200  # Current user received request
+                return jsonify({"status": "pending_received"}), 200
         except Exception as e:
             return handle_db_error("Error getting friendship status", e)
     
@@ -145,16 +145,15 @@ class FriendshipService:
             ).scalar()
             
             if not friendship:
-                return {"error": "Not friends"}, 404
+                return jsonify({"error": "Not friends"}), 404
             
             if friendship.status != 'accepted':
-                return {"error": "No active friendship to remove"}, 400
+                return jsonify({"error": "No active friendship to remove"}), 400
             
             db.session.delete(friendship)
             db.session.commit()
             
-            return {"message": "Friend removed"}, 200
+            return jsonify({"message": "Friend removed"}), 200
         except Exception as e:
             db.session.rollback()
             return handle_db_error("Error removing friend", e)
-
