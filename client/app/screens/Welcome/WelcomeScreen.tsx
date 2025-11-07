@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import useAuthCheck from "../../hooks/useAuthCheck";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import styles from "./WelcomeScreen.styles";
@@ -24,19 +24,15 @@ const WelcomeScreen: React.FC = () => {
       <Text style={styles.header}>FaceVerse</Text>
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Login"
-          onPress={navigateToLogin}
-          color={styles.button.color}
-        />
+        <TouchableOpacity style={styles.button} onPress={navigateToLogin}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Sign up"
-          onPress={navigateToRegister}
-          color={styles.button.color}
-        />
+        <TouchableOpacity style={styles.button} onPress={navigateToRegister}>
+          <Text style={styles.buttonText}>Sign up</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -2,17 +2,18 @@ import React from "react";
 import {
   View,
   Text,
-  Button,
   ActivityIndicator,
   Pressable,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
 import useLoginForm from "../../hooks/useLoginForm";
 import FormInput from "../../components/FormInput/FormInput";
 import Message from "../../components/Message/Message";
 import styles from "./LoginScreen.styles";
+import { colors } from "../../theme";
 
 const LoginScreen: React.FC = () => {
   const {
@@ -78,12 +79,17 @@ const LoginScreen: React.FC = () => {
           {message && <Message text={message} isError={isError} />}
 
           <View style={styles.buttonWrapper}>
-            <Button
-              title="Login"
+            <TouchableOpacity
+              style={[styles.button, isLoading && styles.buttonDisabled]}
               onPress={handleLogin}
-              color={styles.button.color}
               disabled={isLoading}
-            />
+            >
+              {isLoading ? (
+                <ActivityIndicator color={colors.white} size="small" />
+              ) : (
+                <Text style={styles.buttonText}>Login</Text>
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

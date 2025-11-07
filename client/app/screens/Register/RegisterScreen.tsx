@@ -2,10 +2,10 @@ import React from "react";
 import {
   View,
   Text,
-  Button,
   ActivityIndicator,
   Pressable,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useRegisterForm from "../../hooks/useRegisterForm";
@@ -15,6 +15,7 @@ import GenderSelector from "../../components/GenderSelector/GenderSelector";
 import DateInput from "../../components/DateInput/DateInput";
 import styles from "./RegisterScreen.styles";
 import { useRouter } from "expo-router";
+import { colors } from "../../theme";
 
 const RegisterScreen: React.FC = () => {
   const {
@@ -105,12 +106,17 @@ const RegisterScreen: React.FC = () => {
           {message && <Message text={message} isError={isError} />}
 
           <View style={styles.buttonWrapper}>
-            <Button
-              title="Register"
+            <TouchableOpacity
+              style={[styles.button, isLoading && styles.buttonDisabled]}
               onPress={handleRegister}
-              color={styles.button.color}
               disabled={isLoading}
-            />
+            >
+              {isLoading ? (
+                <ActivityIndicator color={colors.white} size="small" />
+              ) : (
+                <Text style={styles.buttonText}>Sign up</Text>
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

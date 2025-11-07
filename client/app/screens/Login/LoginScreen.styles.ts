@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, typography } from "../../theme";
+import { colors, spacing, typography, borderRadiuses } from "../../theme";
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -50,11 +50,27 @@ const styles = StyleSheet.create({
   activityIndicator: {
     color: colors.blue,
   },
-  buttonWrapper: {
-    marginTop: spacing.small,
-  },
   button: {
-    color: colors.blue,
+    backgroundColor: colors.blue,
+    paddingVertical: spacing.medium,
+    paddingHorizontal: spacing.large,
+    borderRadius: borderRadiuses.small,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 44,
+  },
+  buttonDisabled: {
+    backgroundColor: colors.secondaryText,
+    opacity: 0.6,
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: typography.fontSize.medium,
+    fontWeight: typography.fontWeight.bold,
+  },
+  buttonWrapper: {
+    width: "100%",
+    marginVertical: spacing.small,
   },
 });
 

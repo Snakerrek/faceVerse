@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, typography } from "../../theme";
+import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,12 +15,22 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xlarge,
     color: colors.primaryText,
   },
-  buttonContainer: {
-    width: "80%",
-    marginVertical: spacing.small,
-  },
   button: {
-    color: colors.blue,
+    backgroundColor: colors.blue,
+    paddingVertical: spacing.medium,
+    paddingHorizontal: spacing.large,
+    borderRadius: borderRadiuses.small,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: typography.fontSize.medium,
+    fontWeight: typography.fontWeight.bold,
+  },
+  buttonContainer: {
+    width: "100%",
+    marginVertical: spacing.small,
   },
 });
 
