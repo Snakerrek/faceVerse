@@ -8,6 +8,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../theme";
 import styles from "./CommentInputField.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface CommentInputFieldProps {
   value: string;
@@ -22,11 +23,12 @@ const CommentInputField: React.FC<CommentInputFieldProps> = ({
   onSubmit,
   isLoading,
 }) => {
+  const { t } = useLanguage();
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Write a comment..."
+        placeholder={t("writeComment") + "..."}
         placeholderTextColor={colors.secondaryText}
         value={value}
         onChangeText={onChangeText}

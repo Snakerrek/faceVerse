@@ -3,6 +3,7 @@ import { TextInput } from "react-native";
 import { useRouter } from "expo-router";
 import { ResponseStatus } from "../types/types";
 import { login } from "../services/authService";
+import { useLanguage } from "../locales/LanguageContext";
 
 interface FormData {
   email: string;
@@ -10,6 +11,7 @@ interface FormData {
 }
 
 const useLoginForm = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -27,7 +29,7 @@ const useLoginForm = () => {
 
   const validateForm = (): boolean => {
     if (!formData.email || !formData.password) {
-      setMessage("E-mail and password are required.");
+      setMessage(t("loginRequiredData"));
       setIsError(true);
       return false;
     }

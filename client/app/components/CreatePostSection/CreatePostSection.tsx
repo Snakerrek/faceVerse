@@ -12,6 +12,7 @@ import { UserData } from "../../types/types";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { colors } from "../../theme";
 import styles from "./CreatePostSection.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface CreatePostSectionProps {
   user: UserData;
@@ -34,13 +35,14 @@ const CreatePostSection: React.FC<CreatePostSectionProps> = ({
   onSubmit,
   isLoading,
 }) => {
+  const { t } = useLanguage();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <UserAvatar avatarUrl={user.avatar_url} size="small" />
         <TextInput
           style={styles.input}
-          placeholder="What's on your mind?"
+          placeholder={t("shareYourThoughts") + "..."}
           placeholderTextColor={colors.secondaryText}
           value={content}
           onChangeText={onContentChange}
@@ -86,7 +88,7 @@ const CreatePostSection: React.FC<CreatePostSectionProps> = ({
           {isLoading ? (
             <ActivityIndicator color={colors.white} size="small" />
           ) : (
-            <Text style={styles.postButtonText}>Post</Text>
+            <Text style={styles.postButtonText}>{t("send")}</Text>
           )}
         </TouchableOpacity>
       </View>

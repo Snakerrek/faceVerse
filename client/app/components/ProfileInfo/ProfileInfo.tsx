@@ -4,12 +4,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserData } from "../../types/types";
 import useDateFormatter from "../../hooks/useDateFormatter";
 import styles from "./ProfileInfo.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface ProfileInfoProps {
   user: UserData;
 }
 
 const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
+  const { t } = useLanguage();
   const { formatDOB } = useDateFormatter();
 
   return (
@@ -32,7 +34,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
           style={styles.infoIcon}
         />
         <Text style={styles.infoText}>
-          Born {formatDOB(user.date_of_birth)}
+          {t("born")}: {formatDOB(user.date_of_birth)}
         </Text>
       </View>
 
@@ -43,7 +45,9 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
           color={styles.infoIcon.color}
           style={styles.infoIcon}
         />
-        <Text style={styles.infoText}>{user.gender || "Not specified"}</Text>
+        <Text style={styles.infoText}>
+          {t(`${user.gender}`) || t("infoMissing")}
+        </Text>
       </View>
     </View>
   );

@@ -13,6 +13,7 @@ import { ResponseStatus, Friend } from "../../types/types";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import styles from "./FriendsScreen.styles";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface FriendsScreenParams {
   userId?: string;
@@ -20,6 +21,7 @@ interface FriendsScreenParams {
 
 const FriendsScreen: React.FC = () => {
   const router = useRouter();
+  const { t } = useLanguage();
   const params = useLocalSearchParams() as FriendsScreenParams;
   const targetUserId = params.userId ? parseInt(params.userId, 10) : undefined;
 
@@ -75,13 +77,15 @@ const FriendsScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text style={styles.count}>{friends.length} friends</Text>
+          <Text style={styles.count}>
+            {friends.length} {friends.length === 1 ? t("friend") : t("friends")}
+          </Text>
         </View>
       </View>
 
       {friends.length === 0 ? (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>No friends yet</Text>
+          <Text style={styles.emptyText}>{t("noFriendsYet")}</Text>
         </View>
       ) : (
         <FlatList

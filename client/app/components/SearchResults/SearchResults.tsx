@@ -3,6 +3,7 @@ import { View, FlatList, Text, ActivityIndicator } from "react-native";
 import { UserData } from "../../types/types";
 import UserSearchCard from "../UserSearchCard/UserSearchCard";
 import styles from "./SearchResults.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface SearchResultsProps {
   results: UserData[];
@@ -15,6 +16,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   isLoading,
   query,
 }) => {
+  const { t } = useLanguage();
   if (isLoading && query.length > 0) {
     return (
       <View style={styles.centerContainer}>
@@ -26,7 +28,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   if (!isLoading && results.length === 0 && query.length > 0) {
     return (
       <View style={styles.centerContainer}>
-        <Text style={styles.noResultsText}>No users found.</Text>
+        <Text style={styles.noResultsText}>{t("noFriendsFound")}</Text>
       </View>
     );
   }

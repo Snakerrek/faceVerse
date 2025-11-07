@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "./theme";
 import { LanguageProvider } from "./locales/LanguageContext";
+import { useLanguage } from "./locales/LanguageContext";
 
 export default function RootLayout() {
   return (
@@ -16,6 +17,7 @@ export default function RootLayout() {
 
 function RootLayoutContent() {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const handleSmartBack = () => {
     if (router.canGoBack?.()) {
@@ -40,13 +42,13 @@ function RootLayoutContent() {
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="login" options={{ headerShown: false }} />
-      <Stack.Screen name="register" options={{ headerShown: false }} />
+      <Stack.Screen name="login" options={{ title: `${t("logIn")}` }} />
+      <Stack.Screen name="register" options={{ title: `${t("register")}` }} />
       <Stack.Screen name="home" options={{ headerShown: false }} />
-      <Stack.Screen name="profile" options={{ title: "Profile" }} />
-      <Stack.Screen name="settings" options={{ title: "Settings" }} />
-      <Stack.Screen name="friends" options={{ title: "Friends" }} />
-      <Stack.Screen name="post" options={{ title: "Post" }} />
+      <Stack.Screen name="profile" options={{ title: `${t("profile")}` }} />
+      <Stack.Screen name="settings" options={{ title: `${t("settings")}` }} />
+      <Stack.Screen name="friends" options={{ title: `${t("friends")}` }} />
+      <Stack.Screen name="post" options={{ title: `${t("post")}` }} />
     </Stack>
   );
 }

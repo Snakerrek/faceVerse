@@ -7,12 +7,14 @@ import useImageUpload from "../../hooks/useImageUpload";
 import PhotoEditSection from "../../components/PhotoEditSection/PhotoEditSection";
 import styles from "./SettingsScreen.styles";
 import useAuthCheck from "../../hooks/useAuthCheck";
+import { useLanguage } from "../../locales/LanguageContext";
 
 const SettingsScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);
   const { pickImage } = useImagePicker();
   const { isUploading, uploadImage } = useImageUpload();
   useAuthCheck(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     loadUserData();
@@ -38,7 +40,9 @@ const SettingsScreen: React.FC = () => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>Error: User data not found.</Text>
+          <Text style={styles.errorText}>
+            {t("error")}: {t("userDataNotFound")}
+          </Text>
         </View>
       </SafeAreaView>
     );
@@ -47,7 +51,7 @@ const SettingsScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Settings</Text>
+        <Text style={styles.title}>{t("settings")}</Text>
 
         <PhotoEditSection
           type="cover"

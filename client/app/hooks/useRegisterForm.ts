@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import { Gender, RegisterData, ResponseStatus } from "../types/types";
 import { register } from "../services/authService";
+import { useLanguage } from "../locales/LanguageContext";
 
 interface FormData {
   email: string;
@@ -26,6 +27,7 @@ const initialFormData: FormData = {
 };
 
 const useRegisterForm = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -43,7 +45,7 @@ const useRegisterForm = () => {
       !formData.first_name ||
       !formData.last_name
     ) {
-      setMessage("All the fields are required.");
+      setMessage(t("allRequiredData"));
       setIsError(true);
       return false;
     }
@@ -62,7 +64,7 @@ const useRegisterForm = () => {
       year < 1900 ||
       year > new Date().getFullYear()
     ) {
-      setMessage("Wrong birthdate");
+      setMessage(t("wrongBirthDate"));
       setIsError(true);
       return false;
     }
@@ -81,7 +83,7 @@ const useRegisterForm = () => {
 
       return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     } else if (formData.dob_year || formData.dob_month || formData.dob_day) {
-      setMessage("Fill in all the date parts.");
+      setMessage(t("fillAllDataParts"));
       setIsError(true);
       return null;
     }
@@ -123,13 +125,13 @@ const useRegisterForm = () => {
     const registerRes = await register(registerData);
 
     if (registerRes.status === ResponseStatus.OK) {
-      setMessage("Registration went correct, you can log in now.");
+      setMessage(t("registrationSuccess"));
       setIsError(false);
       resetForm();
       router.replace("/login");
     } else {
       console.error("Registration Error:", registerRes.message);
-      setMessage(registerRes.message || "Error, try again.");
+      setMessage(registerRes.message || `${t("error")}, ${t("tryAgain")}`);
       setIsError(true);
     }
 

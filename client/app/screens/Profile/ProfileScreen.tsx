@@ -13,12 +13,14 @@ import useProfile from "../../hooks/useProfile";
 import useAuthCheck from "../../hooks/useAuthCheck";
 import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
 import PostCard from "../../components/PostCard/PostCard";
+import { useLanguage } from "../../locales/LanguageContext";
 
 const ProfileScreen: React.FC = () => {
   const { userId } = useLocalSearchParams<{ userId: string }>();
   const targetUserId = userId ? parseInt(userId, 10) : null;
   useAuthCheck(true);
   const { profileUser, posts, isLoading } = useProfile(targetUserId);
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -31,7 +33,7 @@ const ProfileScreen: React.FC = () => {
   if (!profileUser) {
     return (
       <View style={styles.errorText}>
-        <Text style={styles.errorText}>User not found</Text>
+        <Text style={styles.errorText}>{t("userNotFound")}</Text>
       </View>
     );
   }
@@ -43,7 +45,9 @@ const ProfileScreen: React.FC = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <PostCard post={item} />}
         ListHeaderComponent={<ProfileHeader user={profileUser} />}
-        ListEmptyComponent={<Text style={styles.emptyText}>No posts yet.</Text>}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>{t("noPostsYet")}</Text>
+        }
       />
     </SafeAreaView>
   );

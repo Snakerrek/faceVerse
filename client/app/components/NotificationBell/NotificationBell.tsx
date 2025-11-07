@@ -19,9 +19,11 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import { formatTimeAgo } from "../../utils/formatUtils";
 import styles from "./NotificationBell.styles";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 const NotificationBell: React.FC = () => {
   const router = useRouter();
+  const { t } = useLanguage();
   const [showModal, setShowModal] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -97,22 +99,61 @@ const NotificationBell: React.FC = () => {
     }
   };
 
-  const getNotificationText = (notification: Notification): string => {
+  const getNotificationText = (notification: Notification) => {
+    const actorName =
+      notification.actor.first_name + " " + notification.actor.last_name;
+
     switch (notification.type) {
       case "friend_request":
-        return "sent you a friend request";
+        return (
+          <Text>
+            {t("user") + " "}
+            <Text style={{ fontWeight: "bold" }}>{actorName}</Text>
+            {" " + t("friendRequest")}
+          </Text>
+        );
       case "friend_request_accepted":
-        return "accepted your friend request";
+        return (
+          <Text>
+            {t("user") + " "}
+            <Text style={{ fontWeight: "bold" }}>{actorName}</Text>
+            {" " + t("friendRequestAccepted")}
+          </Text>
+        );
       case "new_post":
-        return "created a new post";
+        return (
+          <Text>
+            {t("user") + " "}
+            <Text style={{ fontWeight: "bold" }}>{actorName}</Text>
+            {" " + t("newPost")}
+          </Text>
+        );
       case "new_comment":
-        return "commented on your post";
+        return (
+          <Text>
+            {t("user") + " "}
+            <Text style={{ fontWeight: "bold" }}>{actorName}</Text>
+            {" " + t("newComment")}
+          </Text>
+        );
       case "post_liked":
-        return "liked your post";
+        return (
+          <Text>
+            {t("user") + " "}
+            <Text style={{ fontWeight: "bold" }}>{actorName}</Text>
+            {" " + t("postLiked")}
+          </Text>
+        );
       case "comment_liked":
-        return "liked your comment";
+        return (
+          <Text>
+            {t("user") + " "}
+            <Text style={{ fontWeight: "bold" }}>{actorName}</Text>
+            {" " + t("commentLiked")}
+          </Text>
+        );
       default:
-        return "";
+        return null;
     }
   };
 
@@ -146,7 +187,7 @@ const NotificationBell: React.FC = () => {
         >
           <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Notifications</Text>
+              <Text style={styles.modalTitle}>{t("notifications")}</Text>
               <TouchableOpacity onPress={() => setShowModal(false)}>
                 <Ionicons name="close" size={24} color={colors.primaryText} />
               </TouchableOpacity>
@@ -163,7 +204,7 @@ const NotificationBell: React.FC = () => {
                 </View>
               ) : notifications.length === 0 ? (
                 <View style={styles.emptyState}>
-                  <Text style={styles.emptyText}>No notifications</Text>
+                  <Text style={styles.emptyText}>{t("noNotifications")}</Text>
                 </View>
               ) : (
                 notifications.map((item) => (
@@ -181,9 +222,6 @@ const NotificationBell: React.FC = () => {
                     />
                     <View style={styles.notificationContent}>
                       <Text style={styles.notificationText}>
-                        <Text style={styles.actorName}>
-                          {item.actor.first_name} {item.actor.last_name}
-                        </Text>{" "}
                         {getNotificationText(item)}
                       </Text>
                       <Text style={styles.timestamp}>

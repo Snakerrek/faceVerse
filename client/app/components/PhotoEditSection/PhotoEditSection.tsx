@@ -5,6 +5,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import ProfileBackground from "../ProfileBackground/ProfileBackground";
 import EditPhotoButton from "../EditPhotoButton/EditPhotoButton";
 import styles from "./PhotoEditSection.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface PhotoEditSectionProps {
   type: "avatar" | "cover";
@@ -19,6 +20,7 @@ const PhotoEditSection: React.FC<PhotoEditSectionProps> = ({
   isLoading,
   onEditPress,
 }) => {
+  const { t } = useLanguage();
   const isAvatar = type === "avatar";
   const imageUrl = isAvatar ? user.avatar_url : user.cover_url;
 
@@ -27,17 +29,17 @@ const PhotoEditSection: React.FC<PhotoEditSectionProps> = ({
       {isAvatar ? (
         <>
           <UserAvatar avatarUrl={imageUrl} size="medium" />
-          <Text style={styles.label}>Profile Picture</Text>
+          <Text style={styles.label}>{t("profilePicture")}</Text>
         </>
       ) : (
         <>
           <ProfileBackground backgroundUrl={imageUrl} context="profile" />
-          <Text style={styles.label}>Cover Photo</Text>
+          <Text style={styles.label}>{t("coverPicture")}</Text>
         </>
       )}
 
       <EditPhotoButton
-        label={`Change ${isAvatar ? "Profile Picture" : "Cover Photo"}`}
+        label={`${t("change")} ${isAvatar ? t("profilePicture").toLowerCase() : t("coverPicture").toLowerCase()}`}
         isLoading={isLoading}
         onPress={onEditPress}
       />

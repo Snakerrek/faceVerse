@@ -7,12 +7,14 @@ import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import ProfileActions from "../ProfileActions/ProfileActions";
 import styles from "./ProfileHeader.styles";
 import { getLoggedInUserID } from "@/app/utils/storageUtils";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface ProfileHeaderProps {
   user: UserData;
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
+  const { t } = useLanguage();
   const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
 
         <ProfileActions isCurrentUser={isCurrentUser} userId={user.id} />
 
-        <Text style={styles.postsSectionTitle}>Posts</Text>
+        <Text style={styles.postsSectionTitle}>{t("posts")}</Text>
       </View>
     </>
   );

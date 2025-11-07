@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { colors } from "../../theme";
 import styles from "./LikersModal.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface LikersModalProps {
   visible: boolean;
@@ -28,6 +29,7 @@ const LikersModal: React.FC<LikersModalProps> = ({
   isLoading,
   likeCount,
 }) => {
+  const { t } = useLanguage();
   const router = useRouter();
   const isClosingRef = useRef(false);
 
@@ -61,7 +63,7 @@ const LikersModal: React.FC<LikersModalProps> = ({
         <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.headerText}>
-              {likeCount} {likeCount === 1 ? "Like" : "Likes"}
+              {likeCount} {likeCount === 1 ? t("like") : t("likes")}
             </Text>
           </View>
 
@@ -93,7 +95,7 @@ const LikersModal: React.FC<LikersModalProps> = ({
               />
             ) : (
               <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}>No likes yet</Text>
+                <Text style={styles.emptyText}>{t("noLikesYet")}</Text>
               </View>
             )}
           </ScrollView>

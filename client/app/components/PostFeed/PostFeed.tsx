@@ -18,12 +18,14 @@ import CreatePostSection from "../CreatePostSection/CreatePostSection";
 import PostCard from "../PostCard/PostCard";
 import { colors } from "../../theme";
 import styles from "./PostFeed.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface PostFeedProps {
   user: UserData;
 }
 
 const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
+  const { t } = useLanguage();
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isPosting, setIsPosting] = useState(false);
@@ -128,7 +130,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ user }) => {
               size="large"
             />
           ) : (
-            <Text style={styles.emptyText}>No posts yet</Text>
+            <Text style={styles.emptyText}>{t("noPostsYet")}</Text>
           )
         }
         onRefresh={fetchPosts}

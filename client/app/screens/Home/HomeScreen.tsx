@@ -9,6 +9,7 @@ import TabBar from "../../components/TabBar/TabBar";
 import { colors } from "../../theme";
 import styles from "./HomeScreen.styles";
 import useAuthCheck from "../../hooks/useAuthCheck";
+import { useLanguage } from "../../locales/LanguageContext";
 
 type ActiveTab = "home" | "search";
 
@@ -17,6 +18,7 @@ const HomeScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ActiveTab>("home");
   useAuthCheck(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     loadUserData();
@@ -42,7 +44,9 @@ const HomeScreen: React.FC = () => {
   if (!user) {
     return (
       <SafeAreaView style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error: User not found</Text>
+        <Text style={styles.errorText}>
+          {t("error")}: {t("userNotFound")}
+        </Text>
       </SafeAreaView>
     );
   }

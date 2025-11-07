@@ -8,6 +8,7 @@ import LikersModal from "../LikersModal/LikersModal";
 import { colors } from "../../theme";
 import styles from "./CommentItem.styles";
 import { formatTimeAgo } from "../../utils/formatUtils";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface CommentItemProps {
   comment: Comment;
@@ -24,6 +25,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
   isLoadingLikers,
   onShowLikers,
 }) => {
+  const { t } = useLanguage();
   const router = useRouter();
   const [showLikersModal, setShowLikersModal] = useState(false);
 
@@ -72,7 +74,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
             <TouchableOpacity onPress={handleShowLikers}>
               <Text style={styles.likeCount}>
                 {comment.like_count}{" "}
-                {comment.like_count === 1 ? "Like" : "Likes"}
+                {comment.like_count === 1 ? t("like") : t("likes")}
               </Text>
             </TouchableOpacity>
           )}

@@ -12,7 +12,7 @@ const useDateFormatter = () => {
 
       return date.toLocaleDateString("en-US", {
         year: "numeric",
-        month: "long",
+        month: "numeric",
         day: "numeric",
       });
     } catch (error) {

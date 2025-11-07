@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text } from "react-native";
 import styles from "./PostActions.styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface PostActionsProps {
   isLiked: boolean;
@@ -21,6 +22,7 @@ const PostActions: React.FC<PostActionsProps> = ({
   onShowLikers,
   onCommentPress,
 }) => {
+  const { t } = useLanguage();
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.heartButton} onPress={onLikePress}>
@@ -32,12 +34,12 @@ const PostActions: React.FC<PostActionsProps> = ({
       </TouchableOpacity>
       <TouchableOpacity style={styles.likesButton} onPress={onShowLikers}>
         <Text style={styles.text}>
-          {likeCount} {likeCount === 1 ? "Like" : "Likes"}
+          {likeCount} {likeCount === 1 ? t("like") : t("likes")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={onCommentPress}>
         <Text style={styles.text}>
-          {commentCount} {commentCount === 1 ? "Comment" : "Comments"}
+          {commentCount} {commentCount === 1 ? t("comment") : t("comments")}
         </Text>
       </TouchableOpacity>
     </View>

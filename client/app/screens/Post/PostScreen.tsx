@@ -11,6 +11,7 @@ import { getPostById } from "../../services/postService";
 import { ResponseStatus, Post } from "../../types/types";
 import styles from "./PostScreen.styles";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 const PostScreen: React.FC = () => {
   const params = useLocalSearchParams<{ postId: string }>();
@@ -18,6 +19,7 @@ const PostScreen: React.FC = () => {
 
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchPost();
@@ -49,7 +51,7 @@ const PostScreen: React.FC = () => {
   if (!post) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.errorText}>Post not found</Text>
+        <Text style={styles.errorText}>{t("postNotFound")}</Text>
       </SafeAreaView>
     );
   }

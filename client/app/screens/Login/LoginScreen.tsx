@@ -3,12 +3,10 @@ import {
   View,
   Text,
   ActivityIndicator,
-  Pressable,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useRouter } from "expo-router";
 import useLoginForm from "../../hooks/useLoginForm";
 import FormInput from "../../components/FormInput/FormInput";
 import Message from "../../components/Message/Message";
@@ -29,20 +27,9 @@ const LoginScreen: React.FC = () => {
   } = useLoginForm();
 
   const { t } = useLanguage();
-  const router = useRouter();
-
-  const handleBack = () => {
-    router.back();
-  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.topBarContainer}>
-        <Pressable onPress={handleBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>{`< ${t("back")}`}</Text>
-        </Pressable>
-      </View>
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.headerContentContainer}>
           <Text style={styles.title}>{t("logIn")}</Text>

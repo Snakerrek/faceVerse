@@ -9,6 +9,7 @@ import {
 import { ResponseStatus } from "../../types/types";
 import styles from "./FriendButton.styles";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface FriendButtonProps {
   userId: number;
@@ -17,7 +18,7 @@ interface FriendButtonProps {
 const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
   const [status, setStatus] = useState<string>("none");
   const [loading, setLoading] = useState(false);
-  const [showRemoveOption, setShowRemoveOption] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetchFriendshipStatus();
@@ -49,7 +50,6 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
         }
       } else if (status === "friends") {
         handleRemoveFriend();
-        setShowRemoveOption(true);
       }
     } catch (error) {
       console.error("Error handling friend action:", error);
@@ -64,7 +64,6 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
       const response = await removeFriend(userId);
       if (response.status === ResponseStatus.OK) {
         setStatus("none");
-        setShowRemoveOption(false);
       }
     } catch (error) {
       console.error("Error removing friend:", error);
@@ -76,23 +75,35 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
   const getButtonConfig = () => {
     switch (status) {
       case "none":
-        return { text: "Add Friend", style: styles.addButton, disabled: false };
+        return {
+          text: t("addFriend"),
+          style: styles.addButton,
+          disabled: false,
+        };
       case "pending_sent":
-        return { text: "Invited", style: styles.invitedButton, disabled: true };
+        return {
+          text: t("inviteSend"),
+          style: styles.invitedButton,
+          disabled: true,
+        };
       case "pending_received":
         return {
-          text: "Accept Invite",
+          text: t("inviteAccept"),
           style: styles.acceptButton,
           disabled: false,
         };
       case "friends":
         return {
-          text: "Remove",
+          text: t("removeFriend"),
           style: styles.friendsButton,
           disabled: false,
         };
       default:
-        return { text: "Add Friend", style: styles.addButton, disabled: false };
+        return {
+          text: t("addFriend"),
+          style: styles.addButton,
+          disabled: false,
+        };
     }
   };
 
