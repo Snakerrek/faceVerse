@@ -48,6 +48,12 @@ const styles = StyleSheet.create({
     fontWeight: typography.fontWeight.bold,
     marginLeft: spacing.medium,
   },
+  scrollContent: {
+    flex: 1,
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+  },
 });
 
 export default styles;

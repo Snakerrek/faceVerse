@@ -6,6 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
   Text,
+  ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
 import UserAvatar from "../UserAvatar/UserAvatar";
@@ -57,39 +58,46 @@ const LikersModal: React.FC<LikersModalProps> = ({
       onRequestClose={handleModalClose}
     >
       <TouchableOpacity style={styles.overlay} onPress={handleModalClose}>
-        <View style={styles.modalContent}>
+        <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.headerText}>
               {likeCount} {likeCount === 1 ? "Like" : "Likes"}
             </Text>
           </View>
 
-          {isLoading ? (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator color={colors.blue} size="large" />
-            </View>
-          ) : likers.length > 0 ? (
-            <FlatList
-              data={likers}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => handleLikerPress(item.id)}
-                  style={styles.likerItem}
-                >
-                  <UserAvatar avatarUrl={item.avatar_url} size="small" />
-                  <Text style={styles.likerItemText}>
-                    {item.first_name} {item.last_name}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            />
-          ) : (
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No likes yet</Text>
-            </View>
-          )}
-        </View>
+          <ScrollView
+            style={styles.scrollContent}
+            contentContainerStyle={styles.scrollContentContainer}
+            showsVerticalScrollIndicator={true}
+          >
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator color={colors.blue} size="large" />
+              </View>
+            ) : likers.length > 0 ? (
+              <FlatList
+                data={likers}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    onPress={() => handleLikerPress(item.id)}
+                    style={styles.likerItem}
+                  >
+                    <UserAvatar avatarUrl={item.avatar_url} size="small" />
+                    <Text style={styles.likerItemText}>
+                      {item.first_name} {item.last_name}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+                scrollEnabled={false}
+              />
+            ) : (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No likes yet</Text>
+              </View>
+            )}
+          </ScrollView>
+        </TouchableOpacity>
       </TouchableOpacity>
     </Modal>
   );

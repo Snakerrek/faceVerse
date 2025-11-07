@@ -4,8 +4,8 @@ import {
   TouchableOpacity,
   Text,
   Modal,
-  FlatList,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -152,22 +152,23 @@ const NotificationBell: React.FC = () => {
               </TouchableOpacity>
             </View>
 
-            {loading ? (
-              <ActivityIndicator
-                style={styles.loader}
-                size="large"
-                color={colors.blue}
-              />
-            ) : notifications.length === 0 ? (
-              <View style={styles.emptyState}>
-                <Text style={styles.emptyText}>No notifications</Text>
-              </View>
-            ) : (
-              <FlatList
-                data={notifications}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
+            <ScrollView
+              style={styles.scrollContent}
+              contentContainerStyle={styles.scrollContentContainer}
+              showsVerticalScrollIndicator={true}
+            >
+              {loading ? (
+                <View style={styles.loader}>
+                  <ActivityIndicator size="large" color={colors.blue} />
+                </View>
+              ) : notifications.length === 0 ? (
+                <View style={styles.emptyState}>
+                  <Text style={styles.emptyText}>No notifications</Text>
+                </View>
+              ) : (
+                notifications.map((item) => (
                   <TouchableOpacity
+                    key={item.id}
                     style={[
                       styles.notificationItem,
                       !item.is_read && styles.unreadItem,
@@ -191,9 +192,9 @@ const NotificationBell: React.FC = () => {
                     </View>
                     {!item.is_read && <View style={styles.unreadDot} />}
                   </TouchableOpacity>
-                )}
-              />
-            )}
+                ))
+              )}
+            </ScrollView>
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>

@@ -51,9 +51,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.primaryText,
   },
-  loader: {
-    marginVertical: spacing.medium,
-  },
   emptyState: {
     padding: spacing.medium,
     alignItems: "center",
@@ -94,6 +91,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: colors.blue,
     marginLeft: spacing.small,
+  },
+  scrollContent: {
+    flex: 1,
+    maxHeight: 800,
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
