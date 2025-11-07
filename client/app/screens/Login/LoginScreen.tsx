@@ -14,6 +14,7 @@ import FormInput from "../../components/FormInput/FormInput";
 import Message from "../../components/Message/Message";
 import styles from "./LoginScreen.styles";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 const LoginScreen: React.FC = () => {
   const {
@@ -27,6 +28,7 @@ const LoginScreen: React.FC = () => {
     focusPasswordInput,
   } = useLoginForm();
 
+  const { t } = useLanguage();
   const router = useRouter();
 
   const handleBack = () => {
@@ -37,18 +39,18 @@ const LoginScreen: React.FC = () => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.topBarContainer}>
         <Pressable onPress={handleBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>{"< Back"}</Text>
+          <Text style={styles.backButtonText}>{`< ${t("back")}`}</Text>
         </Pressable>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.headerContentContainer}>
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>{t("logIn")}</Text>
         </View>
 
         <View style={styles.formContainer}>
           <FormInput
-            label="E-mail"
+            label={t("email")}
             value={formData.email}
             onChangeText={(text) => handleInputChange("email", text)}
             keyboardType="email-address"
@@ -59,7 +61,7 @@ const LoginScreen: React.FC = () => {
           />
 
           <FormInput
-            label="Password"
+            label={t("password")}
             containerStyle={styles.inputWrapperFullWithMargin}
             value={formData.password}
             onChangeText={(text) => handleInputChange("password", text)}
@@ -87,7 +89,7 @@ const LoginScreen: React.FC = () => {
               {isLoading ? (
                 <ActivityIndicator color={colors.white} size="small" />
               ) : (
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>{t("logIn")}</Text>
               )}
             </TouchableOpacity>
           </View>

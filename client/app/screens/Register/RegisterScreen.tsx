@@ -16,6 +16,7 @@ import DateInput from "../../components/DateInput/DateInput";
 import styles from "./RegisterScreen.styles";
 import { useRouter } from "expo-router";
 import { colors } from "../../theme";
+import { useLanguage } from "../../locales/LanguageContext";
 
 const RegisterScreen: React.FC = () => {
   const {
@@ -27,6 +28,7 @@ const RegisterScreen: React.FC = () => {
     handleRegister,
   } = useRegisterForm();
 
+  const { t } = useLanguage();
   const router = useRouter();
 
   const handleBack = () => {
@@ -37,28 +39,28 @@ const RegisterScreen: React.FC = () => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.topBarContainer}>
         <Pressable onPress={handleBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>{"< Back"}</Text>
+          <Text style={styles.backButtonText}>{`< ${t("back")}`}</Text>
         </Pressable>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.headerContentContainer}>
-          <Text style={styles.title}>Create new account</Text>
-          <Text style={styles.subtitle}>It's fast and easy</Text>
+          <Text style={styles.title}>{t("createAccount")}</Text>
+          <Text style={styles.subtitle}>{t("fastAndEasy")}</Text>
         </View>
 
         <View style={styles.formContainer}>
           <View style={styles.inputRow}>
             <View style={styles.inputWrapperHalf}>
               <FormInput
-                label="First name"
+                label={t("firstName")}
                 value={formData.first_name}
                 onChangeText={(text) => handleInputChange("first_name", text)}
               />
             </View>
             <View style={styles.inputWrapperHalf}>
               <FormInput
-                label="Last name"
+                label={t("lastName")}
                 value={formData.last_name}
                 onChangeText={(text) => handleInputChange("last_name", text)}
               />
@@ -80,7 +82,7 @@ const RegisterScreen: React.FC = () => {
           />
 
           <FormInput
-            label="E-mail"
+            label={t("email")}
             containerStyle={styles.inputWrapperFullWithMargin}
             value={formData.email}
             onChangeText={(text) => handleInputChange("email", text)}
@@ -89,7 +91,7 @@ const RegisterScreen: React.FC = () => {
           />
 
           <FormInput
-            label="Password"
+            label={t("password")}
             containerStyle={styles.inputWrapperFullWithMargin}
             value={formData.password}
             onChangeText={(text) => handleInputChange("password", text)}
@@ -114,7 +116,7 @@ const RegisterScreen: React.FC = () => {
               {isLoading ? (
                 <ActivityIndicator color={colors.white} size="small" />
               ) : (
-                <Text style={styles.buttonText}>Sign up</Text>
+                <Text style={styles.buttonText}>{t("register")}</Text>
               )}
             </TouchableOpacity>
           </View>

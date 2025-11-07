@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Gender } from "../../types/types";
 import styles from "./GenderSelector.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface GenderSelectorProps {
   selectedGender: Gender;
@@ -12,9 +13,10 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
   selectedGender,
   onGenderChange,
 }) => {
+  const { t } = useLanguage();
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Gender</Text>
+      <Text style={styles.label}>{t("gender")}</Text>
       <View style={styles.buttonRow}>
         <Pressable
           style={[
@@ -30,7 +32,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
                 styles.genderButtonTextSelected,
             ]}
           >
-            {Gender.FEMALE}
+            {t(Gender.FEMALE)}
           </Text>
         </Pressable>
 
@@ -47,7 +49,7 @@ const GenderSelector: React.FC<GenderSelectorProps> = ({
               selectedGender === Gender.MALE && styles.genderButtonTextSelected,
             ]}
           >
-            {Gender.MALE}
+            {t(Gender.MALE)}
           </Text>
         </Pressable>
       </View>

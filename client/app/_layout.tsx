@@ -4,8 +4,17 @@ import { TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "./theme";
+import { LanguageProvider } from "./locales/LanguageContext";
 
 export default function RootLayout() {
+  return (
+    <LanguageProvider>
+      <RootLayoutContent />
+    </LanguageProvider>
+  );
+}
+
+function RootLayoutContent() {
   const router = useRouter();
 
   const handleSmartBack = () => {

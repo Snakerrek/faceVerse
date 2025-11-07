@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 import styles from "./DateInput.styles";
+import { useLanguage } from "../../locales/LanguageContext";
 
 interface DateInputProps {
   day: string;
@@ -19,14 +20,15 @@ const DateInput: React.FC<DateInputProps> = ({
   onMonthChange,
   onYearChange,
 }) => {
+  const { t } = useLanguage();
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Birth date</Text>
+      <Text style={styles.label}>{t("birthDate")}</Text>
       <View style={styles.inputRow}>
         <View style={styles.inputWrapperThird}>
           <TextInput
             style={styles.input}
-            placeholder="Day"
+            placeholder={t("day")}
             placeholderTextColor={styles.placeholder.color}
             value={day}
             onChangeText={onDayChange}
@@ -37,7 +39,7 @@ const DateInput: React.FC<DateInputProps> = ({
         <View style={styles.inputWrapperThird}>
           <TextInput
             style={styles.input}
-            placeholder="Month"
+            placeholder={t("month")}
             placeholderTextColor={styles.placeholder.color}
             value={month}
             onChangeText={onMonthChange}
@@ -48,7 +50,7 @@ const DateInput: React.FC<DateInputProps> = ({
         <View style={styles.inputWrapperThird}>
           <TextInput
             style={styles.input}
-            placeholder="Year"
+            placeholder={t("year")}
             placeholderTextColor={styles.placeholder.color}
             value={year}
             onChangeText={onYearChange}
