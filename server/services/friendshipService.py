@@ -132,3 +132,29 @@ class FriendshipService:
             friend_ids.append(friend_id)
         
         return friend_ids
+    
+    @staticmethod
+    def remove_friend(user_id, friend_id):
+        """Remove a friend."""
+        try:
+            friendship = db.session.execute(
+                db.select(Friendship).filter(
+                    ((Friendship.requester_id == user_id) & (Friendship.addressee_id == friend_id)) |
+                    ((Friendship.requester_id == friend_id) & (Friendship.addressee_id == user_id))
+                )
+            ).scalar()
+            
+            if not friendship:
+                return {"error": "Not friends"}, 404
+            
+            if friendship.status != 'accepted':
+                return {"error": "No active friendship to remove"}, 400
+            
+            db.session.delete(friendship)
+            db.session.commit()
+            
+            return {"message": "Friend removed"}, 200
+        except Exception as e:
+            db.session.rollback()
+            return handle_db_error("Error removing friend", e)
+

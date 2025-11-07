@@ -39,3 +39,13 @@ export async function getFriendsList(userId?: number): Promise<Res<Friend[]>> {
     (json) => json as Friend[]
   );
 }
+
+export async function removeFriend(
+  friendId: number
+): Promise<Res<{ message: string }>> {
+  return authRequest(
+    `/friendships/${friendId}`,
+    { method: "DELETE" },
+    (json) => json as { message: string }
+  );
+}

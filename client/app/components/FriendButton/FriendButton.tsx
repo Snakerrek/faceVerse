@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import { TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
 import {
   sendFriendRequest,
   acceptFriendRequest,
   getFriendshipStatus,
+  removeFriend,
 } from "../../services/friendshipService";
 import { ResponseStatus } from "../../types/types";
 import { styles } from "./FriendButton.styles";
@@ -15,6 +16,7 @@ interface FriendButtonProps {
 const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
   const [status, setStatus] = useState<string>("none");
   const [loading, setLoading] = useState(false);
+  const [showRemoveOption, setShowRemoveOption] = useState(false);
 
   useEffect(() => {
     fetchFriendshipStatus();
@@ -46,9 +48,27 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
         if (response.status === ResponseStatus.OK) {
           setStatus("friends");
         }
+      } else if (status === "friends") {
+        handleRemoveFriend();
+        setShowRemoveOption(true);
       }
     } catch (error) {
       console.error("Error handling friend action:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveFriend = async () => {
+    setLoading(true);
+    try {
+      const response = await removeFriend(userId);
+      if (response.status === ResponseStatus.OK) {
+        setStatus("none");
+        setShowRemoveOption(false);
+      }
+    } catch (error) {
+      console.error("Error removing friend:", error);
     } finally {
       setLoading(false);
     }
@@ -67,7 +87,11 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
           disabled: false,
         };
       case "friends":
-        return { text: "Friends", style: styles.friendsButton, disabled: true };
+        return {
+          text: "Remove",
+          style: styles.friendsButton,
+          disabled: false,
+        };
       default:
         return { text: "Add Friend", style: styles.addButton, disabled: false };
     }

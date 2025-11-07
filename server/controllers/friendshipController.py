@@ -53,3 +53,10 @@ def get_friends():
     user_id = request.args.get('user_id', type=int, default=current_user_id)
     
     return FriendshipService.get_friends_list(user_id)
+
+@friendship_bp.route('/<int:friend_id>', methods=['DELETE'], strict_slashes=False)
+@jwt_required()
+def remove_friend(friend_id):
+    """Remove a friend."""
+    current_user_id = int(get_jwt_identity())
+    return FriendshipService.remove_friend(current_user_id, friend_id)

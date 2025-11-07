@@ -14,25 +14,7 @@ import { Comment } from "../../types/types";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { colors, spacing, borderRadiuses } from "../../theme";
 import { styles } from "./CommentItem.styles";
-
-const formatTimeAgo = (timestamp: string): string => {
-  const now = new Date();
-  const commentDate = new Date(timestamp);
-  const seconds = Math.floor((now.getTime() - commentDate.getTime()) / 1000);
-  let interval = seconds / 31536000;
-
-  if (interval > 1) return Math.floor(interval) + "y";
-  interval = seconds / 2592000;
-  if (interval > 1) return Math.floor(interval) + "mo";
-  interval = seconds / 86400;
-  if (interval > 1) return Math.floor(interval) + "d";
-  interval = seconds / 3600;
-  if (interval > 1) return Math.floor(interval) + "h";
-  interval = seconds / 60;
-  if (interval > 1) return Math.floor(interval) + "m";
-
-  return Math.floor(seconds) + "s";
-};
+import { formatTimeAgo } from "../../utils/formatUtils";
 
 interface CommentItemProps {
   comment: Comment;
@@ -85,7 +67,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
         </TouchableOpacity>
 
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.likeButton} onPress={onLikePress}>
+          <TouchableOpacity onPress={onLikePress}>
             <MaterialCommunityIcons
               name={
                 comment.is_liked_by_current_user ? "heart" : "heart-outline"
