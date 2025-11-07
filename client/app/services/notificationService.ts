@@ -13,7 +13,7 @@ export async function getUnreadNotificationCount(): Promise<
 
 export async function getNotifications(): Promise<Res<Notification[]>> {
   return authRequest(
-    `/notifications`,
+    `/notifications/`,
     { method: "GET" },
     (json) => json as Notification[]
   );

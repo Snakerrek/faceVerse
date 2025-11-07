@@ -12,7 +12,7 @@ def _get_post_data():
     return data_source, uploaded_file
 
 
-@posts_bp.route('/', methods=['POST'], strict_slashes=False)
+@posts_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_post():
     data, uploaded_file = _get_post_data()
@@ -24,7 +24,7 @@ def create_post():
     return PostService.create_post({'content': content}, user_id, uploaded_file)
 
 
-@posts_bp.route('/', methods=['GET'], strict_slashes=False)
+@posts_bp.route('/', methods=['GET'])
 @jwt_required()
 def get_posts():
     return PostService.get_posts(current_user_id=get_current_user_id())

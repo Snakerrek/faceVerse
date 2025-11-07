@@ -27,11 +27,11 @@ def handle_upload_request(file_key: Literal['avatar', 'cover']):
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 
-@uploads_bp.route('/avatar', methods=['POST'], strict_slashes=False)
+@uploads_bp.route('/avatar', methods=['POST'])
 def upload_avatar():
     return handle_upload_request(file_key='avatar')
 
 
-@uploads_bp.route('/cover', methods=['POST'], strict_slashes=False)
+@uploads_bp.route('/cover', methods=['POST'])
 def upload_cover():
     return handle_upload_request(file_key='cover')

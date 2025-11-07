@@ -4,7 +4,7 @@ from services.friendshipService import FriendshipService
 
 friendship_bp = Blueprint('friendship', __name__)
 
-@friendship_bp.route('/request', methods=['POST'], strict_slashes=False)
+@friendship_bp.route('/request', methods=['POST'])
 @jwt_required()
 def send_request():
     """Send friend request."""
@@ -17,7 +17,7 @@ def send_request():
     
     return FriendshipService.send_friend_request(current_user_id, addressee_id)
 
-@friendship_bp.route('/accept', methods=['POST'], strict_slashes=False)
+@friendship_bp.route('/accept', methods=['POST'])
 @jwt_required()
 def accept_request():
     """Accept friend request."""
@@ -30,31 +30,29 @@ def accept_request():
     
     result = FriendshipService.accept_friend_request(current_user_id, requester_id)
     
-    # Notify the requester that their request was accepted
     if result[1] == 200:
         from services.notificationService import NotificationService
         NotificationService.notify_friend_request_accepted(requester_id, current_user_id)
     
     return result
 
-@friendship_bp.route('/status/<int:user_id>', methods=['GET'], strict_slashes=False)
+@friendship_bp.route('/status/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_status(user_id):
     """Get friendship status with another user."""
     current_user_id = int(get_jwt_identity())
     return FriendshipService.get_friendship_status(current_user_id, user_id)
 
-@friendship_bp.route('/list', methods=['GET'], strict_slashes=False)
+@friendship_bp.route('/list', methods=['GET'])
 @jwt_required()
 def get_friends():
     """Get friends list for a specific user (or current user if not specified)."""
     current_user_id = int(get_jwt_identity())
-    # Get user_id from query params, default to current user
     user_id = request.args.get('user_id', type=int, default=current_user_id)
     
     return FriendshipService.get_friends_list(user_id)
 
-@friendship_bp.route('/<int:friend_id>', methods=['DELETE'], strict_slashes=False)
+@friendship_bp.route('/<int:friend_id>', methods=['DELETE'])
 @jwt_required()
 def remove_friend(friend_id):
     """Remove a friend."""
