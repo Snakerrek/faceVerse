@@ -18,12 +18,10 @@ export const useAuthCheck = (
       const token = await getAuthToken();
 
       if (token) {
-        console.log("Auth token found.");
         if (onTokenPresent) {
           onTokenPresent();
         }
       } else {
-        console.log("No auth token found, staying on Welcome.");
         setIsLoading(false);
         if (kickOut) {
           router.replace("/");

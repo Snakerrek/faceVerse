@@ -6,7 +6,6 @@ export async function getUserData() {
   const jsonValue = await AsyncStorage.getItem(USER_DATA_KEY);
   if (jsonValue != null) {
     const storedUserData: UserData = JSON.parse(jsonValue);
-    console.log("User display data loaded from AsyncStorage", storedUserData);
     return storedUserData;
   } else {
     console.warn(
@@ -31,7 +30,6 @@ export async function storeUserData(userData: UserData) {
   try {
     const jsonValue = JSON.stringify(userData);
     await AsyncStorage.setItem(USER_DATA_KEY, jsonValue);
-    console.log("User data stored successfully after login!");
   } catch (e) {
     console.error("Failed to store user data after login.", e);
   }
