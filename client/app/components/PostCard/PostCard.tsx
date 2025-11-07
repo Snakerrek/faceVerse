@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Modal,
-  FlatList,
-  ActivityIndicator,
-  TouchableOpacity,
-  Text,
-  Alert,
-} from "react-native";
-import { useRouter } from "expo-router";
+import { View, FlatList, ActivityIndicator, Alert } from "react-native";
 import { Post, ResponseStatus } from "../../types/types";
-import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { toggleLikePost, getPostLikers } from "../../services/postService";
 import {
   getCommentsForPost,
@@ -23,6 +13,7 @@ import PostContent from "../PostContent/PostContent";
 import PostActions from "../PostActions/PostActions";
 import CommentInputField from "../CommentInputField/CommentInputField";
 import CommentItem from "../CommentItem/CommentItem";
+import LikersModal from "../LikersModal/LikersModal";
 import { styles } from "./PostCard.styles";
 import { colors } from "../../theme";
 
@@ -32,23 +23,18 @@ interface PostCardProps {
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
-  const router = useRouter();
-
-  // Post likes state
   const [isLiked, setIsLiked] = useState(post.is_liked_by_current_user);
   const [likeCount, setLikeCount] = useState(post.like_count);
   const [likers, setLikers] = useState<any[]>([]);
   const [isLoadingLikers, setIsLoadingLikers] = useState(false);
   const [showLikers, setShowLikers] = useState(false);
 
-  // Comments state
   const [showComments, setShowComments] = useState(expandedByDefault);
   const [comments, setComments] = useState<any[]>([]);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [newCommentContent, setNewCommentContent] = useState("");
   const [isPostingComment, setIsPostingComment] = useState(false);
 
-  // Comment likes state
   const [commentLikers, setCommentLikers] = useState<any[]>([]);
   const [isLoadingCommentLikers, setIsLoadingCommentLikers] = useState(false);
 
@@ -58,7 +44,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
     }
   }, []);
 
-  // POST LIKE HANDLERS
   const handleToggleLike = async () => {
     setIsLiked(!isLiked);
     setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
@@ -99,7 +84,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
     setShowLikers(true);
   };
 
-  // COMMENT HANDLERS
   const handleFetchComments = async () => {
     setIsLoadingComments(true);
     try {
@@ -233,7 +217,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
                 scrollEnabled={false}
               />
             )}
-            {/* tutaj */}
             <CommentInputField
               value={newCommentContent}
               onChangeText={setNewCommentContent}
@@ -243,58 +226,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
           </>
         )}
       </View>
-
-      {/* Likers Modal */}
-      <Modal
-        transparent
-        animationType="fade"
+      <LikersModal
         visible={showLikers}
-        onRequestClose={() => setShowLikers(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          onPress={() => setShowLikers(false)}
-        >
-          <View style={styles.likersModalContent}>
-            {/* Header */}
-            <View style={styles.likersHeader}>
-              <Text style={styles.likersHeaderText}>
-                {likeCount} {likeCount === 1 ? "Like" : "Likes"}
-              </Text>
-            </View>
-
-            {/* Likers List */}
-            {isLoadingLikers ? (
-              <View style={styles.likersLoadingContainer}>
-                <ActivityIndicator color={colors.blue} size="large" />
-              </View>
-            ) : likers.length > 0 ? (
-              <FlatList
-                data={likers}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setShowLikers(false);
-                      router.push(`/profile?userId=${item.id}`);
-                    }}
-                    style={styles.likerItem}
-                  >
-                    <UserAvatar avatarUrl={item.avatar_url} size="small" />
-                    <Text style={styles.likerItemText}>
-                      {item.first_name} {item.last_name}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              />
-            ) : (
-              <View style={styles.likersEmptyContainer}>
-                <Text style={styles.likersEmptyText}>No likes yet</Text>
-              </View>
-            )}
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        onClose={() => setShowLikers(false)}
+        likers={likers}
+        isLoading={isLoadingLikers}
+        likeCount={likeCount}
+      />
     </>
   );
 };

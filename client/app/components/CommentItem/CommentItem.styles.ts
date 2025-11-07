@@ -4,7 +4,7 @@ import { borderRadiuses, colors, spacing } from "../../theme";
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     padding: spacing.medium,
     borderWidth: 1,
     borderColor: colors.borderLight,

@@ -1,18 +1,11 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Modal,
-  FlatList,
-  ActivityIndicator,
-  Pressable,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Comment } from "../../types/types";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import LikersModal from "../LikersModal/LikersModal";
+import { colors } from "../../theme";
 import { styles } from "./CommentItem.styles";
 import { formatTimeAgo } from "../../utils/formatUtils";
 
@@ -44,11 +37,6 @@ const CommentItem: React.FC<CommentItemProps> = ({
   const handleShowLikers = async () => {
     await onShowLikers();
     setShowLikersModal(true);
-  };
-
-  const handleLikerPress = (userId: number) => {
-    setShowLikersModal(false);
-    router.push(`/profile?userId=${userId}`);
   };
 
   return (
@@ -90,94 +78,13 @@ const CommentItem: React.FC<CommentItemProps> = ({
           )}
         </View>
       </View>
-
-      <Modal
-        transparent
-        animationType="fade"
+      <LikersModal
         visible={showLikersModal}
-        onRequestClose={() => setShowLikersModal(false)}
-      >
-        <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onPress={() => setShowLikersModal(false)}
-        >
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: borderRadiuses.small,
-              width: "85%",
-              maxHeight: "70%",
-            }}
-          >
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: colors.borderLight,
-                paddingVertical: spacing.medium,
-                paddingHorizontal: spacing.medium,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: colors.primaryText,
-                }}
-              >
-                {commentLikers.length}{" "}
-                {commentLikers.length === 1 ? "Like" : "Likes"}
-              </Text>
-            </View>
-
-            {isLoadingLikers ? (
-              <View style={{ padding: spacing.large, alignItems: "center" }}>
-                <ActivityIndicator color={colors.blue} size="large" />
-              </View>
-            ) : commentLikers.length > 0 ? (
-              <FlatList
-                data={commentLikers}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => handleLikerPress(item.id)}
-                    style={{
-                      paddingVertical: spacing.medium,
-                      paddingHorizontal: spacing.medium,
-                      borderBottomWidth: 1,
-                      borderBottomColor: colors.borderLight,
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <UserAvatar avatarUrl={item.avatar_url} size="small" />
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: colors.primaryText,
-                        fontWeight: "500",
-                        marginLeft: spacing.medium,
-                      }}
-                    >
-                      {item.first_name} {item.last_name}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              />
-            ) : (
-              <View style={{ padding: spacing.large, alignItems: "center" }}>
-                <Text style={{ color: colors.secondaryText }}>
-                  No likes yet
-                </Text>
-              </View>
-            )}
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        onClose={() => setShowLikersModal(false)}
+        likers={commentLikers}
+        isLoading={isLoadingLikers}
+        likeCount={comment.like_count}
+      />
     </>
   );
 };
