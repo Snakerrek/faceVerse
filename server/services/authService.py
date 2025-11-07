@@ -1,7 +1,7 @@
 from flask import jsonify
 from models.user import User
 from flask_jwt_extended import create_access_token
-from helpers.helperFunctions import parse_date
+from helpers.helperFunctions import parse_date, service_handler
 from extensions import db
 
 
@@ -18,7 +18,9 @@ class AuthService:
         return User.query.filter(User.email == email.lower()).first()
     
     @staticmethod
+    @service_handler()
     def register(data):
+        """Register a new user."""
         error = AuthService._validate_required_fields(
             data, ('email', 'password', 'first_name', 'last_name')
         )
@@ -49,7 +51,9 @@ class AuthService:
         return jsonify({"message": "User created", "user": new_user.to_dict()}), 201
     
     @staticmethod
+    @service_handler()
     def login(data):
+        """Authenticate user and return access token."""
         if not data or not data.get('email') or not data.get('password'):
             return jsonify({"error": "E-mail and password are required"}), 400
         

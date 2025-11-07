@@ -1,61 +1,10 @@
 from extensions import db
-from models.notification import Notification
-from helpers.helperFunctions import handle_db_error
 from models.notification import Notification, NotificationType
+from helpers.helperFunctions import service_handler
+
 
 class NotificationService:
-    
-    @staticmethod
-    def create_notification(recipient_id, actor_id, notification_type, post_id=None, comment_id=None):
-        """Create a notification."""
-        try:
-            if recipient_id == actor_id:
-                return {"message": "Cannot notify yourself"}, 200
-            
-            notification = Notification(
-                recipient_id=recipient_id,
-                actor_id=actor_id,
-                type=notification_type,
-                post_id=post_id,
-                comment_id=comment_id,
-            )
-            db.session.add(notification)
-            db.session.commit()
-            return notification.to_dict(), 201
-        except Exception as e:
-            return handle_db_error("Error creating notification", e)
-    
-    @staticmethod
-    def notify_new_post(user_id, post_id):
-        """Notify user's friends about new post."""
-        try:
-            from models.user import User
-            from models.friendship import Friendship
-            
-            friendships = db.session.execute(
-                db.select(Friendship).filter(
-                    ((Friendship.requester_id == user_id) | (Friendship.addressee_id == user_id)) &
-                    (Friendship.status == 'accepted')
-                )
-            ).scalars().all()
-            
-            friends = []
-            for f in friendships:
-                friend_id = f.addressee_id if f.requester_id == user_id else f.requester_id
-                friends.append(friend_id)
-            
-            for friend_id in friends:
-                NotificationService.create_notification(
-                    recipient_id=friend_id,
-                    actor_id=user_id,
-                    notification_type=NotificationType.NEW_POST.value,
-                    post_id=post_id
-                )
-            return True
-        except Exception as e:
-            print(f"Error notifying about new post: {e}")
-            return False
-    
+
     @staticmethod
     def notify_new_comment(post_owner_id, commenter_id, post_id, comment_id):
         """Notify post owner about new comment."""
@@ -107,57 +56,83 @@ class NotificationService:
         )
     
     @staticmethod
+    @service_handler()
+    def create_notification(recipient_id, actor_id, notification_type, post_id=None, comment_id=None):
+        """Create a notification."""
+        if recipient_id == actor_id:
+            return {"message": "Cannot notify yourself"}, 200
+        
+        notification = Notification(
+            recipient_id=recipient_id,
+            actor_id=actor_id,
+            type=notification_type,
+            post_id=post_id,
+            comment_id=comment_id,
+        )
+        db.session.add(notification)
+        db.session.commit()
+        return notification.to_dict(), 201
+    
+    @staticmethod
+    @service_handler()
+    def notify_new_post(user_id, post_id):
+        """Notify user's friends about new post."""
+        from models.user import User
+        from models.friendship import Friendship
+        
+        friendships = db.session.execute(
+            db.select(Friendship).filter(
+                ((Friendship.requester_id == user_id) | (Friendship.addressee_id == user_id)) &
+                (Friendship.status == 'accepted')
+            )
+        ).scalars().all()
+        
+        friends = []
+        for f in friendships:
+            friend_id = f.addressee_id if f.requester_id == user_id else f.requester_id
+            friends.append(friend_id)
+        
+        for friend_id in friends:
+            NotificationService.create_notification(
+                recipient_id=friend_id,
+                actor_id=user_id,
+                notification_type=NotificationType.NEW_POST.value,
+                post_id=post_id
+            )
+        return True
+    
+    @staticmethod
+    @service_handler()
     def get_notifications(user_id):
         """Get notifications for user."""
-        try:
-            notifications = db.session.execute(
-                db.select(Notification)
-                .filter(Notification.recipient_id == user_id)
-                .order_by(Notification.created_at.desc())
-            ).scalars().all()
-            return [n.to_dict() for n in notifications], 200
-        except Exception as e:
-            return handle_db_error("Error fetching notifications", e)
+        notifications = db.session.execute(
+            db.select(Notification)
+            .filter(Notification.recipient_id == user_id)
+            .order_by(Notification.created_at.desc())
+        ).scalars().all()
+        return [n.to_dict() for n in notifications], 200
     
     @staticmethod
+    @service_handler()
     def get_unread_count(user_id):
         """Get unread notification count."""
-        try:
-            count = db.session.query(Notification).filter(
-                (Notification.recipient_id == user_id) &
-                (Notification.is_read == False)
-            ).count()
-            return {"unread_count": count}, 200
-        except Exception as e:
-            return handle_db_error("Error fetching unread count", e)
+        count = db.session.query(Notification).filter(
+            (Notification.recipient_id == user_id) &
+            (Notification.is_read == False)
+        ).count()
+        return {"unread_count": count}, 200
     
     @staticmethod
-    def mark_as_read(notification_id):
-        """Mark notification as read."""
-        try:
-            notification = db.session.get(Notification, notification_id)
-            if not notification:
-                return {"error": "Notification not found"}, 404
-            
-            notification.is_read = True
-            db.session.commit()
-            return notification.to_dict(), 200
-        except Exception as e:
-            return handle_db_error("Error marking notification as read", e)
-
-    @staticmethod
+    @service_handler()
     def mark_as_read(notification_id, user_id):
         """Mark notification as read."""
-        try:
-            notification = db.session.get(Notification, notification_id)
-            if not notification:
-                return {"error": "Notification not found"}, 404
-            
-            if notification.recipient_id != user_id:
-                return {"error": "Unauthorized"}, 403
-            
-            notification.is_read = True
-            db.session.commit()
-            return notification.to_dict(), 200
-        except Exception as e:
-            return handle_db_error("Error marking notification as read", e)
+        notification = db.session.get(Notification, notification_id)
+        if not notification:
+            return {"error": "Notification not found"}, 404
+        
+        if notification.recipient_id != user_id:
+            return {"error": "Unauthorized"}, 403
+        
+        notification.is_read = True
+        db.session.commit()
+        return notification.to_dict(), 200

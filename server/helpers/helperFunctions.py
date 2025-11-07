@@ -1,6 +1,7 @@
 from flask import url_for, jsonify
 from flask_jwt_extended import get_jwt_identity
 from datetime import datetime, timezone, timedelta
+from functools import wraps
 
 
 def generate_file_url(filename):
@@ -36,3 +37,18 @@ def get_cet_now():
     utc_now = datetime.now(timezone.utc)
     cet = timezone(timedelta(hours=1))
     return utc_now.astimezone(cet)
+
+def service_handler(error_message=None):
+    """Decorator for service methods to handle try-except blocks.
+    If error_message is not provided, it generates one from the function name.
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except Exception as e:
+                msg = error_message or f"Error in {func.__name__}"
+                return handle_db_error(msg, e)
+        return wrapper
+    return decorator
