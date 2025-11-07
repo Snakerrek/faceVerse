@@ -51,7 +51,6 @@ export async function login(data: LoginData): Promise<Res<void>> {
       if (result.access_token) {
         await saveAuthToken(result.access_token);
         await storeUserData(result.user);
-        console.log("Login successful");
       }
     }
   );

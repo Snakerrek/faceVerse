@@ -11,13 +11,6 @@ export async function getUnreadNotificationCount(): Promise<
   );
 }
 
-export async function markAllNotificationsAsRead(): Promise<Res<void>> {
-  return authRequest("/notifications/mark-all-read", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
 export async function getNotifications(): Promise<Res<Notification[]>> {
   return authRequest(
     `/notifications`,

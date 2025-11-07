@@ -156,21 +156,3 @@ class NotificationService:
             return notification.to_dict(), 200
         except Exception as e:
             return handle_db_error("Error marking notification as read", e)
-
-    @staticmethod
-    def mark_all_as_read(user_id):
-        """Mark all notifications as read for a user."""
-        try:
-            notifications = db.session.execute(
-                db.select(Notification)
-                .filter(Notification.recipient_id == user_id)
-                .filter(Notification.is_read == False)
-            ).scalars().all()
-            
-            for notification in notifications:
-                notification.is_read = True
-            
-            db.session.commit()
-            return {"message": f"Marked {len(notifications)} notifications as read"}, 200
-        except Exception as e:
-            return handle_db_error("Error marking all notifications as read", e)
