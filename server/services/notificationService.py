@@ -9,7 +9,6 @@ class NotificationService:
     def create_notification(recipient_id, actor_id, notification_type, post_id=None, comment_id=None):
         """Create a notification."""
         try:
-            # Prevent self-notifications
             if recipient_id == actor_id:
                 return {"message": "Cannot notify yourself"}, 200
             
@@ -33,7 +32,6 @@ class NotificationService:
             from models.user import User
             from models.friendship import Friendship
             
-            # Get all friends of the user
             friendships = db.session.execute(
                 db.select(Friendship).filter(
                     ((Friendship.requester_id == user_id) | (Friendship.addressee_id == user_id)) &
@@ -46,7 +44,6 @@ class NotificationService:
                 friend_id = f.addressee_id if f.requester_id == user_id else f.requester_id
                 friends.append(friend_id)
             
-            # Create notification for each friend
             for friend_id in friends:
                 NotificationService.create_notification(
                     recipient_id=friend_id,
@@ -99,6 +96,7 @@ class NotificationService:
             actor_id=accepter_id,
             notification_type=NotificationType.FRIEND_REQUEST_ACCEPTED.value
         )
+    
     @staticmethod
     def notify_friend_request_sent(recipient_id, actor_id):
         """Notify user about incoming friend request."""
@@ -155,7 +153,6 @@ class NotificationService:
             if not notification:
                 return {"error": "Notification not found"}, 404
             
-            # Verify ownership
             if notification.recipient_id != user_id:
                 return {"error": "Unauthorized"}, 403
             
