@@ -6,8 +6,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    padding: spacing.medium,
     backgroundColor: colors.white,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderLight,
@@ -30,6 +29,11 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   icon: {
+    color: colors.primaryText,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
     color: colors.primaryText,
   },
 });

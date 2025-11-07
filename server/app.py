@@ -45,11 +45,15 @@ def register_blueprints(app):
     from controllers.userController import users_bp
     from controllers.postController import posts_bp
     from controllers.uploadController import uploads_bp
+    from controllers.friendshipController import friendship_bp
+    from controllers.notificationController import notification_bp
     
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(users_bp, url_prefix='/users')
     app.register_blueprint(posts_bp, url_prefix='/posts')
     app.register_blueprint(uploads_bp, url_prefix='/uploads')
+    app.register_blueprint(friendship_bp, url_prefix='/friendships')
+    app.register_blueprint(notification_bp, url_prefix='/notifications')
 
 
 def create_app():

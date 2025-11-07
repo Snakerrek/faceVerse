@@ -3,9 +3,17 @@ import { View, Text, Button } from "react-native";
 import { useAuthCheck } from "../../hooks/useAuthCheck";
 import { LoadingScreen } from "../../components/LoadingScreen/LoadingScreen";
 import { styles } from "./WelcomeScreen.styles";
+import { useRouter } from "expo-router";
 
 const WelcomeScreen: React.FC = () => {
-  const { isLoading, navigateToLogin, navigateToRegister } = useAuthCheck();
+  const router = useRouter();
+  const navigateToHome = () => {
+    router.push("/home");
+  };
+  const { isLoading, navigateToLogin, navigateToRegister } = useAuthCheck(
+    false,
+    navigateToHome
+  );
 
   if (isLoading) {
     return <LoadingScreen />;

@@ -1,43 +1,39 @@
 import React from "react";
-import { Text, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { styles } from "./ProfileScreen.styles";
 import { useProfile } from "../../hooks/useProfile";
+import { useAuthCheck } from "../../hooks/useAuthCheck";
 import { ProfileHeader } from "../../components/ProfileHeader/ProfileHeader";
 import PostCard from "../../components/PostCard/PostCard";
-import { styles } from "./ProfileScreen.styles";
-import { colors } from "../../theme";
-import { useAuthCheck } from "../../hooks/useAuthCheck";
-
-interface ProfileParams {
-  userId?: string;
-}
 
 const ProfileScreen: React.FC = () => {
-  const params = useLocalSearchParams() as ProfileParams;
-  const targetUserId = params.userId ? parseInt(params.userId, 10) : null;
+  const { userId } = useLocalSearchParams<{ userId: string }>();
+  const targetUserId = userId ? parseInt(userId, 10) : null;
   useAuthCheck(true);
   const { profileUser, posts, isLoading } = useProfile(targetUserId);
 
   if (isLoading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <ActivityIndicator
-          size="large"
-          color={colors.blue}
-          style={styles.loader}
-        />
-      </SafeAreaView>
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
     );
   }
 
   if (!profileUser) {
     return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.errorText}>Error: Profile not found.</Text>
-      </SafeAreaView>
+      <View style={styles.errorText}>
+        <Text style={styles.errorText}>User not found</Text>
+      </View>
     );
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

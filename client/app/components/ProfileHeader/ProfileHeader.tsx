@@ -43,7 +43,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
 
         <ProfileInfo user={user} />
 
-        <ProfileActions isCurrentUser={isCurrentUser} />
+        <ProfileActions isCurrentUser={isCurrentUser} userId={user.id} />
 
         <Text style={styles.postsSectionTitle}>Posts</Text>
       </View>

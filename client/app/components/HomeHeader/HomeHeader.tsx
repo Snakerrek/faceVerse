@@ -6,6 +6,7 @@ import MenuModal from "../../components/MenuModal/MenuModal";
 import { deleteAuthToken } from "../../utils/authUtils";
 import { removeUserData } from "../../utils/storageUtils";
 import { useRouter } from "expo-router";
+import NotificationBell from "../NotificationBell/NotificationBell";
 
 const HomeHeader: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -29,16 +30,7 @@ const HomeHeader: React.FC = () => {
     <View style={styles.header}>
       <Text style={styles.logoText}>FaceVerse</Text>
       <View style={styles.headerIcons}>
-        <TouchableOpacity
-          style={styles.iconButton}
-          onPress={onNotificationsPress}
-        >
-          <Ionicons
-            name="notifications-outline"
-            size={20}
-            color={styles.icon.color}
-          />
-        </TouchableOpacity>
+        <NotificationBell />
         <TouchableOpacity style={styles.iconButton} onPress={onMenuPress}>
           <Ionicons name="menu" size={20} color={styles.icon.color} />
         </TouchableOpacity>

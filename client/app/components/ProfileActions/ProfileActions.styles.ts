@@ -20,4 +20,17 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  friendsButton: {
+    backgroundColor: colors.background,
+    paddingVertical: spacing.small,
+    paddingHorizontal: spacing.medium,
+    borderRadius: borderRadiuses.medium,
+    alignItems: "center",
+    marginTop: spacing.small,
+  },
+  friendsButtonText: {
+    color: colors.primaryText,
+    fontSize: 14,
+    fontWeight: "600",
+  },
 });

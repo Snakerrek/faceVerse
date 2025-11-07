@@ -97,3 +97,35 @@ export interface CreateCommentResponse {
   message: string;
   comment: Comment;
 }
+
+export interface Notification {
+  id: number;
+  type: "friend_request" | "new_post" | "new_comment";
+  actor: {
+    id: number;
+    first_name: string;
+    last_name: string;
+    avatar_url: string | null;
+  };
+  post_id: number | null;
+  is_read: boolean;
+  created_at: string;
+}
+
+export interface UnreadCountResponse {
+  unread_count: number;
+}
+
+export interface FriendshipStatus {
+  status: "none" | "pending_sent" | "pending_received" | "friends";
+}
+
+export interface Friend {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  bio: string | null;
+  date_of_birth: string | null;
+  avatar_url: string | null;
+}

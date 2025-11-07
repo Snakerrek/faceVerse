@@ -54,3 +54,10 @@ class User(db.Model):
     
     def _format_date_of_birth(self):
         return self.date_of_birth.isoformat() if self.date_of_birth else None
+    
+    def get_avatar_url(self):
+        if self.avatar_filename:
+            from helpers.helperFunctions import generate_file_url
+            return generate_file_url(self.avatar_filename)
+        return None
+

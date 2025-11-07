@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { getAuthToken } from "../utils/authUtils";
 
-export const useAuthCheck = (kickOut?: boolean) => {
+export const useAuthCheck = (
+  kickOut?: boolean,
+  onTokenPresent?: () => void
+) => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -16,6 +19,9 @@ export const useAuthCheck = (kickOut?: boolean) => {
 
       if (token) {
         console.log("Auth token found.");
+        if (onTokenPresent) {
+          onTokenPresent();
+        }
       } else {
         console.log("No auth token found, staying on Welcome.");
         setIsLoading(false);

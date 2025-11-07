@@ -2,13 +2,16 @@ import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { styles } from "./ProfileActions.styles";
 import { useRouter } from "expo-router";
+import FriendButton from "../FriendButton/FriendButton";
 
 interface ProfileActionsProps {
   isCurrentUser: boolean;
+  userId?: number;
 }
 
 export const ProfileActions: React.FC<ProfileActionsProps> = ({
   isCurrentUser,
+  userId,
 }) => {
   const router = useRouter();
 
@@ -16,7 +19,9 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
     router.push("/settings");
   };
 
-  const onAddFiend = () => {};
+  const handleViewFriends = () => {
+    router.push(`/friends?userId=${userId}` as any);
+  };
 
   if (isCurrentUser) {
     return (
@@ -27,15 +32,26 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
         >
           <Text style={styles.actionButtonText}>Edit Profile</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={handleViewFriends}
+        >
+          <Text style={styles.actionButtonText}>View Friends list</Text>
+        </TouchableOpacity>
       </View>
     );
   }
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.actionButton} onPress={onAddFiend}>
-        <Text style={styles.actionButtonText}>Add Friend</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  if (userId) {
+    return (
+      <View style={styles.container}>
+        <FriendButton userId={userId} />
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={handleViewFriends}
+        >
+          <Text style={styles.actionButtonText}>View Friend list</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 };

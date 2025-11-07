@@ -6,6 +6,8 @@ from models.comment import Comment
 from sqlalchemy import func
 from services.uploadService import UploadService
 from helpers.helperFunctions import validate_content, handle_db_error
+from services.notificationService import NotificationService
+from services.friendshipService import FriendshipService
 
 
 class PostService:
@@ -44,6 +46,16 @@ class PostService:
             db.session.add(new_post)
             db.session.commit()
             
+            # Create notifications for all friends
+            friend_ids = FriendshipService.get_friend_ids(user_id)
+            for friend_id in friend_ids:
+                NotificationService.create_notification(
+                    user_id=friend_id,
+                    actor_id=user_id,
+                    notification_type='new_post',
+                    post_id=new_post.id
+                )
+            
             return jsonify({"message": "Post created", "post": new_post.to_dict(current_user_id=user_id)}), 201
         
         except ValueError as e:
@@ -56,9 +68,16 @@ class PostService:
     @staticmethod
     def get_posts(current_user_id):
         try:
+            # Get friend IDs
+            friend_ids = FriendshipService.get_friend_ids(current_user_id)
+            friend_ids.append(current_user_id)  # Include own posts
+            
             posts = db.session.scalars(
-                db.select(Post).order_by(Post.timestamp.desc())
+                db.select(Post)
+                .filter(Post.user_id.in_(friend_ids))
+                .order_by(Post.timestamp.desc())
             ).all()
+            
             return jsonify([post.to_dict(current_user_id=current_user_id) for post in posts]), 200
         except Exception as e:
             db.session.rollback()
@@ -128,6 +147,15 @@ class PostService:
             
             db.session.add(new_comment)
             db.session.commit()
+            
+            # Create notification for post owner (if not commenting on own post)
+            if post.user_id != user_id:
+                NotificationService.create_notification(
+                    user_id=post.user_id,
+                    actor_id=user_id,
+                    notification_type='new_comment',
+                    post_id=post_id
+                )
             
             return jsonify({"message": "Comment created", "comment": new_comment.to_dict(current_user_id=user_id)}), 201
         except Exception as e:
