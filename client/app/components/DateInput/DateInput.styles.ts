@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.medium,
   },
   label: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
-    marginBottom: 4,
+    marginBottom: spacing.xsmall,
   },
   inputRow: {
     flexDirection: "row",
@@ -22,10 +22,10 @@ export const styles = StyleSheet.create({
     height: 45,
     borderColor: colors.borderMedium,
     borderWidth: 1,
-    paddingHorizontal: spacing.medium - 4,
+    paddingHorizontal: spacing.medium,
     borderRadius: borderRadiuses.small,
     backgroundColor: colors.inputBackground,
-    fontSize: 15,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
   },
   placeholder: {

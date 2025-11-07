@@ -12,6 +12,7 @@ import { getFriendsList } from "../../services/friendshipService";
 import { ResponseStatus, Friend } from "../../types/types";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { styles } from "./FriendsScreen.styles";
+import { colors } from "../../theme";
 
 interface FriendsScreenParams {
   userId?: string;
@@ -65,7 +66,7 @@ const FriendsScreen: React.FC = () => {
   if (loading) {
     return (
       <SafeAreaView style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color={colors.blue} />
       </SafeAreaView>
     );
   }

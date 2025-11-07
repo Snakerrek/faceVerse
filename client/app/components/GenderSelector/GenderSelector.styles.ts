@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.medium,
   },
   label: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
-    marginBottom: 4,
+    marginBottom: spacing.xsmall,
   },
   buttonRow: {
     flexDirection: "row",
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderMedium,
     borderRadius: borderRadiuses.small,
-    paddingVertical: spacing.medium - 4,
+    paddingVertical: spacing.small,
     alignItems: "center",
     backgroundColor: colors.inputBackground,
   },
@@ -29,11 +29,11 @@ export const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   genderButtonText: {
-    fontSize: 15,
+    fontSize: typography.fontSize.regular,
     color: colors.tertiaryText,
   },
   genderButtonTextSelected: {
     color: colors.blue,
-    fontWeight: "600",
+    fontWeight: typography.fontWeight.bold,
   },
 });

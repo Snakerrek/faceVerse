@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,19 +13,19 @@ export const styles = StyleSheet.create({
     paddingVertical: spacing.small,
     marginTop: 2,
     alignItems: "flex-end",
-    marginRight: 8,
+    marginRight: spacing.small,
   },
   likesButton: {
     flex: 1,
     paddingVertical: spacing.small,
-    marginTop: 2,
+    marginTop: spacing.xsmall,
   },
   text: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
   },
   heartButton: {
     paddingVertical: spacing.small,
-    marginHorizontal: 8,
+    marginHorizontal: spacing.small,
   },
 });

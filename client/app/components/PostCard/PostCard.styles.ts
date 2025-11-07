@@ -10,6 +10,6 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
   commentsLoadingContainer: {
-    paddingVertical: 20,
+    paddingVertical: spacing.medium,
   },
 });

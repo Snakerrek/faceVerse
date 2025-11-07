@@ -24,7 +24,6 @@ const HomeHeader: React.FC = () => {
   };
 
   const onMenuPress = () => setShowMenu(true);
-  const onNotificationsPress = () => {};
 
   return (
     <View style={styles.header}>

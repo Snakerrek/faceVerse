@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   overlay: {
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   },
   menuItemText: {
     marginLeft: spacing.medium,
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
   },
   dangerousText: {

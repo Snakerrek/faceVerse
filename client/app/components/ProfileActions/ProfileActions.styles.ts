@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,15 +10,15 @@ export const styles = StyleSheet.create({
   actionButton: {
     flex: 1,
     backgroundColor: colors.blue,
-    paddingVertical: 12,
+    paddingVertical: spacing.medium,
     borderRadius: borderRadiuses.small,
     alignItems: "center",
-    marginHorizontal: spacing.small / 2,
+    marginHorizontal: spacing.xsmall,
   },
   actionButtonText: {
     color: colors.white,
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.regular,
+    fontWeight: typography.fontWeight.bold,
   },
   friendsButton: {
     backgroundColor: colors.background,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   },
   friendsButtonText: {
     color: colors.primaryText,
-    fontSize: 14,
-    fontWeight: "600",
+    fontSize: typography.fontSize.medium,
+    fontWeight: typography.fontWeight.bold,
   },
 });

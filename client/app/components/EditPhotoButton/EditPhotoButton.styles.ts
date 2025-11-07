@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.blue,
-    paddingVertical: spacing.medium - 6,
+    paddingVertical: spacing.small,
     paddingHorizontal: spacing.medium,
     borderRadius: borderRadiuses.small,
     minWidth: 200,
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontWeight: "bold",
-    fontSize: 16,
+    fontWeight: typography.fontWeight.bold,
+    fontSize: typography.fontSize.regular,
   },
 });

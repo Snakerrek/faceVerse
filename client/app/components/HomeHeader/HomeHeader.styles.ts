@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   header: {
@@ -12,8 +12,8 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.borderLight,
   },
   logoText: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.xlarge,
+    fontWeight: typography.fontWeight.bold,
     color: colors.blue,
   },
   headerIcons: {
@@ -21,19 +21,19 @@ export const styles = StyleSheet.create({
   },
   iconButton: {
     backgroundColor: colors.iconBackground,
-    borderRadius: 20,
+    borderRadius: borderRadiuses.medium,
     width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10,
+    marginLeft: spacing.small,
   },
   icon: {
     color: colors.primaryText,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.xlarge,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
   },
 });

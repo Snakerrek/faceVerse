@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   safeArea: {
@@ -10,48 +10,48 @@ export const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "flex-start",
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 5,
+    paddingHorizontal: spacing.small,
+    paddingTop: spacing.small,
+    paddingBottom: spacing.xsmall,
   },
   backButton: {
-    padding: 10,
+    padding: spacing.small,
     alignSelf: "center",
   },
   backButtonText: {
-    fontSize: 18,
+    fontSize: typography.fontSize.large,
     color: colors.blue,
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: "center",
-    paddingBottom: 20,
+    paddingBottom: spacing.medium,
   },
   headerContentContainer: {
     width: "100%",
     alignItems: "center",
-    paddingHorizontal: 20,
-    marginTop: 40,
-    marginBottom: 30,
+    paddingHorizontal: spacing.medium,
+    marginTop: spacing.large,
+    marginBottom: spacing.large,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.xlarge,
+    fontWeight: typography.fontWeight.bold,
     textAlign: "center",
   },
   formContainer: {
     width: "100%",
-    paddingHorizontal: 30,
+    paddingHorizontal: spacing.large,
   },
   inputWrapperFullWithMargin: {
     width: "100%",
-    marginBottom: 25,
+    marginBottom: spacing.large,
   },
   activityIndicator: {
     color: colors.blue,
   },
   buttonWrapper: {
-    marginTop: 10,
+    marginTop: spacing.small,
   },
   button: {
     color: colors.blue,

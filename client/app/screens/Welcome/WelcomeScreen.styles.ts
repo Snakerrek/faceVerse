@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,9 +10,9 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 50,
+    fontSize: typography.fontSize.xlarge,
+    fontWeight: typography.fontWeight.bold,
+    marginBottom: spacing.xlarge,
     color: colors.primaryText,
   },
   buttonContainer: {

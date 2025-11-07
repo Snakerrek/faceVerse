@@ -1,7 +1,10 @@
+import { TextStyle } from "react-native";
+
 export const colors = {
   blue: "#1877f2",
   background: "#f0f6f6",
   white: "#ffffff",
+  black: "#000",
   primaryText: "#050505",
   secondaryText: "#606770",
   tertiaryText: "#1c1e21",
@@ -11,15 +14,14 @@ export const colors = {
   inputBackground: "#f5f6f7",
   danger: "red",
   success: "green",
-  error: "red",
-  placeholder: "#606770",
-  border: "#dddfe2",
 };
 
 export const spacing = {
+  xsmall: 4,
   small: 8,
   medium: 16,
   large: 24,
+  xlarge: 48,
 };
 
 export const borderRadiuses = {
@@ -36,7 +38,14 @@ export const typography = {
     xlarge: 28,
   },
   fontWeight: {
-    regular: "400",
-    bold: "bold",
+    regular: "400" as TextStyle["fontWeight"],
+    bold: "600" as TextStyle["fontWeight"],
   },
 };
+
+// typography.fontWeight.regular
+// typography.fontWeight.bold
+
+// typography.fontSize.medium 14
+// typography.fontSize.regular 16
+// typography.fontSize.large 18

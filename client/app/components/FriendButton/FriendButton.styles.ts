@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: colors.blue,
-    paddingVertical: 12,
+    paddingVertical: spacing.medium,
     borderRadius: borderRadiuses.small,
     alignItems: "center",
-    marginHorizontal: spacing.small / 2,
+    marginHorizontal: spacing.xsmall,
   },
   addButton: {
     backgroundColor: colors.blue,
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.regular,
+    fontWeight: typography.fontWeight.bold,
   },
 });

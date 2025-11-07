@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   inputWrapperFull: {
@@ -7,9 +7,9 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.medium,
   },
   label: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
-    marginBottom: 4,
+    marginBottom: spacing.xsmall,
     alignSelf: "flex-start",
   },
   input: {
@@ -17,9 +17,9 @@ export const styles = StyleSheet.create({
     height: 50,
     borderColor: colors.borderLight,
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: borderRadiuses.small,
     paddingHorizontal: spacing.medium,
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     backgroundColor: colors.inputBackground,
     color: colors.primaryText,
   },

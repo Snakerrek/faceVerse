@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   overlay: {
@@ -21,8 +21,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: spacing.medium,
   },
   headerText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.large,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
   },
   loadingContainer: {
@@ -43,9 +43,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   likerItemText: {
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
-    fontWeight: "500",
+    fontWeight: typography.fontWeight.bold,
     marginLeft: spacing.medium,
   },
 });

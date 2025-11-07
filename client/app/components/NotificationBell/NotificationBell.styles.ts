@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   bellContainer: {
@@ -11,17 +11,17 @@ export const styles = StyleSheet.create({
     top: 4,
     right: 4,
     backgroundColor: colors.danger,
-    borderRadius: 10,
+    borderRadius: borderRadiuses.small,
     minWidth: 18,
     height: 18,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 4,
+    paddingHorizontal: spacing.xsmall,
   },
   badgeText: {
     color: colors.white,
-    fontSize: 10,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.small,
+    fontWeight: typography.fontWeight.bold,
   },
   modalOverlay: {
     flex: 1,
@@ -30,11 +30,10 @@ export const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: "white",
-    borderRadius: 12,
-    margin: 16,
-    paddingVertical: 16,
-    // Optional shadow for iOS
-    shadowColor: "#000",
+    borderRadius: borderRadiuses.small,
+    margin: spacing.medium,
+    paddingVertical: spacing.medium,
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -48,7 +47,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.borderLight,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: typography.fontSize.large,
     fontWeight: "bold",
     color: colors.primaryText,
   },
@@ -61,7 +60,7 @@ export const styles = StyleSheet.create({
   },
   emptyText: {
     color: colors.secondaryText,
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
   },
   notificationItem: {
     flexDirection: "row",
@@ -78,14 +77,14 @@ export const styles = StyleSheet.create({
     marginLeft: spacing.medium,
   },
   notificationText: {
-    fontSize: 14,
+    fontSize: typography.fontSize.medium,
     color: colors.primaryText,
   },
   actorName: {
-    fontWeight: "bold",
+    fontWeight: typography.fontWeight.bold,
   },
   timestamp: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
     marginTop: spacing.small,
   },

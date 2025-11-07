@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     borderRadius: borderRadiuses.small,
     padding: spacing.medium,
     marginTop: spacing.medium,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     color: colors.blue,
   },
   infoText: {
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
   },
 });

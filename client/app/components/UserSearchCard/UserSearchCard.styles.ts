@@ -1,18 +1,18 @@
 import { StyleSheet } from "react-native";
-import { colors, borderRadiuses } from "../../theme";
+import { colors, borderRadiuses, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
     flexBasis: "30%",
-    margin: 12,
+    margin: spacing.medium,
     alignItems: "center",
-    padding: 15,
+    padding: spacing.medium,
     minWidth: 250,
     minHeight: 200,
     borderRadius: borderRadiuses.small,
@@ -22,21 +22,21 @@ export const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    marginBottom: 12,
+    marginBottom: spacing.medium,
   },
   textContainer: {
     alignItems: "center",
     backgroundColor: colors.white,
-    padding: 8,
+    padding: spacing.small,
     borderRadius: borderRadiuses.medium,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     marginTop: 8,
   },
   name: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.regular,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
     textAlign: "center",
   },

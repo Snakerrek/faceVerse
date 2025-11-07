@@ -31,5 +31,5 @@ export const SmartBackHeader: React.FC<SmartBackHeaderProps> = ({ title }) => {
     });
   }, [navigation]);
 
-  return null; // This component only sets header options
+  return null;
 };

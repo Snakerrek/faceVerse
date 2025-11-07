@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,11 +9,11 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.borderLight,
   },
   input: {
-    height: 40,
+    height: borderRadiuses.medium,
     backgroundColor: colors.background,
-    borderRadius: 20,
+    borderRadius: borderRadiuses.medium,
     paddingHorizontal: spacing.medium,
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
   },
   placeholder: {

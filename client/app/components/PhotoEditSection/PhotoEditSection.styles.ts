@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.large,
   },
   label: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: typography.fontSize.regular,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
     marginBottom: spacing.medium,
   },

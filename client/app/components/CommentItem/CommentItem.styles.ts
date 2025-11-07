@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { borderRadiuses, colors, spacing } from "../../theme";
+import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -27,25 +27,25 @@ export const styles = StyleSheet.create({
     marginLeft: spacing.small,
   },
   likeCount: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
   },
   author: {
-    fontWeight: "bold",
-    fontSize: 13,
+    fontWeight: typography.fontWeight.bold,
+    fontSize: typography.fontSize.medium,
     color: colors.primaryText,
   },
   text: {
-    fontSize: 13,
+    fontSize: typography.fontSize.medium,
     color: colors.primaryText,
-    marginTop: spacing.small / 2,
+    marginTop: spacing.xsmall,
     backgroundColor: colors.background,
     padding: spacing.small,
     borderRadius: borderRadiuses.small,
   },
   time: {
-    fontSize: 11,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
-    marginTop: spacing.small / 2,
+    marginTop: spacing.xsmall,
   },
 });

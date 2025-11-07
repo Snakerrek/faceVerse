@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { TextInput } from "react-native";
 import { useRouter } from "expo-router";
-import { ResponseStatus } from "../../types/types";
-import { login } from "../../services/authService";
+import { ResponseStatus } from "../types/types";
+import { login } from "../services/authService";
 
 interface FormData {
   email: string;

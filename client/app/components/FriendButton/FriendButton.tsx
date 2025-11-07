@@ -8,6 +8,7 @@ import {
 } from "../../services/friendshipService";
 import { ResponseStatus } from "../../types/types";
 import { styles } from "./FriendButton.styles";
+import { colors } from "../../theme";
 
 interface FriendButtonProps {
   userId: number;
@@ -37,13 +38,11 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
     setLoading(true);
     try {
       if (status === "none") {
-        // Send friend request
         const response = await sendFriendRequest(userId);
         if (response.status === ResponseStatus.OK) {
           setStatus("pending_sent");
         }
       } else if (status === "pending_received") {
-        // Accept friend request
         const response = await acceptFriendRequest(userId);
         if (response.status === ResponseStatus.OK) {
           setStatus("friends");
@@ -106,7 +105,7 @@ const FriendButton: React.FC<FriendButtonProps> = ({ userId }) => {
       disabled={config.disabled || loading}
     >
       {loading ? (
-        <ActivityIndicator size="small" color="#fff" />
+        <ActivityIndicator size="small" color={colors.white} />
       ) : (
         <Text style={styles.buttonText}>{config.text}</Text>
       )}

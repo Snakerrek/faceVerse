@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../theme";
+import { colors, spacing } from "../../theme";
 
 export const UserAvatarStyles = StyleSheet.create({
   base: {
@@ -26,10 +26,10 @@ export const UserAvatarStyles = StyleSheet.create({
     borderColor: colors.white,
   },
   postContainerMargin: {
-    marginRight: 10,
+    marginRight: spacing.small,
   },
   settingsContainerMargin: {
-    marginBottom: 15,
+    marginBottom: spacing.medium,
   },
 });
 export type AvatarSize = "small" | "medium" | "large";

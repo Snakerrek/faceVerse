@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { styles } from "./ProfileScreen.styles";
+import { colors } from "../..//theme";
 import { useProfile } from "../../hooks/useProfile";
 import { useAuthCheck } from "../../hooks/useAuthCheck";
 import { ProfileHeader } from "../../components/ProfileHeader/ProfileHeader";
@@ -22,7 +23,7 @@ const ProfileScreen: React.FC = () => {
   if (isLoading) {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color={colors.blue} />
       </View>
     );
   }

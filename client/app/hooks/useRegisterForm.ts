@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { Gender, RegisterData, ResponseStatus } from "../../types/types";
-import { register } from "../../services/authService";
+import { Gender, RegisterData, ResponseStatus } from "../types/types";
+import { register } from "../services/authService";
 
 interface FormData {
   email: string;

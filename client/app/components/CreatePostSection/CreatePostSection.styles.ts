@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     borderRadius: borderRadiuses.medium,
     paddingHorizontal: spacing.medium,
     paddingVertical: spacing.small,
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
     maxHeight: 100,
   },
@@ -39,8 +39,8 @@ export const styles = StyleSheet.create({
     top: spacing.small,
     right: spacing.small,
     backgroundColor: "rgba(0, 0, 0, 0.6)",
-    borderRadius: 12,
-    padding: 4,
+    borderRadius: borderRadiuses.small,
+    padding: spacing.xsmall,
   },
   actions: {
     flexDirection: "row",
@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
   },
   postButtonText: {
     color: colors.white,
-    fontWeight: "bold",
-    fontSize: 16,
+    fontWeight: typography.fontWeight.bold,
+    fontSize: typography.fontSize.regular,
   },
 });

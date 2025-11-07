@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   profileContent: {
@@ -12,14 +12,14 @@ export const styles = StyleSheet.create({
     marginTop: -60,
   },
   name: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.xlarge,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
     marginTop: spacing.medium,
   },
   postsSectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.large,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
     marginTop: spacing.large,
     marginBottom: spacing.small,

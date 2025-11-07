@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,8 +12,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.large,
+    fontWeight: typography.fontWeight.bold,
     marginBottom: spacing.medium,
     color: colors.tertiaryText,
   },
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorText: {
-    fontSize: 16,
+    fontSize: typography.fontSize.regular,
     color: colors.danger,
   },
 });

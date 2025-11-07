@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -25,19 +25,19 @@ export const styles = StyleSheet.create({
   },
   backButton: {
     color: colors.blue,
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: typography.fontSize.regular,
+    fontWeight: typography.fontWeight.bold,
   },
   titleContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: typography.fontSize.large,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
   },
   count: {
-    fontSize: 14,
+    fontSize: typography.fontSize.medium,
     color: colors.secondaryText,
     marginTop: spacing.small,
   },
@@ -57,12 +57,12 @@ export const styles = StyleSheet.create({
     marginLeft: spacing.medium,
   },
   friendName: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: typography.fontSize.regular,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
   },
   friendBio: {
-    fontSize: 14,
+    fontSize: typography.fontSize.medium,
     color: colors.secondaryText,
     marginTop: spacing.small,
   },
@@ -73,13 +73,13 @@ export const styles = StyleSheet.create({
     padding: spacing.large,
   },
   emptyText: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: typography.fontSize.large,
+    fontWeight: typography.fontWeight.bold,
     color: colors.primaryText,
     marginBottom: spacing.small,
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: typography.fontSize.medium,
     color: colors.secondaryText,
     textAlign: "center",
   },

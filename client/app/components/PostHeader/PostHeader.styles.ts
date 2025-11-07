@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,17 +17,17 @@ export const styles = StyleSheet.create({
     marginLeft: spacing.medium,
   },
   name: {
-    fontWeight: "bold",
-    fontSize: 16,
+    fontWeight: typography.fontWeight.bold,
+    fontSize: typography.fontSize.regular,
     color: colors.primaryText,
   },
   timestamp: {
-    fontSize: 12,
+    fontSize: typography.fontSize.small,
     color: colors.secondaryText,
     marginTop: 2,
   },
   menuButton: {
-    fontSize: 20,
+    fontSize: typography.fontSize.large,
     color: colors.secondaryText,
   },
 });

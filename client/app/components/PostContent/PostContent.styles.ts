@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     borderRadius: borderRadiuses.small,
   },
   text: {
-    fontSize: 14,
+    fontSize: typography.fontSize.medium,
     color: colors.primaryText,
     marginBottom: spacing.small,
     backgroundColor: colors.background,
