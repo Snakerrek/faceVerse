@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.borderLight,
   },
   input: {
-    height: borderRadiuses.medium,
+    height: 50,
     backgroundColor: colors.background,
     borderRadius: borderRadiuses.medium,
     paddingHorizontal: spacing.medium,
