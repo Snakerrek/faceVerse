@@ -126,7 +126,6 @@ export const useRegisterForm = () => {
       setMessage("Registration went correct, you can log in now.");
       setIsError(false);
       resetForm();
-      console.log("Registration successful, navigating to Login.");
       router.replace("/login");
     } else {
       console.error("Registration Error:", registerRes.message);

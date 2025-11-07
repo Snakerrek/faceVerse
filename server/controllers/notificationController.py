@@ -25,10 +25,3 @@ def mark_as_read(notification_id):
     """Mark notification as read."""
     current_user_id = int(get_jwt_identity())
     return NotificationService.mark_as_read(notification_id, current_user_id)
-
-@notification_bp.route('/mark-all-read', methods=['POST'], strict_slashes=False)
-@jwt_required()
-def mark_all_as_read():
-    """Mark all notifications as read."""
-    current_user_id = int(get_jwt_identity())
-    return NotificationService.mark_all_as_read(current_user_id)
