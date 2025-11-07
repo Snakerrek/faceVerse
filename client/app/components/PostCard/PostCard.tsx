@@ -24,7 +24,7 @@ import PostActions from "../PostActions/PostActions";
 import CommentInputField from "../CommentInputField/CommentInputField";
 import CommentItem from "../CommentItem/CommentItem";
 import { styles } from "./PostCard.styles";
-import { colors, spacing, borderRadiuses } from "../../theme";
+import { colors } from "../../theme";
 
 interface PostCardProps {
   post: Post;
@@ -201,7 +201,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
           isLiked={isLiked}
           onLikePress={handleToggleLike}
           likeCount={likeCount}
-          commentCount={post.comment_count}
+          commentCount={showComments ? comments.length : post.comment_count}
           onShowLikers={handleShowLikers}
           onCommentPress={handleCommentButtonPress}
         />
@@ -209,7 +209,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
           <>
             {isLoadingComments ? (
               <ActivityIndicator
-                style={{ paddingVertical: 20 }}
+                style={styles.commentsLoadingContainer}
                 color={colors.blue}
               />
             ) : (
@@ -233,7 +233,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
                 scrollEnabled={false}
               />
             )}
-
+            {/* tutaj */}
             <CommentInputField
               value={newCommentContent}
               onChangeText={setNewCommentContent}
@@ -243,6 +243,8 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
           </>
         )}
       </View>
+
+      {/* Likers Modal */}
       <Modal
         transparent
         animationType="fade"
@@ -250,43 +252,20 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
         onRequestClose={() => setShowLikers(false)}
       >
         <TouchableOpacity
-          style={{
-            flex: 1,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          style={styles.modalOverlay}
           onPress={() => setShowLikers(false)}
         >
-          <View
-            style={{
-              backgroundColor: colors.white,
-              borderRadius: borderRadiuses.small,
-              width: "85%",
-              maxHeight: "70%",
-            }}
-          >
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: colors.borderLight,
-                paddingVertical: spacing.medium,
-                paddingHorizontal: spacing.medium,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: "bold",
-                  color: colors.primaryText,
-                }}
-              >
+          <View style={styles.likersModalContent}>
+            {/* Header */}
+            <View style={styles.likersHeader}>
+              <Text style={styles.likersHeaderText}>
                 {likeCount} {likeCount === 1 ? "Like" : "Likes"}
               </Text>
             </View>
 
+            {/* Likers List */}
             {isLoadingLikers ? (
-              <View style={{ padding: spacing.large, alignItems: "center" }}>
+              <View style={styles.likersLoadingContainer}>
                 <ActivityIndicator color={colors.blue} size="large" />
               </View>
             ) : likers.length > 0 ? (
@@ -299,34 +278,18 @@ const PostCard: React.FC<PostCardProps> = ({ post, expandedByDefault }) => {
                       setShowLikers(false);
                       router.push(`/profile?userId=${item.id}`);
                     }}
-                    style={{
-                      paddingVertical: spacing.medium,
-                      paddingHorizontal: spacing.medium,
-                      borderBottomWidth: 1,
-                      borderBottomColor: colors.borderLight,
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
+                    style={styles.likerItem}
                   >
                     <UserAvatar avatarUrl={item.avatar_url} size="small" />
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        color: colors.primaryText,
-                        fontWeight: "500",
-                        marginLeft: spacing.medium,
-                      }}
-                    >
+                    <Text style={styles.likerItemText}>
                       {item.first_name} {item.last_name}
                     </Text>
                   </TouchableOpacity>
                 )}
               />
             ) : (
-              <View style={{ padding: spacing.large, alignItems: "center" }}>
-                <Text style={{ color: colors.secondaryText }}>
-                  No likes yet
-                </Text>
+              <View style={styles.likersEmptyContainer}>
+                <Text style={styles.likersEmptyText}>No likes yet</Text>
               </View>
             )}
           </View>

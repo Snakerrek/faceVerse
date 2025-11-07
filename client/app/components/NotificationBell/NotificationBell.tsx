@@ -135,7 +135,7 @@ const NotificationBell: React.FC = () => {
 
       <Modal
         visible={showModal}
-        animationType="slide"
+        animationType="fade"
         transparent
         onRequestClose={() => setShowModal(false)}
       >

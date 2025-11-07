@@ -26,14 +26,18 @@ export const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
   },
   modalContent: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: borderRadiuses.medium,
-    borderTopRightRadius: borderRadiuses.medium,
-    maxHeight: "80%",
-    paddingBottom: spacing.large,
+    backgroundColor: "white",
+    borderRadius: 12,
+    margin: 16,
+    paddingVertical: 16,
+    // Optional shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   modalHeader: {
     flexDirection: "row",
