@@ -25,7 +25,7 @@ const initialFormData: FormData = {
   gender: Gender.MALE,
 };
 
-export const useRegisterForm = () => {
+const useRegisterForm = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -145,3 +145,5 @@ export const useRegisterForm = () => {
     handleRegister,
   };
 };
+
+export default useRegisterForm;

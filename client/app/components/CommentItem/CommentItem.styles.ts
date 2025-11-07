@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
@@ -49,3 +49,5 @@ export const styles = StyleSheet.create({
     marginTop: spacing.xsmall,
   },
 });
+
+export default styles;

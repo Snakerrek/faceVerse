@@ -3,10 +3,10 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Comment } from "../../types/types";
-import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import UserAvatar from "../UserAvatar/UserAvatar";
 import LikersModal from "../LikersModal/LikersModal";
 import { colors } from "../../theme";
-import { styles } from "./CommentItem.styles";
+import styles from "./CommentItem.styles";
 import { formatTimeAgo } from "../../utils/formatUtils";
 
 interface CommentItemProps {

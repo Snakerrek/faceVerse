@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   bellContainer: {
     position: "relative",
     padding: spacing.small,
@@ -96,3 +96,5 @@ export const styles = StyleSheet.create({
     marginLeft: spacing.small,
   },
 });
+
+export default styles;

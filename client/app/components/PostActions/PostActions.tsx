@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
-import { styles } from "./PostActions.styles";
+import styles from "./PostActions.styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../theme";
 

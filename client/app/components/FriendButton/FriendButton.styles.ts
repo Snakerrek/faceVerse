@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: colors.blue,
@@ -28,3 +28,5 @@ export const styles = StyleSheet.create({
     fontWeight: typography.fontWeight.bold,
   },
 });
+
+export default styles;

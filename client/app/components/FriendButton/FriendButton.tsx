@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, Text, ActivityIndicator, Alert } from "react-native";
+import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import {
   sendFriendRequest,
   acceptFriendRequest,
@@ -7,7 +7,7 @@ import {
   removeFriend,
 } from "../../services/friendshipService";
 import { ResponseStatus } from "../../types/types";
-import { styles } from "./FriendButton.styles";
+import styles from "./FriendButton.styles";
 import { colors } from "../../theme";
 
 interface FriendButtonProps {

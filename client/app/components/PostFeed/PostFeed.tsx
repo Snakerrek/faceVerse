@@ -17,7 +17,7 @@ import { getPosts, createPost } from "../../services/postService";
 import CreatePostSection from "../CreatePostSection/CreatePostSection";
 import PostCard from "../PostCard/PostCard";
 import { colors } from "../../theme";
-import { styles } from "./PostFeed.styles";
+import styles from "./PostFeed.styles";
 
 interface PostFeedProps {
   user: UserData;

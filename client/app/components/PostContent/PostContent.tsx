@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
 import { Post } from "../../types/types";
-import { styles } from "./PostContent.styles";
+import styles from "./PostContent.styles";
 
 interface PostContentProps {
   post: Post;

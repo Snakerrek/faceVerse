@@ -17,7 +17,7 @@ import {
 import { Notification, ResponseStatus } from "../../types/types";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { formatTimeAgo } from "../../utils/formatUtils";
-import { styles } from "./NotificationBell.styles";
+import styles from "./NotificationBell.styles";
 import { colors } from "../../theme";
 
 const NotificationBell: React.FC = () => {

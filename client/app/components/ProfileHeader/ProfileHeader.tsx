@@ -3,16 +3,16 @@ import { View, Text } from "react-native";
 import { UserData } from "../../types/types";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import ProfileBackground from "../ProfileBackground/ProfileBackground";
-import { ProfileInfo } from "../ProfileInfo/ProfileInfo";
-import { ProfileActions } from "../ProfileActions/ProfileActions";
-import { styles } from "./ProfileHeader.styles";
+import ProfileInfo from "../ProfileInfo/ProfileInfo";
+import ProfileActions from "../ProfileActions/ProfileActions";
+import styles from "./ProfileHeader.styles";
 import { getLoggedInUserID } from "@/app/utils/storageUtils";
 
 interface ProfileHeaderProps {
   user: UserData;
 }
 
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
   const [isCurrentUser, setIsCurrentUser] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,3 +50,5 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
     </>
   );
 };
+
+export default ProfileHeader;

@@ -1,9 +1,8 @@
 import React from "react";
-import { View, Text, Modal, TouchableOpacity, Pressable } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { View, Modal, Pressable } from "react-native";
 import { useRouter } from "expo-router";
-import { colors } from "../../theme";
-import { styles } from "./MenuModal.styles";
+import styles from "./MenuModal.styles";
+import MenuItem from "../MenuItem/MenuItem";
 
 interface MenuModalProps {
   visible: boolean;
@@ -51,33 +50,6 @@ const MenuModal: React.FC<MenuModalProps> = ({
         </View>
       </Pressable>
     </Modal>
-  );
-};
-
-interface MenuItemProps {
-  icon: "cog" | "account" | "logout";
-  label: string;
-  onPress: () => void;
-  isDangerous?: boolean;
-}
-
-const MenuItem: React.FC<MenuItemProps> = ({
-  icon,
-  label,
-  onPress,
-  isDangerous,
-}) => {
-  return (
-    <TouchableOpacity style={styles.menuItem} onPress={onPress}>
-      <MaterialCommunityIcons
-        name={icon}
-        size={20}
-        color={isDangerous ? colors.danger : colors.primaryText}
-      />
-      <Text style={[styles.menuItemText, isDangerous && styles.dangerousText]}>
-        {label}
-      </Text>
-    </TouchableOpacity>
   );
 };
 

@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { getAuthToken } from "../utils/authUtils";
 
-export const useAuthCheck = (
-  kickOut?: boolean,
-  onTokenPresent?: () => void
-) => {
+const useAuthCheck = (kickOut?: boolean, onTokenPresent?: () => void) => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -47,3 +44,5 @@ export const useAuthCheck = (
     navigateToRegister,
   };
 };
+
+export default useAuthCheck;

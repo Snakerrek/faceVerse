@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { borderRadiuses, colors, spacing } from "../../theme";
 
-export const ProfileBackgroundStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   baseContainer: {
     backgroundColor: colors.borderLight,
     width: "100%",
@@ -36,3 +36,4 @@ export const ProfileBackgroundStyles = StyleSheet.create({
 });
 
 export type BackgroundContext = "profile" | "settings" | "searchCard";
+export default styles;

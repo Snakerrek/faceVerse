@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, borderRadiuses, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   inputWrapperFull: {
     width: "100%",
     marginBottom: spacing.medium,
@@ -27,3 +27,5 @@ export const styles = StyleSheet.create({
     color: colors.secondaryText,
   },
 });
+
+export default styles;

@@ -1,9 +1,6 @@
 import React from "react";
 import { View, Image, ImageSourcePropType } from "react-native";
-import {
-  ProfileBackgroundStyles,
-  BackgroundContext,
-} from "./ProfileBackground.styles";
+import styles, { BackgroundContext } from "./ProfileBackground.styles";
 
 const defaultBackgroundImage = require("../../../assets/default_background.png");
 
@@ -20,11 +17,11 @@ const ProfileBackground: React.FC<ProfileBackgroundProps> = ({
     ? { uri: backgroundUrl }
     : defaultBackgroundImage;
 
-  const contextStyle = ProfileBackgroundStyles[context];
+  const contextStyle = styles[context];
 
   return (
-    <View style={[ProfileBackgroundStyles.baseContainer, contextStyle]}>
-      <Image source={source} style={ProfileBackgroundStyles.baseImage} />
+    <View style={[styles.baseContainer, contextStyle]}>
+      <Image source={source} style={styles.baseImage} />
     </View>
   );
 };

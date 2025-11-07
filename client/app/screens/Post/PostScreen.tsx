@@ -9,7 +9,7 @@ import { useLocalSearchParams } from "expo-router";
 import PostCard from "../../components/PostCard/PostCard";
 import { getPostById } from "../../services/postService";
 import { ResponseStatus, Post } from "../../types/types";
-import { styles } from "./PostScreen.styles";
+import styles from "./PostScreen.styles";
 import { colors } from "../../theme";
 
 const PostScreen: React.FC = () => {

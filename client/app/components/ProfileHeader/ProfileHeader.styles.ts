@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   profileContent: {
     alignItems: "center",
     paddingBottom: spacing.medium,
@@ -26,3 +26,5 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
 });
+
+export default styles;

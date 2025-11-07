@@ -7,11 +7,11 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { styles } from "./ProfileScreen.styles";
+import styles from "./ProfileScreen.styles";
 import { colors } from "../..//theme";
-import { useProfile } from "../../hooks/useProfile";
-import { useAuthCheck } from "../../hooks/useAuthCheck";
-import { ProfileHeader } from "../../components/ProfileHeader/ProfileHeader";
+import useProfile from "../../hooks/useProfile";
+import useAuthCheck from "../../hooks/useAuthCheck";
+import ProfileHeader from "../../components/ProfileHeader/ProfileHeader";
 import PostCard from "../../components/PostCard/PostCard";
 
 const ProfileScreen: React.FC = () => {

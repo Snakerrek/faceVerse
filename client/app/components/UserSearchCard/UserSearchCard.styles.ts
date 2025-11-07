@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, borderRadiuses, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     shadowColor: colors.black,
@@ -41,3 +41,5 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+export default styles;

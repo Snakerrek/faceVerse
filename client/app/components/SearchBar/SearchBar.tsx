@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TextInput } from "react-native";
-import { styles } from "./SearchBar.styles";
+import styles from "./SearchBar.styles";
 
 interface SearchBarProps {
   value: string;
@@ -8,7 +8,7 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({
+const SearchBar: React.FC<SearchBarProps> = ({
   value,
   onChangeText,
   placeholder = "Search users...",
@@ -26,3 +26,5 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     </View>
   );
 };
+
+export default SearchBar;

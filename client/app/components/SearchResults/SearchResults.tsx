@@ -2,7 +2,7 @@ import React from "react";
 import { View, FlatList, Text, ActivityIndicator } from "react-native";
 import { UserData } from "../../types/types";
 import UserSearchCard from "../UserSearchCard/UserSearchCard";
-import { styles } from "./SearchResults.styles";
+import styles from "./SearchResults.styles";
 
 interface SearchResultsProps {
   results: UserData[];
@@ -10,7 +10,7 @@ interface SearchResultsProps {
   query: string;
 }
 
-export const SearchResults: React.FC<SearchResultsProps> = ({
+const SearchResults: React.FC<SearchResultsProps> = ({
   results,
   isLoading,
   query,
@@ -40,3 +40,5 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     />
   );
 };
+
+export default SearchResults;

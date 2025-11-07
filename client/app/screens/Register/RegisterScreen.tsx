@@ -8,12 +8,12 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRegisterForm } from "../../hooks/useRegisterForm";
-import { FormInput } from "../../components/FormInput/FormInput";
-import { Message } from "../../components/Message/Message";
-import { GenderSelector } from "../../components/GenderSelector/GenderSelector";
-import { DateInput } from "../../components/DateInput/DateInput";
-import { styles } from "./RegisterScreen.styles";
+import useRegisterForm from "../../hooks/useRegisterForm";
+import FormInput from "../../components/FormInput/FormInput";
+import Message from "../../components/Message/Message";
+import GenderSelector from "../../components/GenderSelector/GenderSelector";
+import DateInput from "../../components/DateInput/DateInput";
+import styles from "./RegisterScreen.styles";
 import { useRouter } from "expo-router";
 
 const RegisterScreen: React.FC = () => {

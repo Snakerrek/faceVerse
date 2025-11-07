@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import { UserData } from "../../types/types";
 import { getUserData } from "../../utils/storageUtils";
-import { useImagePicker } from "../../hooks/useImagePicker";
-import { useImageUpload } from "../../hooks/useImageUpload";
-import { PhotoEditSection } from "../../components/PhotoEditSection/PhotoEditSection";
-import { styles } from "./SettingsScreen.styles";
-import { useAuthCheck } from "../../hooks/useAuthCheck";
+import useImagePicker from "../../hooks/useImagePicker";
+import useImageUpload from "../../hooks/useImageUpload";
+import PhotoEditSection from "../../components/PhotoEditSection/PhotoEditSection";
+import styles from "./SettingsScreen.styles";
+import useAuthCheck from "../../hooks/useAuthCheck";
 
 const SettingsScreen: React.FC = () => {
   const [user, setUser] = useState<UserData | null>(null);

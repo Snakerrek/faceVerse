@@ -6,7 +6,7 @@ import { UserData, Post, ResponseStatus } from "../types/types";
 import { getUserById } from "../services/userService";
 import { getPostsByUserId } from "../services/postService";
 
-export const useProfile = (targetUserId: number | null) => {
+const useProfile = (targetUserId: number | null) => {
   const [profileUser, setProfileUser] = useState<UserData | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -73,3 +73,5 @@ export const useProfile = (targetUserId: number | null) => {
     isLoading,
   };
 };
+
+export default useProfile;

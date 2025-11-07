@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { UserData } from "../../types/types";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { useRouter } from "expo-router";
-import { styles } from "./UserSearchCard.styles";
+import styles from "./UserSearchCard.styles";
 import ProfileBackground from "../../components/ProfileBackground/ProfileBackground";
 
 interface UserSearchCardProps {

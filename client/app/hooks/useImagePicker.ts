@@ -19,7 +19,7 @@ const PICKER_OPTIONS: Record<PickerType, ImagePickerOptions> = {
   },
 };
 
-export const useImagePicker = () => {
+const useImagePicker = () => {
   const requestPermissions = async (): Promise<boolean> => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -53,3 +53,5 @@ export const useImagePicker = () => {
 
   return { pickImage };
 };
+
+export default useImagePicker;

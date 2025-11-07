@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   errorMessage: {
     color: colors.danger,
     textAlign: "center",
@@ -15,3 +15,5 @@ export const styles = StyleSheet.create({
     fontSize: typography.fontSize.medium,
   },
 });
+
+export default styles;

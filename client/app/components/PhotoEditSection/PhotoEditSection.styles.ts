@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: "100%",
     alignItems: "center",
@@ -14,3 +14,5 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.medium,
   },
 });
+
+export default styles;

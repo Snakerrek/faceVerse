@@ -11,7 +11,7 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { getFriendsList } from "../../services/friendshipService";
 import { ResponseStatus, Friend } from "../../types/types";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
-import { styles } from "./FriendsScreen.styles";
+import styles from "./FriendsScreen.styles";
 import { colors } from "../../theme";
 
 interface FriendsScreenParams {

@@ -8,9 +8,9 @@ import {
   Text,
 } from "react-native";
 import { useRouter } from "expo-router";
-import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import UserAvatar from "../UserAvatar/UserAvatar";
 import { colors } from "../../theme";
-import { styles } from "./LikersModal.styles";
+import styles from "./LikersModal.styles";
 
 interface LikersModalProps {
   visible: boolean;

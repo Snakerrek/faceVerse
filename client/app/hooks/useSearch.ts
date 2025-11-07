@@ -4,9 +4,9 @@ import { useRouter } from "expo-router";
 import { UserData, ResponseStatus } from "../types/types";
 import { searchUsers } from "../services/userService";
 import { getAuthToken } from "../utils/authUtils";
-import { useDebounce } from "./useDebounce";
+import useDebounce from "./useDebounce";
 
-export const useSearch = () => {
+const useSearch = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,3 +83,5 @@ export const useSearch = () => {
     clearResults,
   };
 };
+
+export default useSearch;

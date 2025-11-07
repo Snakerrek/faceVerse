@@ -9,10 +9,10 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useLoginForm } from "../../hooks/useLoginForm";
-import { FormInput } from "../../components/FormInput/FormInput";
-import { Message } from "../../components/Message/Message";
-import { styles } from "./LoginScreen.styles";
+import useLoginForm from "../../hooks/useLoginForm";
+import FormInput from "../../components/FormInput/FormInput";
+import Message from "../../components/Message/Message";
+import styles from "./LoginScreen.styles";
 
 const LoginScreen: React.FC = () => {
   const {

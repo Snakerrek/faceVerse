@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
-import { styles } from "./ProfileActions.styles";
+import styles from "./ProfileActions.styles";
 import { useRouter } from "expo-router";
 import FriendButton from "../FriendButton/FriendButton";
 
@@ -9,7 +9,7 @@ interface ProfileActionsProps {
   userId?: number;
 }
 
-export const ProfileActions: React.FC<ProfileActionsProps> = ({
+const ProfileActions: React.FC<ProfileActionsProps> = ({
   isCurrentUser,
   userId,
 }) => {
@@ -55,3 +55,5 @@ export const ProfileActions: React.FC<ProfileActionsProps> = ({
     );
   }
 };
+
+export default ProfileActions;

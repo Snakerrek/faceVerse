@@ -1,4 +1,4 @@
-export const useDateFormatter = () => {
+const useDateFormatter = () => {
   const formatDOB = (dateString: string | null | undefined): string => {
     if (!dateString) return "Not set";
 
@@ -22,3 +22,5 @@ export const useDateFormatter = () => {
 
   return { formatDOB };
 };
+
+export default useDateFormatter;

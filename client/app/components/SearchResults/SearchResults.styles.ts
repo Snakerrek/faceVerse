@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   centerContainer: {
     flex: 1,
     justifyContent: "center",
@@ -23,3 +23,5 @@ export const styles = StyleSheet.create({
     padding: spacing.small,
   },
 });
+
+export default styles;

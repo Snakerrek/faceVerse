@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     padding: spacing.small,
@@ -20,3 +20,5 @@ export const styles = StyleSheet.create({
     color: colors.secondaryText,
   },
 });
+
+export default styles;

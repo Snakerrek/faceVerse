@@ -9,7 +9,7 @@ interface FormData {
   password: string;
 }
 
-export const useLoginForm = () => {
+const useLoginForm = () => {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -74,3 +74,5 @@ export const useLoginForm = () => {
     focusPasswordInput,
   };
 };
+
+export default useLoginForm;

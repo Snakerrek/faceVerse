@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserData } from "../../types/types";
-import { useDateFormatter } from "../../hooks/useDateFormatter";
-import { styles } from "./ProfileInfo.styles";
+import useDateFormatter from "../../hooks/useDateFormatter";
+import styles from "./ProfileInfo.styles";
 
 interface ProfileInfoProps {
   user: UserData;
 }
 
-export const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
   const { formatDOB } = useDateFormatter();
 
   return (
@@ -48,3 +48,5 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
     </View>
   );
 };
+
+export default ProfileInfo;

@@ -14,7 +14,7 @@ import PostActions from "../PostActions/PostActions";
 import CommentInputField from "../CommentInputField/CommentInputField";
 import CommentItem from "../CommentItem/CommentItem";
 import LikersModal from "../LikersModal/LikersModal";
-import { styles } from "./PostCard.styles";
+import styles from "./PostCard.styles";
 import { colors } from "../../theme";
 
 interface PostCardProps {

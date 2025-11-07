@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing } from "../../theme";
 
-export const UserAvatarStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   base: {
     resizeMode: "cover",
     backgroundColor: colors.iconBackground,
@@ -33,3 +33,5 @@ export const UserAvatarStyles = StyleSheet.create({
   },
 });
 export type AvatarSize = "small" | "medium" | "large";
+
+export default styles;

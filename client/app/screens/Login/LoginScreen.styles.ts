@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.white,
@@ -57,3 +57,5 @@ export const styles = StyleSheet.create({
     color: colors.blue,
   },
 });
+
+export default styles;

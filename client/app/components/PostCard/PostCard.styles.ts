@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     borderRadius: spacing.small,
@@ -13,3 +13,5 @@ export const styles = StyleSheet.create({
     paddingVertical: spacing.medium,
   },
 });
+
+export default styles;

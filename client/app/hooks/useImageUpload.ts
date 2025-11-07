@@ -6,7 +6,7 @@ import { storeUserData } from "../utils/storageUtils";
 
 type UploadType = "avatar" | "cover";
 
-export const useImageUpload = () => {
+const useImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const prepareFormData = async (
@@ -68,3 +68,5 @@ export const useImageUpload = () => {
 
   return { isUploading, uploadImage };
 };
+
+export default useImageUpload;

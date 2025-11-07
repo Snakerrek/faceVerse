@@ -3,8 +3,8 @@ import { View, Text } from "react-native";
 import { UserData } from "../../types/types";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import ProfileBackground from "../ProfileBackground/ProfileBackground";
-import { EditPhotoButton } from "../EditPhotoButton/EditPhotoButton";
-import { styles } from "./PhotoEditSection.styles";
+import EditPhotoButton from "../EditPhotoButton/EditPhotoButton";
+import styles from "./PhotoEditSection.styles";
 
 interface PhotoEditSectionProps {
   type: "avatar" | "cover";
@@ -13,7 +13,7 @@ interface PhotoEditSectionProps {
   onEditPress: () => void;
 }
 
-export const PhotoEditSection: React.FC<PhotoEditSectionProps> = ({
+const PhotoEditSection: React.FC<PhotoEditSectionProps> = ({
   type,
   user,
   isLoading,
@@ -44,3 +44,5 @@ export const PhotoEditSection: React.FC<PhotoEditSectionProps> = ({
     </View>
   );
 };
+
+export default PhotoEditSection;

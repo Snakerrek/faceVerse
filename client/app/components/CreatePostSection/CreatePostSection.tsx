@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UserData } from "../../types/types";
-import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import UserAvatar from "../UserAvatar/UserAvatar";
 import { colors } from "../../theme";
-import { styles } from "./CreatePostSection.styles";
+import styles from "./CreatePostSection.styles";
 
 interface CreatePostSectionProps {
   user: UserData;

@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
-import { styles } from "./EditPhotoButton.styles";
+import styles from "./EditPhotoButton.styles";
 
 interface EditPhotoButtonProps {
   label: string;
@@ -8,7 +8,7 @@ interface EditPhotoButtonProps {
   onPress: () => void;
 }
 
-export const EditPhotoButton: React.FC<EditPhotoButtonProps> = ({
+const EditPhotoButton: React.FC<EditPhotoButtonProps> = ({
   label,
   isLoading,
   onPress,
@@ -27,3 +27,5 @@ export const EditPhotoButton: React.FC<EditPhotoButtonProps> = ({
     </TouchableOpacity>
   );
 };
+
+export default EditPhotoButton;

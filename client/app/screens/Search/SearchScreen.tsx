@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, SafeAreaView } from "react-native";
-import { useSearch } from "../../hooks/useSearch";
-import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { SearchResults } from "../../components/SearchResults/SearchResults";
-import { styles } from "./SearchScreen.styles";
+import useSearch from "../../hooks/useSearch";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import SearchResults from "../../components/SearchResults/SearchResults";
+import styles from "./SearchScreen.styles";
 
 const SearchScreen: React.FC = () => {
   const { query, setQuery, results, isLoading, authError, isAuthorized } =

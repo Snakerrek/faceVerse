@@ -7,8 +7,8 @@ import SearchScreen from "../Search/SearchScreen";
 import HomeHeader from "../../components/HomeHeader/HomeHeader";
 import TabBar from "../../components/TabBar/TabBar";
 import { colors } from "../../theme";
-import { styles } from "./HomeScreen.styles";
-import { useAuthCheck } from "../../hooks/useAuthCheck";
+import styles from "./HomeScreen.styles";
+import useAuthCheck from "../../hooks/useAuthCheck";
 
 type ActiveTab = "home" | "search";
 

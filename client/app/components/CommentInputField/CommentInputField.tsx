@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { colors } from "../../theme";
-import { styles } from "./CommentInputField.styles";
+import styles from "./CommentInputField.styles";
 
 interface CommentInputFieldProps {
   value: string;

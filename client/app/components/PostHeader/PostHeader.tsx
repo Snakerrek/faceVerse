@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Post } from "../../types/types";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
-import { styles } from "./PostHeader.styles";
+import styles from "./PostHeader.styles";
 import { useRouter } from "expo-router";
 import { formatTimeAgo } from "../../utils/formatUtils";
 

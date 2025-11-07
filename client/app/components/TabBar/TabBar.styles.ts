@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { colors, spacing } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     backgroundColor: colors.white,
@@ -20,3 +20,5 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.blue,
   },
 });
+
+export default styles;

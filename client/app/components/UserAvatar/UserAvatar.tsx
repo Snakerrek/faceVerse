@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, ImageSourcePropType } from "react-native";
-import { UserAvatarStyles, AvatarSize } from "./UserAvatar.styles";
+import styles, { AvatarSize } from "./UserAvatar.styles";
 
 const defaultAvatar = require("../../../assets/default_avatar.jpg");
 
@@ -14,9 +14,9 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, size }) => {
     ? { uri: avatarUrl }
     : defaultAvatar;
 
-  const sizeStyle = UserAvatarStyles[size];
+  const sizeStyle = styles[size];
 
-  return <Image source={source} style={[UserAvatarStyles.base, sizeStyle]} />;
+  return <Image source={source} style={[styles.base, sizeStyle]} />;
 };
 
 export default UserAvatar;

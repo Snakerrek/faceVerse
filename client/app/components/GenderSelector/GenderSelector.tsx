@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Gender } from "../../types/types";
-import { styles } from "./GenderSelector.styles";
+import styles from "./GenderSelector.styles";
 
 interface GenderSelectorProps {
   selectedGender: Gender;
   onGenderChange: (gender: Gender) => void;
 }
 
-export const GenderSelector: React.FC<GenderSelectorProps> = ({
+const GenderSelector: React.FC<GenderSelectorProps> = ({
   selectedGender,
   onGenderChange,
 }) => {
@@ -54,3 +54,5 @@ export const GenderSelector: React.FC<GenderSelectorProps> = ({
     </View>
   );
 };
+
+export default GenderSelector;

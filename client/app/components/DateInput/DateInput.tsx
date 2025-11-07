@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
-import { styles } from "./DateInput.styles";
+import styles from "./DateInput.styles";
 
 interface DateInputProps {
   day: string;
@@ -11,7 +11,7 @@ interface DateInputProps {
   onYearChange: (text: string) => void;
 }
 
-export const DateInput: React.FC<DateInputProps> = ({
+const DateInput: React.FC<DateInputProps> = ({
   day,
   month,
   year,
@@ -60,3 +60,5 @@ export const DateInput: React.FC<DateInputProps> = ({
     </View>
   );
 };
+
+export default DateInput;

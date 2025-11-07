@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { borderRadiuses, colors, spacing, typography } from "../../theme";
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -37,3 +37,5 @@ export const styles = StyleSheet.create({
     color: colors.primaryText,
   },
 });
+
+export default styles;

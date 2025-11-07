@@ -8,7 +8,7 @@ interface SmartBackHeaderProps {
   title: string;
 }
 
-export const SmartBackHeader: React.FC<SmartBackHeaderProps> = ({ title }) => {
+const SmartBackHeader: React.FC<SmartBackHeaderProps> = ({ title }) => {
   const router = useRouter();
   const navigation = useNavigation();
 
@@ -33,3 +33,5 @@ export const SmartBackHeader: React.FC<SmartBackHeaderProps> = ({ title }) => {
 
   return null;
 };
+
+export default SmartBackHeader;
