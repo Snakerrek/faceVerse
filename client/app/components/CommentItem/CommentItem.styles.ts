@@ -4,7 +4,7 @@ import { borderRadiuses, colors, spacing, typography } from "../../theme";
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     padding: spacing.medium,
     borderWidth: 1,
     borderColor: colors.borderLight,
@@ -16,19 +16,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
   },
-  content: {
-    flex: 1,
-    marginLeft: spacing.medium,
-  },
   actions: {
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.small,
-    marginLeft: spacing.small,
+  },
+  content: {
+    flex: 1,
+    marginLeft: spacing.medium,
   },
   likeCount: {
     fontSize: typography.fontSize.small,
     color: colors.secondaryText,
+    marginBottom: spacing.xsmall,
   },
   author: {
     fontWeight: typography.fontWeight.bold,
@@ -47,6 +47,11 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.small,
     color: colors.secondaryText,
     marginTop: spacing.xsmall,
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
