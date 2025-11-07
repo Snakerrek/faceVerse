@@ -11,7 +11,6 @@ class Friendship(db.Model):
     created_at = db.Column(db.DateTime, default=get_cet_now, nullable=False)
     updated_at = db.Column(db.DateTime, default=get_cet_now, onupdate=get_cet_now, nullable=False)
     
-    # Relationships
     requester = db.relationship('User', foreign_keys=[requester_id], backref='sent_requests')
     addressee = db.relationship('User', foreign_keys=[addressee_id], backref='received_requests')
     

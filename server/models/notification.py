@@ -15,8 +15,8 @@ class Notification(db.Model):
     __tablename__ = 'notification'
     
     id = db.Column(db.Integer, primary_key=True)
-    recipient_id = db.Column(db.Integer, nullable=False)  # No FK
-    actor_id = db.Column(db.Integer, nullable=False)      # No FK
+    recipient_id = db.Column(db.Integer, nullable=False)
+    actor_id = db.Column(db.Integer, nullable=False)
     type = db.Column(db.String(50), nullable=False)
     post_id = db.Column(db.Integer, nullable=True)
     comment_id = db.Column(db.Integer, nullable=True)
@@ -24,7 +24,6 @@ class Notification(db.Model):
     created_at = db.Column(db.DateTime, default=get_cet_now)
     
     def to_dict(self):
-        # Fetch actor info
         actor = None
         if self.actor_id:
             from models.user import User
@@ -34,7 +33,7 @@ class Notification(db.Model):
         return {
             "id": self.id,
             "type": self.type,
-            "actor": actor,  # Now includes full user info
+            "actor": actor,
             "post_id": self.post_id,
             "comment_id": self.comment_id,
             "is_read": self.is_read,
