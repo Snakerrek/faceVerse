@@ -32,6 +32,21 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.regular,
     color: colors.primaryText,
   },
+  expandButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: spacing.small,
+    marginTop: spacing.small,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderLight,
+  },
+  expandText: {
+    fontSize: typography.fontSize.regular,
+    color: colors.blue,
+    marginRight: spacing.xsmall,
+    fontWeight: "600",
+  },
 });
 
 export default styles;

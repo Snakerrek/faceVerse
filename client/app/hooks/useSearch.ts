@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
-import { UserData, ResponseStatus } from "../types/types";
+import { UserData } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 import { searchUsers } from "../services/userService";
 import { getAuthToken } from "../utils/authUtils";
 import useDebounce from "./useDebounce";

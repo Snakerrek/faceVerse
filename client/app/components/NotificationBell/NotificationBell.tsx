@@ -14,7 +14,8 @@ import {
   getUnreadNotificationCount,
   markNotificationAsRead,
 } from "../../services/notificationService";
-import { Notification, ResponseStatus } from "../../types/types";
+import { Notification } from "../../types/types";
+import { ResponseStatus } from "../../types/enums";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { formatTimeAgo } from "../../utils/formatUtils";
 import styles from "./NotificationBell.styles";

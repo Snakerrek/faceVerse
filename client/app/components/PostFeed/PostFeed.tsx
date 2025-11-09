@@ -7,12 +7,8 @@ import {
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import {
-  Post,
-  CreatePostData,
-  ResponseStatus,
-  UserData,
-} from "../../types/types";
+import { Post, CreatePostData, UserData } from "../../types/types";
+import { ResponseStatus } from "../../types/enums";
 import { getPosts, createPost } from "../../services/postService";
 import CreatePostSection from "../CreatePostSection/CreatePostSection";
 import PostCard from "../PostCard/PostCard";

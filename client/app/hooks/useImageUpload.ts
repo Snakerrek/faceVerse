@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Alert, Platform } from "react-native";
-import { UserData, ResponseStatus } from "../types/types";
+import { UserData } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 import { uploadAvatar, uploadCover } from "../services/uploadService";
 import { storeUserData } from "../utils/storageUtils";
 

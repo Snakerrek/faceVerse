@@ -1,11 +1,6 @@
 import { API_BASE_URL } from "../config";
-import {
-  LoginResponse,
-  LoginData,
-  ResponseStatus,
-  Res,
-  RegisterData,
-} from "../types/types";
+import { LoginResponse, LoginData, Res, RegisterData } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 import { saveAuthToken } from "../utils/authUtils";
 import { storeUserData } from "../utils/storageUtils";
 

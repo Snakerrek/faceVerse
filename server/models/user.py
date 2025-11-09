@@ -15,6 +15,14 @@ class User(db.Model):
     gender = db.Column(db.String(50), nullable=True)
     avatar_filename = db.Column(db.String(128), nullable=True)
     cover_filename = db.Column(db.String(128), nullable=True)
+    bio = db.Column(db.Text, nullable=True)
+    relationship_status = db.Column(db.String(50), nullable=True)
+    education = db.Column(db.String(100), nullable=True)
+    school = db.Column(db.String(200), nullable=True)
+    city = db.Column(db.String(100), nullable=True)
+    occupation = db.Column(db.String(100), nullable=True)
+    workplace = db.Column(db.String(200), nullable=True)
+
     
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     liked_posts = db.relationship(
@@ -50,7 +58,15 @@ class User(db.Model):
             "gender": self.gender,
             "avatar_url": generate_file_url(self.avatar_filename),
             "cover_url": generate_file_url(self.cover_filename),
+            "bio": self.bio,
+            "relationship_status": self.relationship_status,
+            "education": self.education,
+            "school": self.school,
+            "city": self.city,
+            "occupation": self.occupation,
+            "workplace": self.workplace,
         }
+
     
     def _format_date_of_birth(self):
         return self.date_of_birth.isoformat() if self.date_of_birth else None

@@ -40,3 +40,29 @@ class UserService:
         """Get user by ID."""
         user = db.get_or_404(User, user_id)
         return jsonify(user.to_dict()), 200
+    
+    @staticmethod
+    @service_handler()
+    def update_profile(user_id, data):
+        """Update user profile information."""
+        user = db.get_or_404(User, user_id)
+        
+        if 'bio' in data:
+            user.bio = data['bio']
+        if 'relationship_status' in data:
+            user.relationship_status = data['relationship_status']
+        if 'education' in data:
+            user.education = data['education']
+        if 'school' in data:
+            user.school = data['school']
+        if 'city' in data:
+            user.city = data['city']
+        if 'occupation' in data:
+            user.occupation = data['occupation']
+        if 'workplace' in data:
+            user.workplace = data['workplace']
+        
+        db.session.commit()
+        
+        return jsonify({"message": "Profile updated", "user": user.to_dict()}), 200
+

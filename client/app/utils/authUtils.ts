@@ -2,7 +2,8 @@ import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AUTH_TOKEN_KEY, API_BASE_URL } from "../config";
-import { ResponseStatus, Res } from "../types/types";
+import { Res } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 
 class StorageAdapter {
   async setItem(key: string, value: string): Promise<void> {
@@ -71,6 +72,7 @@ export async function authRequest<T>(
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
         ...options.headers,
       },

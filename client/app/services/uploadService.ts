@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../config";
-import { UserData, ResponseStatus, Res } from "../types/types";
+import { UserData, Res } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 import { getAuthToken } from "../utils/authUtils";
 
 async function uploadFile(

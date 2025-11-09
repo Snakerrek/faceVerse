@@ -1,3 +1,5 @@
+import { Gender, ResponseStatus } from "./enums";
+
 export type UserData = {
   id: number;
   email: string;
@@ -7,6 +9,13 @@ export type UserData = {
   gender?: string | null;
   avatar_url: string | null;
   cover_url: string | null;
+  bio?: string;
+  relationship_status?: string;
+  education?: string;
+  school?: string;
+  city?: string;
+  occupation?: string;
+  workplace?: string;
 };
 
 export type LoginResponse = {
@@ -46,16 +55,6 @@ export type Res<T> = {
   message?: string;
   data?: T;
 };
-
-export enum ResponseStatus {
-  OK,
-  ERROR,
-}
-
-export enum Gender {
-  FEMALE = "Woman",
-  MALE = "Man",
-}
 
 export interface Post {
   id: number;

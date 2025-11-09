@@ -9,3 +9,21 @@ export async function searchUsers(query: string): Promise<Res<UserData[]>> {
   const encodedQuery = encodeURIComponent(query);
   return authRequest(`/users/search?q=${encodedQuery}`, { method: "GET" });
 }
+
+export const updateUserProfile = async (
+  userId: number,
+  profileData: Partial<{
+    bio: string;
+    relationship_status: string;
+    education: string;
+    school: string;
+    city: string;
+    occupation: string;
+    workplace: string;
+  }>
+): Promise<Res<{ user: UserData }>> => {
+  return authRequest<{ user: UserData }>(`/users/${userId}`, {
+    method: "PUT",
+    body: JSON.stringify(profileData),
+  });
+};

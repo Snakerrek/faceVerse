@@ -6,7 +6,7 @@ import {
   getFriendshipStatus,
   removeFriend,
 } from "../../services/friendshipService";
-import { ResponseStatus } from "../../types/types";
+import { ResponseStatus } from "../../types/enums";
 import styles from "./FriendButton.styles";
 import { colors } from "../../theme";
 import { useLanguage } from "../../locales/LanguageContext";

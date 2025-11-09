@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { Gender } from "../../types/types";
+import { Gender } from "../../types/enums";
 import styles from "./GenderSelector.styles";
 import { useLanguage } from "../../locales/LanguageContext";
 

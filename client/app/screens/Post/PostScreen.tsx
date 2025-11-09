@@ -8,7 +8,8 @@ import {
 import { useLocalSearchParams } from "expo-router";
 import PostCard from "../../components/PostCard/PostCard";
 import { getPostById } from "../../services/postService";
-import { ResponseStatus, Post } from "../../types/types";
+import { Post } from "../../types/types";
+import { ResponseStatus } from "../../types/enums";
 import styles from "./PostScreen.styles";
 import { colors } from "../../theme";
 import { useLanguage } from "../../locales/LanguageContext";

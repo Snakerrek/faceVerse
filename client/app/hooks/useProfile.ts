@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import { Alert } from "react-native";
 import { getUserData } from "../utils/storageUtils";
-import { UserData, Post, ResponseStatus } from "../types/types";
+import { UserData, Post } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 import { getUserById } from "../services/userService";
 import { getPostsByUserId } from "../services/postService";
 

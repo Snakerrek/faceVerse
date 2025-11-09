@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { TextInput } from "react-native";
 import { useRouter } from "expo-router";
-import { ResponseStatus } from "../types/types";
+import { ResponseStatus } from "../types/enums";
 import { login } from "../services/authService";
 import { useLanguage } from "../locales/LanguageContext";
 

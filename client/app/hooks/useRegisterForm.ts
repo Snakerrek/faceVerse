@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
-import { Gender, RegisterData, ResponseStatus } from "../types/types";
+import { RegisterData } from "../types/types";
+import { Gender, ResponseStatus } from "../types/enums";
 import { register } from "../services/authService";
 import { useLanguage } from "../locales/LanguageContext";
 

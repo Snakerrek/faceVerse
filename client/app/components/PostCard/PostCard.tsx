@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, ActivityIndicator, Alert } from "react-native";
-import { Post, ResponseStatus } from "../../types/types";
+import { Post } from "../../types/types";
+import { ResponseStatus } from "../../types/enums";
 import { toggleLikePost, getPostLikers } from "../../services/postService";
 import {
   getCommentsForPost,
