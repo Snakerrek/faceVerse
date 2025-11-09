@@ -67,4 +67,8 @@ export const en = {
   infoMissing: "No information",
   searchFriends: "Search Friends",
   noFriendsFound: "No one found.",
+  passwordMin8Chars: "Password must be at least 8 characters.",
+  passwordNeedUppercase: "Password must contain at least one uppercase letter.",
+  passwordNeedDigit: "Password must contain at least one digit.",
+  passwordNeedSpecial: "Password must contain at least one special character.",
 };

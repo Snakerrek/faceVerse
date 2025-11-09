@@ -68,4 +68,9 @@ export const pl = {
   infoMissing: "Brak informacji",
   searchFriends: "Wyszukaj znajomych",
   noFriendsFound: "Nie znaleziono takiej osoby.",
+  passwordMin8Chars: "Hasło musi mieć minimum 8 znaków.",
+  passwordNeedUppercase:
+    "Hasło musi zawierać przynajmniej jedną wielką literę.",
+  passwordNeedDigit: "Hasło musi zawierać przynajmniej jedną cyfrę.",
+  passwordNeedSpecial: "Hasło musi zawierać przynajmniej jeden znak specjalny.",
 };

@@ -71,6 +71,34 @@ const useRegisterForm = () => {
     return true;
   };
 
+  const validatePassword = (password: string): boolean => {
+    if (password.length < 8) {
+      setMessage(t("passwordMin8Chars"));
+      setIsError(true);
+      return false;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setMessage(t("passwordNeedUppercase"));
+      setIsError(true);
+      return false;
+    }
+
+    if (!/\d/.test(password)) {
+      setMessage(t("passwordNeedDigit"));
+      setIsError(true);
+      return false;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setMessage(t("passwordNeedSpecial"));
+      setIsError(true);
+      return false;
+    }
+
+    return true;
+  };
+
   const formatDateOfBirth = (): string | null => {
     if (formData.dob_year && formData.dob_month && formData.dob_day) {
       const year = parseInt(formData.dob_year, 10);
@@ -102,6 +130,9 @@ const useRegisterForm = () => {
 
   const handleRegister = async () => {
     if (!validateRequiredFields()) {
+      return;
+    }
+    if (!validatePassword(formData.password)) {
       return;
     }
 
