@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: spacing.medium,
+    paddingBottom: 0,
   },
   authorInfo: {
     flexDirection: "row",

@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
     marginVertical: spacing.small,
     marginHorizontal: spacing.small,
     elevation: 2,
+    borderWidth: 1,
+    borderColor: colors.borderLight,
   },
   commentsLoadingContainer: {
     paddingVertical: spacing.medium,

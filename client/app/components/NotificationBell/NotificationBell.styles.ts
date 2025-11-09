@@ -43,8 +43,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: spacing.medium,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
   },
   modalTitle: {
     fontSize: typography.fontSize.large,
@@ -62,8 +60,8 @@ const styles = StyleSheet.create({
   notificationItem: {
     flexDirection: "row",
     padding: spacing.medium,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.borderLight,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderLight,
     alignItems: "center",
   },
   unreadItem: {
