@@ -24,6 +24,7 @@ export const updateUserProfile = async (
 ): Promise<Res<{ user: UserData }>> => {
   return authRequest<{ user: UserData }>(`/users/${userId}`, {
     method: "PUT",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(profileData),
   });
 };

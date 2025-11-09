@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.small,
     fontSize: typography.fontSize.regular,
     color: colors.primaryText,
-    maxHeight: 100,
+    height: 125,
   },
   imagePreviewContainer: {
     marginBottom: spacing.medium,
