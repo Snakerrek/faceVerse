@@ -100,4 +100,6 @@ export const en = {
   mastersDegree: "Master's Degree",
   doctorate: "Doctorate",
   other: "Other",
+  male: "Male",
+  female: "Female",
 };

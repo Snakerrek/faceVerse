@@ -102,4 +102,6 @@ export const es = {
   mastersDegree: "Maestría",
   doctorate: "Doctorado",
   other: "Otro",
+  male: "Masculino",
+  female: "Femenino",
 };
